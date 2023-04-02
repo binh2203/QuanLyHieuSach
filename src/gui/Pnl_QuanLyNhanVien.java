@@ -128,14 +128,9 @@ public class Pnl_QuanLyNhanVien extends javax.swing.JPanel {
 
         
         ///
-        try {
-			DocDuLieuTuArrayListVaoModel();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-        //String header_NhanVien[] = { "STT", "Mã nhân viên", "Họ và tên", "Giới tính", "Ngày sinh", "Số điện thoại", "Địa chỉ", "Email" };
-        //tblQuanLyNhanVien = new DefaultTableModel(header_NhanVien, 0);
+        
+        String header_NhanVien[] = { "STT", "Mã nhân viên", "Họ và tên", "Giới tính", "Ngày sinh", "Số điện thoại", "Địa chỉ", "Email" };
+        tableModel_NhanVien = new DefaultTableModel(header_NhanVien, 0);
 		tblQuanLyNhanVien = new JTable(tableModel_NhanVien);
 
 		tblQuanLyNhanVien.getColumnModel().getColumn(0);
@@ -148,7 +143,12 @@ public class Pnl_QuanLyNhanVien extends javax.swing.JPanel {
 		tblQuanLyNhanVien.getColumnModel().getColumn(7);
         
         
-        
+		try {
+			DocDuLieuTuArrayListVaoModel();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         ////
         sc_tbl_QLNV.setViewportView(tblQuanLyNhanVien);
 
@@ -477,10 +477,10 @@ public class Pnl_QuanLyNhanVien extends javax.swing.JPanel {
 		dsNhanVien = iNhanvien.getDSNhanVien();
 		int i = 1;
 		for (NhanVien nv : dsNhanVien) {
-
-			tableModel_NhanVien.addRow(new Object[] { i++, nv.getMaNV(), nv.getHoTenNV(), nv.isGioiTinh() == true ? "Nam" : "Nữ", 
-					nv.getNgaySinhNV(), nv.getSoDienThoaiNV(), nv.getDiaChiNV(), nv.getEmailNV() });
-			// System.out.println(nv.isGioiTinh());
+			  Object[] ob = { i++, nv.getMaNV(), nv.getHoTenNV(), nv.isGioiTinh() == true ? "Nam" : "Nữ", 
+					nv.getNgaySinhNV(), nv.getSoDienThoaiNV(), nv.getDiaChiNV(), nv.getEmailNV() };
+			tableModel_NhanVien.addRow(ob);
+			//System.out.println(nv.isGioiTinh());
 		}
 	}
 }
