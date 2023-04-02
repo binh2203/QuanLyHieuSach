@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="gradient-dropdown-menu.jar"/>
+	<classpathentry kind="lib" path="gradient-icon-font.jar"/>
+	<classpathentry kind="lib" path="miglayout-4.0.jar"/>
+	<classpathentry kind="lib" path="TimingFramework-0.55.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Admin/OneDrive/Máy tính/jcalendar/lib/jcalendar-1.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Admin/OneDrive/Máy tính/sqljdbc_12.2/enu/mssql-jdbc-12.2.0.jre11.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Admin/OneDrive/Máy tính/sqljdbc_12.2/enu/mssql-jdbc-12.2.0.jre8.jar"/>
+	<classpathentry kind="output" path="build/classes"/>
+</classpath>
