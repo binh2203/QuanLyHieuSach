@@ -6,12 +6,11 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="gradient-dropdown-menu.jar"/>
-	<classpathentry kind="lib" path="gradient-icon-font.jar"/>
-	<classpathentry kind="lib" path="miglayout-4.0.jar"/>
-	<classpathentry kind="lib" path="TimingFramework-0.55.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Admin/OneDrive/Máy tính/jcalendar/lib/jcalendar-1.4.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Admin/OneDrive/Máy tính/sqljdbc_12.2/enu/mssql-jdbc-12.2.0.jre11.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Admin/OneDrive/Máy tính/sqljdbc_12.2/enu/mssql-jdbc-12.2.0.jre8.jar"/>
+	<classpathentry kind="lib" path="D:/tailieudaihoc/Nam3Ky2/PTUD/QuanLyNhaSach/PhatTrienUngDung/lib/gradient-dropdown-menu.jar"/>
+	<classpathentry kind="lib" path="D:/tailieudaihoc/Nam3Ky2/PTUD/QuanLyNhaSach/PhatTrienUngDung/lib/gradient-icon-font.jar"/>
+	<classpathentry kind="lib" path="D:/tailieudaihoc/Nam3Ky2/PTUD/QuanLyNhaSach/PhatTrienUngDung/lib/jcalendar-1.4.jar"/>
+	<classpathentry kind="lib" path="D:/tailieudaihoc/Nam3Ky2/PTUD/QuanLyNhaSach/PhatTrienUngDung/lib/miglayout-4.0.jar"/>
+	<classpathentry kind="lib" path="D:/tailieudaihoc/Nam3Ky2/PTUD/QuanLyNhaSach/PhatTrienUngDung/lib/mssql-jdbc-12.2.0.jre11.jar"/>
+	<classpathentry kind="lib" path="D:/tailieudaihoc/Nam3Ky2/PTUD/QuanLyNhaSach/PhatTrienUngDung/lib/TimingFramework-0.55.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
