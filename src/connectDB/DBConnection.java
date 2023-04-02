@@ -19,6 +19,11 @@ public class DBConnection {
 			e.printStackTrace();
 		}
 	}
+	
+	private void sysout() {
+		// TODO Auto-generated method stub
+
+	}
 
 	public synchronized static DBConnection getInstance() {
 		if (instance == null)
