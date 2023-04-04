@@ -12,6 +12,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
 import entity.NhanVien;
+import service.NhanVienService;
 import service_impl.NhanVienServiceImpl;
 
 /**
@@ -126,32 +127,27 @@ public class Pnl_QuanLyNhanVien extends javax.swing.JPanel {
 
         pnlBangDuLieuVaChucNang.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        
-        ///
-        
         String header_NhanVien[] = { "STT", "Mã nhân viên", "Họ và tên", "Giới tính", "Ngày sinh", "Số điện thoại", "Địa chỉ", "Email" };
-        tableModel_NhanVien = new DefaultTableModel(header_NhanVien, 0);
-		tblQuanLyNhanVien = new JTable(tableModel_NhanVien);
-
-		tblQuanLyNhanVien.getColumnModel().getColumn(0);
-		tblQuanLyNhanVien.getColumnModel().getColumn(1);
-		tblQuanLyNhanVien.getColumnModel().getColumn(2);
-		tblQuanLyNhanVien.getColumnModel().getColumn(3);
-		tblQuanLyNhanVien.getColumnModel().getColumn(4);
-		tblQuanLyNhanVien.getColumnModel().getColumn(5);
-		tblQuanLyNhanVien.getColumnModel().getColumn(6);
-		tblQuanLyNhanVien.getColumnModel().getColumn(7);
-        
-        
-		try {
+		tableModel_NhanVien = new DefaultTableModel(header_NhanVien, 0);
+        tblQuanLyNhanVien = new JTable(tableModel_NhanVien);
+        sc_tbl_QLNV.setViewportView(tblQuanLyNhanVien);
+        if (tblQuanLyNhanVien.getColumnModel().getColumnCount() > 0) {
+        	tblQuanLyNhanVien.getColumnModel().getColumn(0).setPreferredWidth(10);
+    		tblQuanLyNhanVien.getColumnModel().getColumn(1).setPreferredWidth(10);
+    		tblQuanLyNhanVien.getColumnModel().getColumn(2).setPreferredWidth(90);
+    		tblQuanLyNhanVien.getColumnModel().getColumn(3).setPreferredWidth(20);
+    		tblQuanLyNhanVien.getColumnModel().getColumn(4).setPreferredWidth(20);
+    		tblQuanLyNhanVien.getColumnModel().getColumn(5).setPreferredWidth(70);
+    		tblQuanLyNhanVien.getColumnModel().getColumn(6).setPreferredWidth(70);
+    		tblQuanLyNhanVien.getColumnModel().getColumn(7).setPreferredWidth(120);
+        }
+     
+        try {
 			DocDuLieuTuArrayListVaoModel();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        ////
-        sc_tbl_QLNV.setViewportView(tblQuanLyNhanVien);
-
         pnlChucNang.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         btnLamMoi.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -468,16 +464,16 @@ public class Pnl_QuanLyNhanVien extends javax.swing.JPanel {
     private javax.swing.JTextField txtHoVaTen;
     private javax.swing.JTextField txtMaNhanVien;
     private javax.swing.JTextField txtSoDienThoai;
-    private service_impl.NhanVienServiceImpl iNhanvien;
-    private DefaultTableModel tableModel_NhanVien;
+    private NhanVienService iNhanvien;
     private List<NhanVien> dsNhanVien;
+    private DefaultTableModel tableModel_NhanVien;
     // End of variables declaration//GEN-END:variables
     public void DocDuLieuTuArrayListVaoModel() throws Exception {
 		iNhanvien = new NhanVienServiceImpl();
 		dsNhanVien = iNhanvien.getDSNhanVien();
 		int i = 1;
 		for (NhanVien nv : dsNhanVien) {
-			  Object[] ob = { i++, nv.getMaNV(), nv.getHoTenNV(), nv.isGioiTinh() == true ? "Nam" : "Nữ", 
+			  Object[] ob = { i++, nv.getMaNV(), nv.getHoTenNV(), nv.isGioiTinh() != true ? "Nam" : "Nữ", 
 					nv.getNgaySinhNV(), nv.getSoDienThoaiNV(), nv.getDiaChiNV(), nv.getEmailNV() };
 			tableModel_NhanVien.addRow(ob);
 			//System.out.println(nv.isGioiTinh());
