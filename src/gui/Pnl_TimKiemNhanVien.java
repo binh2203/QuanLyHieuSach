@@ -4,6 +4,15 @@
  */
 package gui;
 
+import java.util.List;
+
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
+import entity.NhanVien;
+import service.NhanVienService;
+import service_impl.NhanVienServiceImpl;
+
 /**
  *
  * @author Admin
@@ -94,17 +103,27 @@ public class Pnl_TimKiemNhanVien extends javax.swing.JPanel {
 
         pnlBangDuLieuVaChucNang.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        tblTimKiemNhanVien.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
+        String header_NhanVien[] = { "STT", "Mã nhân viên", "Họ và tên", "Giới tính", "Ngày sinh", "Số điện thoại", "Địa chỉ", "Email" };
+		tableModel_NhanVien = new DefaultTableModel(header_NhanVien, 0);
+        tblTimKiemNhanVien = new JTable(tableModel_NhanVien);
+
+        if (tblTimKiemNhanVien.getColumnModel().getColumnCount() > 0) {
+        	tblTimKiemNhanVien.getColumnModel().getColumn(0).setPreferredWidth(10);
+    		tblTimKiemNhanVien.getColumnModel().getColumn(1).setPreferredWidth(10);
+    		tblTimKiemNhanVien.getColumnModel().getColumn(2).setPreferredWidth(90);
+    		tblTimKiemNhanVien.getColumnModel().getColumn(3).setPreferredWidth(20);
+    		tblTimKiemNhanVien.getColumnModel().getColumn(4).setPreferredWidth(20);
+    		tblTimKiemNhanVien.getColumnModel().getColumn(5).setPreferredWidth(70);
+    		tblTimKiemNhanVien.getColumnModel().getColumn(6).setPreferredWidth(70);
+    		tblTimKiemNhanVien.getColumnModel().getColumn(7).setPreferredWidth(120);
+        }
+     
+        try {
+			DocDuLieuTuArrayListVaoModel();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         jScrollPane1.setViewportView(tblTimKiemNhanVien);
 
         pnlChucNang.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -397,4 +416,19 @@ public class Pnl_TimKiemNhanVien extends javax.swing.JPanel {
     private javax.swing.JTextField txtMaNhanVien;
     private javax.swing.JTextField txtSoDienThoai;
     // End of variables declaration//GEN-END:variables
+    private NhanVienService iNhanvien;
+    private List<NhanVien> dsNhanVien;
+    private DefaultTableModel tableModel_NhanVien;
+    // End of variables declaration//GEN-END:variables
+    public void DocDuLieuTuArrayListVaoModel() throws Exception {
+		iNhanvien = new NhanVienServiceImpl();
+		dsNhanVien = iNhanvien.getDSNhanVien();
+		int i = 1;
+		for (NhanVien nv : dsNhanVien) {
+			  Object[] ob = { i++, nv.getMaNV(), nv.getHoTenNV(), nv.isGioiTinh() != true ? "Nam" : "Nữ", 
+					nv.getNgaySinhNV(), nv.getSoDienThoaiNV(), nv.getDiaChiNV(), nv.getEmailNV() };
+			tableModel_NhanVien.addRow(ob);
+			//System.out.println(nv.isGioiTinh());
+		}
+	}
 }

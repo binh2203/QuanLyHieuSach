@@ -4,13 +4,22 @@
  */
 package gui;
 
+import java.awt.HeadlessException;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.List;
 
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableModel;
 
+import dao.NhanVienDao;
 import entity.NhanVien;
 import service.NhanVienService;
 import service_impl.NhanVienServiceImpl;
@@ -32,6 +41,56 @@ public class Pnl_QuanLyNhanVien extends javax.swing.JPanel {
         btnCapNhat.setIcon(icoCapNhat.toIcon());
         btnNhapFile.setIcon(iconNhapFile.toIcon());
         btnXuatFile.setIcon(icoXuatFile.toIcon());
+        btnThem.addActionListener(e ->{
+        	ThemNhanVienVaoDB();
+        	xoaHetDuLieu();
+        	clear_formThongTinNhanVien();
+        	try {
+				DocDuLieuTuArrayListVaoModel();
+				System.out.println("Đọc dữ liệu thành công!");
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+        });
+        btnLamMoi.addActionListener(e ->{
+        	clear_formThongTinNhanVien();
+        });
+
+        
+        btnXoa.addActionListener(e ->{
+			if (tblQuanLyNhanVien.getSelectedRow() == -1) {
+				JOptionPane.showMessageDialog(this, "Phải chọn dòng trước khi xóa");
+			} else {
+
+				String maXoa = txtMaNhanVien.getText();
+				// String tenXoa = txtTenNV.getText();
+				try {
+					
+					int resq = JOptionPane.showConfirmDialog(this, "Bạn có chắc là muốn xóa nhân viên không ?",
+							"Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+					if (resq == JOptionPane.NO_OPTION)
+						System.exit(0);
+
+					else {
+						iNhanvien.xoaNhanVien(maXoa);
+						if (iNhanvien.xoaNhanVien(maXoa) > 0) {
+							JOptionPane.showMessageDialog(this,
+									"Xóa thành công 1 nhân viên và tài khoản của nhân viên đó");
+							tableModel_NhanVien.removeRow(tblQuanLyNhanVien.getSelectedRow());
+						}
+					}
+
+				} catch (HeadlessException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+        });
+      
 
     }
 
@@ -304,6 +363,7 @@ public class Pnl_QuanLyNhanVien extends javax.swing.JPanel {
         btnGroupGioiTinh.add(rdoNam);
         rdoNam.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         rdoNam.setText("Nam");
+        rdoNam.setSelected(true);
         rdoNam.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         rdoNam.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -416,9 +476,9 @@ public class Pnl_QuanLyNhanVien extends javax.swing.JPanel {
     }//GEN-LAST:event_btnXuatFileActionPerformed
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
-        // TODO add your handling code here:
+       // TODO add your handling code here:
     }//GEN-LAST:event_btnThemActionPerformed
-
+    
     private void rdoNamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdoNamActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_rdoNamActionPerformed
@@ -464,9 +524,10 @@ public class Pnl_QuanLyNhanVien extends javax.swing.JPanel {
     private javax.swing.JTextField txtHoVaTen;
     private javax.swing.JTextField txtMaNhanVien;
     private javax.swing.JTextField txtSoDienThoai;
-    private NhanVienService iNhanvien;
+    private NhanVienServiceImpl iNhanvien;
     private List<NhanVien> dsNhanVien;
     private DefaultTableModel tableModel_NhanVien;
+    private String maNV_xoa;
     // End of variables declaration//GEN-END:variables
     public void DocDuLieuTuArrayListVaoModel() throws Exception {
 		iNhanvien = new NhanVienServiceImpl();
@@ -479,4 +540,63 @@ public class Pnl_QuanLyNhanVien extends javax.swing.JPanel {
 			//System.out.println(nv.isGioiTinh());
 		}
 	}
+	public NhanVien revertNhanVienFromTextfields() {
+		String maNV = txtMaNhanVien.getText();
+		String tenNV = txtHoVaTen.getText();
+		boolean gioiTinh = rdoNu.isSelected();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String day = sdf.format(dcNgaySinh.getDate());
+		String date[] = day.split("-");
+		int nam = Integer.parseInt(date[0]);
+		int thang = Integer.parseInt(date[1]);
+		int ngay = Integer.parseInt(date[2]);
+
+		LocalDate lcDate = LocalDate.of(nam, thang, ngay);
+		String sdt = txtSoDienThoai.getText();
+		String diaChi = txtDiaChi.getText();
+		
+		String email = txtEmail.getText();
+		
+		NhanVien nv = new NhanVien(maNV, tenNV, gioiTinh, lcDate, sdt, diaChi,   email);
+		return nv;
+	}
+	public void editOnRow() {
+		int row = tblQuanLyNhanVien.getSelectedRow();
+		NhanVien nv = revertNhanVienFromTextfields();
+
+		tblQuanLyNhanVien.setValueAt(nv.getMaNV(), row, 1);
+		tblQuanLyNhanVien.setValueAt(nv.getHoTenNV(), row, 2);
+		tblQuanLyNhanVien.setValueAt(nv.isGioiTinh() != true ? "Nam" : "Nữ", row, 3);
+		tblQuanLyNhanVien.setValueAt(nv.getNgaySinhNV(), row, 4);
+		tblQuanLyNhanVien.setValueAt(nv.getSoDienThoaiNV(), row, 5);
+		tblQuanLyNhanVien.setValueAt(nv.getDiaChiNV(), row, 6);
+		tblQuanLyNhanVien.setValueAt(nv.getEmailNV(), row, 7);
+		System.out.println(row);
+
+	}
+	public void ThemNhanVienVaoDB() {
+		NhanVien nv = revertNhanVienFromTextfields();
+		
+		try {
+			iNhanvien.themNhanVien(nv);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
+	public void clear_formThongTinNhanVien() {
+		txtMaNhanVien.setText("");
+		txtHoVaTen.setText("");
+		rdoNam.setSelected(true);
+		txtSoDienThoai.setText("");
+		txtDiaChi.setText("");
+		txtEmail.setText("");
+	}
+	public void xoaHetDuLieu() {
+		DefaultTableModel dtm = (DefaultTableModel) tblQuanLyNhanVien.getModel();
+		dtm.getDataVector().removeAllElements();
+	}
+
 }

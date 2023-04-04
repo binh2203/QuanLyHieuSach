@@ -186,8 +186,8 @@ REFERENCES NhaXuatBan(maNXB)
 GO
 INSERT INTO NhanVien
 VALUES ('NV001', N'Diêm Công Bình', 0, '2002-03-22', '0853387787', N'Gò Vấp - TPHCM', 'diemcongbinh@gmail.com'),
-('NV002', N'Phạm Bình Phương Duy', 0, '2002-03-22', '0853387787', N'Hooc Môn - TPHCM', 'phambinhphuongduy@gmail.com'),
-('NV003', N'Huỳnh Võ Công Lĩnh', 0, '2002-03-22', '0853387787', N'Q12 - TPHCM', 'huynhvoconglinh@gmail.com')
+('NV002', N'Phạm Bình Phương Duy', 0, '2002-06-08', '0978812401', N'Hooc Môn - TPHCM', 'phambinhphuongduy@gmail.com'),
+('NV003', N'Huỳnh Võ Công Lĩnh', 0, '2002-10-11', '0383547085', N'Q12 - TPHCM', 'huynhvoconglinh@gmail.com')
 GO
 INSERT INTO TaiKhoan
 VALUES ('diemcongbinh', '12345678', 'NV001', 0),
@@ -430,3 +430,5 @@ VALUES
 ('HD019','SP021',2,16000),
 ('HD020','SP015',4,40000),
 ('HD020','SP001',1,120000)
+use QuanLyHieuSach
+select * from Nhanvien

@@ -3,8 +3,12 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Image;
+
 import javaswingdev.GradientDropdownMenu;
 import javaswingdev.MenuEvent;
+
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -28,7 +32,8 @@ public class Frm_TrangChu extends javax.swing.JFrame {
         menu.addItem("      Khách hàng       ", "Tìm kiếm khách hàng", "Quản lý khách hàng");
         menu.addItem("       Nhân viên       ", "Tìm kiếm nhân viên", "Quản lý nhân viên");
         menu.addItem("       Sản phẩm        ", "Tìm kiếm sản phẩm", "Quản lý sản phẩm");
-        menu.addItem("        Hóa đơn        ", "Tìm kiếm hóa đơn", "Lập hóa đơn và phiếu đặt");
+        menu.addItem("        Hóa đơn        ", "Tìm kiếm hóa đơn", "Lập hóa đơn");
+        menu.addItem("		Phiếu đặt hàng	 ", "Tìm kiếm hóa đơn", "Lập phiếu đặt");
         menu.addItem("        Báo cáo        ");
         menu.applay(this);  
         JPanel pnl_center = new JPanel();

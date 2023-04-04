@@ -56,7 +56,7 @@ public class NhanVienDao {
 	public List<NhanVien> timDanhSachNhanVienTheoMa(String maNV) throws SQLException {
 		List<NhanVien> dsnv = new ArrayList<>();
 		// System.out.println(maNV);
-		String query = "Select * from NhanVien where maNhanVien LIKE CONCAT('%', ?, '%')";
+		String query = "Select * from NhanVien where maNV LIKE CONCAT('%', ?, '%')";
 		ps = con.prepareStatement(query);
 		ps.setString(1, maNV);
 		rs = ps.executeQuery();
@@ -71,7 +71,7 @@ public class NhanVienDao {
 
 	public NhanVien timNhanVienTheoMa(String maNV) throws SQLException {
 		// System.out.println(maNV);
-		String query = "Select * from NhanVien where maNhanVien=?";
+		String query = "Select * from NhanVien where maNV = ?";
 		ps = con.prepareStatement(query);
 		ps.setString(1, maNV);
 		rs = ps.executeQuery();
@@ -146,20 +146,19 @@ public class NhanVienDao {
 	}
 
 	public int xoaNhanVien(String maNV) {
-		String query = "delete from NhanVien where maNhanVien = ?";
+		String query = "delete from NhanVien where maNV = ?";
 		try {
-			ps = con.prepareStatement(query);
-			ps.setString(1, maNV);
-			// rs = ps.executeQuery();
-			return ps.executeUpdate();
+			PreparedStatement delete = con.prepareStatement(query);
+			delete.setString(1, maNV);
+			return 1;
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
-		return 1;
+		return -11;
 	}
 
 	public int suaNhanVien(NhanVien nv) {
-		String sql = "UPDATE NhanVien SET tenNV = ?, gioiTinh =?, ngaySinh = ?, phone = ?,diaChi =?, email = ? WHERE maNhanVien =?";
+		String sql = "UPDATE NhanVien SET tenNV = ?, gioiTinh =?, ngaySinh = ?, phone = ?,diaChi =?, email = ? WHERE maNV =?";
 		try {
 
 			ps = con.prepareStatement(sql);
