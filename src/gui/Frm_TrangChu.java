@@ -13,7 +13,8 @@ import javax.swing.JPanel;
 public class Frm_TrangChu extends javax.swing.JFrame {
         private JPanel pnl_QLNV = new Pnl_QuanLyNhanVien();
         private JPanel pnl_TKNV = new Pnl_TimKiemNhanVien();
-
+        private JPanel pnl_QLSP = new Pnl_QuanLySanPham();
+        private JPanel pnl_TKSP = new Pnl_TimKiemSanPham();
         
     public Frm_TrangChu() {
         
@@ -47,6 +48,18 @@ public class Frm_TrangChu extends javax.swing.JFrame {
                     } else if(selectedMenuItem.equals("Tìm kiếm nhân viên")) {
                         pnl_center.removeAll();
                         pnl_center.add(pnl_TKNV, BorderLayout.CENTER);
+                        pnl_center.revalidate();
+                        pnl_center.repaint(); 
+                        
+                    }else if(selectedMenuItem.equals("Tìm kiếm sản phẩm")) {
+                        pnl_center.removeAll();
+                        pnl_center.add(pnl_TKSP, BorderLayout.CENTER);
+                        pnl_center.revalidate();
+                        pnl_center.repaint(); 
+                        
+                    }else if(selectedMenuItem.equals("Quản lý sản phẩm")) {
+                        pnl_center.removeAll();
+                        pnl_center.add(pnl_QLSP, BorderLayout.CENTER);
                         pnl_center.revalidate();
                         pnl_center.repaint(); 
                         
