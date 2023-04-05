@@ -16,7 +16,7 @@ public interface NhanVienService {
 
 	public List<NhanVien> timDSNhanVienTheoTen(String tenNV) throws SQLException;
 
-	public int suaNhanVien(NhanVien nv) throws SQLException;
+	public int capNhatNhanVien(NhanVien nv) throws SQLException;
 
 	public List<NhanVien> getNhanVienBanNhieuNhatTheoNgayTuChon(LocalDate ngayBatDau, LocalDate ngayKetThuc);
 

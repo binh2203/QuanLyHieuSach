@@ -11,7 +11,7 @@ import service.NhanVienService;
 public class NhanVienServiceImpl implements NhanVienService {
 	NhanVienDao nhanVienDao = new NhanVienDao();
 	public static int errorsThem = 0;
-	public static int errorsSua = 0;
+	public static int errorscapNhat = 0;
 
 	/**
 	 * @author dell 1 Lỗi tên 2 Lỗi sdt 3 Lỗi cccd 4
@@ -41,27 +41,27 @@ public class NhanVienServiceImpl implements NhanVienService {
 	}
 
 	@Override
-	public int suaNhanVien(NhanVien nv) throws SQLException {
+	public int capNhatNhanVien(NhanVien nv) throws SQLException {
 		// TODO Auto-generated method stub
 		if (!(nv.getHoTenNV().length() > 0 && nv.getHoTenNV()
 				.matches("[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊ"
 						+ "ỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s]*"))) {
-			errorsSua = 1;
+			errorscapNhat = 1;
 			return -1;
 		} else if (!(nv.getSoDienThoaiNV().length() > 0 && nv.getSoDienThoaiNV().matches("^[0-9]{10}$"))) {
-			errorsSua = 2;
+			errorscapNhat = 2;
 			return -1;
 
 		} else if (!(nv.getEmailNV().length() > 0 && nv.getEmailNV().matches("^[A-Za-z0-9+_.-]+@(.+)$"))) {
-			errorsSua = 3;
+			errorscapNhat = 3;
 			return -1;
 		} else if (!(nv.getDiaChiNV().length() > 0 && nv.getDiaChiNV()
 				.matches("[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊ"
 						+ "ỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ,\\w\\s]*"))) {
-			errorsSua = 4;
+			errorscapNhat = 4;
 			return -1;
 		} else {
-			nhanVienDao.suaNhanVien(nv);
+			nhanVienDao.capNhatNhanVien(nv);
 			return 1;
 		}
 

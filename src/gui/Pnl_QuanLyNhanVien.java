@@ -5,30 +5,31 @@
 package gui;
 
 import java.awt.HeadlessException;
-import java.awt.event.MouseAdapter;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.List;
 
 import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
+
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
-import javax.swing.table.TableModel;
 
-import dao.NhanVienDao;
+
+
 import entity.NhanVien;
-import service.NhanVienService;
 import service_impl.NhanVienServiceImpl;
 
 /**
  *
  * @author Admin
  */
-public class Pnl_QuanLyNhanVien extends javax.swing.JPanel {
+public class Pnl_QuanLyNhanVien extends javax.swing.JPanel implements ActionListener, MouseListener{
 
     /**
      * Creates new form Pnl_QuanLyNhanVien
@@ -55,6 +56,13 @@ public class Pnl_QuanLyNhanVien extends javax.swing.JPanel {
         });
         btnLamMoi.addActionListener(e ->{
         	clear_formThongTinNhanVien();
+        	xoaHetDuLieu();
+        	try {
+				DocDuLieuTuArrayListVaoModel();
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
         });
 
         
@@ -66,15 +74,15 @@ public class Pnl_QuanLyNhanVien extends javax.swing.JPanel {
 				String maXoa = txtMaNhanVien.getText();
 				// String tenXoa = txtTenNV.getText();
 				try {
-					
+
 					int resq = JOptionPane.showConfirmDialog(this, "Bạn có chắc là muốn xóa nhân viên không ?",
 							"Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 					if (resq == JOptionPane.NO_OPTION)
 						System.exit(0);
 
 					else {
-						iNhanvien.xoaNhanVien(maXoa);
 						if (iNhanvien.xoaNhanVien(maXoa) > 0) {
+
 							JOptionPane.showMessageDialog(this,
 									"Xóa thành công 1 nhân viên và tài khoản của nhân viên đó");
 							tableModel_NhanVien.removeRow(tblQuanLyNhanVien.getSelectedRow());
@@ -90,9 +98,47 @@ public class Pnl_QuanLyNhanVien extends javax.swing.JPanel {
 				}
 			}
         });
-      
 
+        btnCapNhat.addActionListener(e->{
+        	NhanVien nv = revertNhanVienFromTextfields();
+			iNhanvien = new NhanVienServiceImpl();
+			try {
+				if (iNhanvien.capNhatNhanVien(nv) > 0) {
+					JOptionPane.showMessageDialog(this, "Sửa thành công 1 nhân viên");
+					tblQuanLyNhanVien.addMouseListener((MouseListener) this);
+					editOnRow();
+				}
+				else {
+					int ercapNhat = NhanVienServiceImpl.errorscapNhat;
+					if(ercapNhat == 1) {
+						JOptionPane.showMessageDialog(this, "Tên nhân viên phải theo mẫu : Nguyen Van Anh");
+						txtHoVaTen.setText("");
+						txtHoVaTen.requestFocus();
+					}
+					else if(ercapNhat == 2) {
+						JOptionPane.showMessageDialog(this, "Số điện thoại cần có 10 chữ số ví dụ: 0384600357");
+						txtSoDienThoai.setText("");
+						txtSoDienThoai.requestFocus();
+					}
+					else if (ercapNhat == 3) {
+						JOptionPane.showMessageDialog(this, "Email cần dạng canh@gmail.com");
+						txtEmail.setText("");
+						txtEmail.requestFocus();
+					}
+					else if (ercapNhat == 4) {
+						JOptionPane.showMessageDialog(this, "Địa chỉ bao gồm số và chữ : 12 Nguyen Van Bao");
+						txtDiaChi.setText("");
+						txtDiaChi.requestFocus();
+					}
+				}
+			} catch (HeadlessException | SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+        });
+	
     }
+        
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -590,6 +636,7 @@ public class Pnl_QuanLyNhanVien extends javax.swing.JPanel {
 		txtMaNhanVien.setText("");
 		txtHoVaTen.setText("");
 		rdoNam.setSelected(true);
+		dcNgaySinh.setToolTipText("");
 		txtSoDienThoai.setText("");
 		txtDiaChi.setText("");
 		txtEmail.setText("");
@@ -597,6 +644,48 @@ public class Pnl_QuanLyNhanVien extends javax.swing.JPanel {
 	public void xoaHetDuLieu() {
 		DefaultTableModel dtm = (DefaultTableModel) tblQuanLyNhanVien.getModel();
 		dtm.getDataVector().removeAllElements();
+	}
+
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

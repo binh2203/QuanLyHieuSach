@@ -1,5 +1,6 @@
 package dao;
 
+import java.beans.Statement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -148,16 +149,18 @@ public class NhanVienDao {
 	public int xoaNhanVien(String maNV) {
 		String query = "delete from NhanVien where maNV = ?";
 		try {
-			PreparedStatement delete = con.prepareStatement(query);
-			delete.setString(1, maNV);
-			return 1;
+			ps = con.prepareStatement(query);
+			ps.setString(1, maNV);
+			// rs = ps.executeQuery();
+			return ps.executeUpdate();
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
-		return -11;
+		return 1;
+		
 	}
 
-	public int suaNhanVien(NhanVien nv) {
+	public int capNhatNhanVien(NhanVien nv) {
 		String sql = "UPDATE NhanVien SET tenNV = ?, gioiTinh =?, ngaySinh = ?, phone = ?,diaChi =?, email = ? WHERE maNV =?";
 		try {
 
@@ -168,12 +171,12 @@ public class NhanVienDao {
 			int month = nv.getNgaySinhNV().getMonthValue();
 			int year = nv.getNgaySinhNV().getYear();
 
-			ps.setString(4, year + "-" + month + "-" + day);
-			ps.setString(2, nv.getHoTenNV());
-			ps.setBoolean(3, nv.isGioiTinh());
-			ps.setString(5, nv.getSoDienThoaiNV());
-			ps.setString(6, nv.getDiaChiNV());
-			ps.setString(7, nv.getEmailNV());
+			ps.setString(3, year + "-" + month + "-" + day);
+			ps.setBoolean(2, nv.isGioiTinh());
+			ps.setString(4, nv.getSoDienThoaiNV());
+			ps.setString(5, nv.getDiaChiNV());
+			ps.setString(6, nv.getEmailNV());
+			ps.setString(7, nv.getMaNV());
 			// rs = ps.executeQuery();
 
 			return ps.executeUpdate();
