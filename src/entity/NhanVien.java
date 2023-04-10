@@ -52,8 +52,7 @@ public class NhanVien {
 	public void setEmailNV(String emailNV) {
 		this.emailNV = emailNV;
 	}
-	public NhanVien(String maNV, String hoTenNV, boolean gioiTinh, LocalDate ngaySinhNV, String soDienThoaiNV,
-			String diaChiNV, String emailNV) {
+	public NhanVien(String maNV) {
 		super();
 		this.maNV = maNV;
 		this.hoTenNV = hoTenNV;

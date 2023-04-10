@@ -515,7 +515,7 @@ public class Pnl_QuanLyNhanVien extends javax.swing.JPanel implements ActionList
 		
 		String email = txtEmail.getText();
 		
-		NhanVien nv = new NhanVien(maNV, tenNV, gioiTinh, lcDate, sdt, diaChi,   email);
+		NhanVien nv = new NhanVien(maNV);
 		return nv;
 	}
 	public void editOnRow() {

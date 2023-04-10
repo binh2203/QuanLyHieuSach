@@ -55,6 +55,11 @@ public class NhaCungCap {
 	super();
 	this.maNhaCungCap = maNhaCungCap;
     }
+
+    @Override
+    public String toString() {
+        return super.toString(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+    }
     
     
 }
