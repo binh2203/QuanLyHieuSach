@@ -50,9 +50,7 @@ public class Pnl_QuanLySanPham extends javax.swing.JPanel {
     private javax.swing.JTextField txtTenSanPham;
     private javax.swing.JTextField txtMaSanPham;
     private javax.swing.JTextField txtSoDienThoai;
-    private service_impl.NhanVienServiceImpl iNhanvien;
     private DefaultTableModel tableModel_SanPham;
-    private List<NhanVien> dsNhanVien;
 	private List<Sach> listSanPham;
 	public Pnl_QuanLySanPham() {
         initComponents();
