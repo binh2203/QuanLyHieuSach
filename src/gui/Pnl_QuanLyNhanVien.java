@@ -30,7 +30,46 @@ import service_impl.NhanVienServiceImpl;
  * @author Admin
  */
 public class Pnl_QuanLyNhanVien extends javax.swing.JPanel implements ActionListener, MouseListener{
-
+	// Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCapNhat;
+    private javax.swing.ButtonGroup btnGroupGioiTinh;
+    private javax.swing.JButton btnLamMoi;
+    private javax.swing.JButton btnNhapFile;
+    private javax.swing.JButton btnThem;
+    private javax.swing.JButton btnXoa;
+    private javax.swing.JButton btnXuatFile;
+    private com.toedter.calendar.JDateChooser dcNgaySinh;
+    private javaswingdev.FontAwesomeIcon icoCapNhat;
+    private javaswingdev.FontAwesomeIcon icoLamMoi;
+    private javaswingdev.FontAwesomeIcon icoThem;
+    private javaswingdev.FontAwesomeIcon icoXoa;
+    private javaswingdev.FontAwesomeIcon icoXuatFile;
+    private javaswingdev.FontAwesomeIcon iconNhapFile;
+    private javax.swing.JLabel lblDiaChi;
+    private javax.swing.JLabel lblEmail;
+    private javax.swing.JLabel lblGioiTinh;
+    private javax.swing.JLabel lblHoVaTen;
+    private javax.swing.JLabel lblMaNhanVien;
+    private javax.swing.JLabel lblNgaySinh;
+    private javax.swing.JLabel lblSoDienThoai;
+    private javax.swing.JLabel lblTenManHinh;
+    private javax.swing.JPanel pnlBangDuLieuVaChucNang;
+    private javax.swing.JPanel pnlChucNang;
+    private javax.swing.JPanel pnlHeader;
+    private javax.swing.JPanel pnlThongTinNhanVien;
+    private javax.swing.JRadioButton rdoNam;
+    private javax.swing.JRadioButton rdoNu;
+    private javax.swing.JScrollPane sc_tbl_QLNV;
+    private javax.swing.JTable tblQuanLyNhanVien;
+    private javax.swing.JTextField txtDiaChi;
+    private javax.swing.JTextField txtEmail;
+    private javax.swing.JTextField txtHoVaTen;
+    private javax.swing.JTextField txtMaNhanVien;
+    private javax.swing.JTextField txtSoDienThoai;
+    private NhanVienServiceImpl iNhanvien;
+    private List<NhanVien> dsNhanVien;
+    private DefaultTableModel tableModel_NhanVien;
+    private String maNV_xoa;
     /**
      * Creates new form Pnl_QuanLyNhanVien
      */
@@ -169,19 +208,9 @@ public class Pnl_QuanLyNhanVien extends javax.swing.JPanel implements ActionList
 
         btnLamMoi.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         btnLamMoi.setText("Làm mới");
-        btnLamMoi.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnLamMoiActionPerformed(evt);
-            }
-        });
 
         btnThem.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         btnThem.setText("Thêm");
-        btnThem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnThemActionPerformed(evt);
-            }
-        });
 
         btnXoa.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         btnXoa.setText("Xóa");
@@ -194,11 +223,7 @@ public class Pnl_QuanLyNhanVien extends javax.swing.JPanel implements ActionList
 
         btnXuatFile.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         btnXuatFile.setText("Xuất file");
-        btnXuatFile.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnXuatFileActionPerformed(evt);
-            }
-        });
+    
 
         javax.swing.GroupLayout pnlChucNangLayout = new javax.swing.GroupLayout(pnlChucNang);
         pnlChucNang.setLayout(pnlChucNangLayout);
@@ -258,18 +283,9 @@ public class Pnl_QuanLyNhanVien extends javax.swing.JPanel implements ActionList
         lblMaNhanVien.setText("Mã nhân viên");
 
         txtMaNhanVien.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        txtMaNhanVien.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtMaNhanVienActionPerformed(evt);
-            }
-        });
 
         txtHoVaTen.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        txtHoVaTen.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtHoVaTenActionPerformed(evt);
-            }
-        });
+        
 
         lblHoVaTen.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         lblHoVaTen.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -294,26 +310,12 @@ public class Pnl_QuanLyNhanVien extends javax.swing.JPanel implements ActionList
         lblDiaChi.setText("Địa chỉ");
 
         txtDiaChi.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        txtDiaChi.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtDiaChiActionPerformed(evt);
-            }
-        });
+        
 
         txtSoDienThoai.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        txtSoDienThoai.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtSoDienThoaiActionPerformed(evt);
-            }
-        });
+        
 
         txtEmail.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        txtEmail.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtEmailActionPerformed(evt);
-            }
-        });
-
         lblEmail.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         lblEmail.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblEmail.setText("Email");
@@ -323,21 +325,13 @@ public class Pnl_QuanLyNhanVien extends javax.swing.JPanel implements ActionList
         rdoNam.setText("Nam");
         rdoNam.setSelected(true);
         rdoNam.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        rdoNam.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rdoNamActionPerformed(evt);
-            }
-        });
+        
 
         btnGroupGioiTinh.add(rdoNu);
         rdoNu.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         rdoNu.setText("Nữ");
         rdoNu.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        rdoNu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rdoNuActionPerformed(evt);
-            }
-        });
+        
 
         javax.swing.GroupLayout pnlThongTinNhanVienLayout = new javax.swing.GroupLayout(pnlThongTinNhanVien);
         pnlThongTinNhanVien.setLayout(pnlThongTinNhanVienLayout);
@@ -403,89 +397,69 @@ public class Pnl_QuanLyNhanVien extends javax.swing.JPanel implements ActionList
         );
 
         add(pnlThongTinNhanVien, java.awt.BorderLayout.CENTER);
-    }// </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>//GEN-END:initComponent
 
-    private void txtMaNhanVienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMaNhanVienActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtMaNhanVienActionPerformed
-
-    private void txtHoVaTenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtHoVaTenActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtHoVaTenActionPerformed
-
-    private void txtDiaChiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDiaChiActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtDiaChiActionPerformed
-
-    private void txtSoDienThoaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSoDienThoaiActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtSoDienThoaiActionPerformed
-
-    private void txtEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtEmailActionPerformed
-
-    private void btnLamMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLamMoiActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnLamMoiActionPerformed
-
-    private void btnXuatFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXuatFileActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnXuatFileActionPerformed
-
-    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
-       // TODO add your handling code here:
-    }//GEN-LAST:event_btnThemActionPerformed
-    
-    private void rdoNamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdoNamActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_rdoNamActionPerformed
-
-    private void rdoNuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdoNuActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_rdoNuActionPerformed
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
 
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCapNhat;
-    private javax.swing.ButtonGroup btnGroupGioiTinh;
-    private javax.swing.JButton btnLamMoi;
-    private javax.swing.JButton btnNhapFile;
-    private javax.swing.JButton btnThem;
-    private javax.swing.JButton btnXoa;
-    private javax.swing.JButton btnXuatFile;
-    private com.toedter.calendar.JDateChooser dcNgaySinh;
-    private javaswingdev.FontAwesomeIcon icoCapNhat;
-    private javaswingdev.FontAwesomeIcon icoLamMoi;
-    private javaswingdev.FontAwesomeIcon icoThem;
-    private javaswingdev.FontAwesomeIcon icoXoa;
-    private javaswingdev.FontAwesomeIcon icoXuatFile;
-    private javaswingdev.FontAwesomeIcon iconNhapFile;
-    private javax.swing.JLabel lblDiaChi;
-    private javax.swing.JLabel lblEmail;
-    private javax.swing.JLabel lblGioiTinh;
-    private javax.swing.JLabel lblHoVaTen;
-    private javax.swing.JLabel lblMaNhanVien;
-    private javax.swing.JLabel lblNgaySinh;
-    private javax.swing.JLabel lblSoDienThoai;
-    private javax.swing.JLabel lblTenManHinh;
-    private javax.swing.JPanel pnlBangDuLieuVaChucNang;
-    private javax.swing.JPanel pnlChucNang;
-    private javax.swing.JPanel pnlHeader;
-    private javax.swing.JPanel pnlThongTinNhanVien;
-    private javax.swing.JRadioButton rdoNam;
-    private javax.swing.JRadioButton rdoNu;
-    private javax.swing.JScrollPane sc_tbl_QLNV;
-    private javax.swing.JTable tblQuanLyNhanVien;
-    private javax.swing.JTextField txtDiaChi;
-    private javax.swing.JTextField txtEmail;
-    private javax.swing.JTextField txtHoVaTen;
-    private javax.swing.JTextField txtMaNhanVien;
-    private javax.swing.JTextField txtSoDienThoai;
-    private NhanVienServiceImpl iNhanvien;
-    private List<NhanVien> dsNhanVien;
-    private DefaultTableModel tableModel_NhanVien;
-    private String maNV_xoa;
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		Object obj = e.getSource();
+		if (obj.equals(btnThem)) {
+			ThemNhanVienVaoDB();
+        	xoaHetDuLieu();
+        	clear_formThongTinNhanVien();
+        	try {
+				DocDuLieuTuArrayListVaoModel();
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}else if(obj.equals(btnCapNhat)) {
+			
+		}else if(obj.equals(btnXoa)) {
+			
+		}else if(obj.equals(btnLamMoi)) {
+		 	clear_formThongTinNhanVien();
+        	xoaHetDuLieu();
+        	try {
+				DocDuLieuTuArrayListVaoModel();
+        	} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+        	}
+		}
+	}
     // End of variables declaration//GEN-END:variables
     public void DocDuLieuTuArrayListVaoModel() throws Exception {
 		iNhanvien = new NhanVienServiceImpl();
@@ -556,71 +530,5 @@ public class Pnl_QuanLyNhanVien extends javax.swing.JPanel implements ActionList
 		DefaultTableModel dtm = (DefaultTableModel) tblQuanLyNhanVien.getModel();
 		dtm.getDataVector().removeAllElements();
 	}
-
-
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		Object obj = e.getSource();
-		if (obj.equals(btnThem)) {
-			ThemNhanVienVaoDB();
-        	xoaHetDuLieu();
-        	clear_formThongTinNhanVien();
-        	try {
-				DocDuLieuTuArrayListVaoModel();
-			} catch (Exception e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		}else if(obj.equals(btnCapNhat)) {
-			
-		}else if(obj.equals(btnXoa)) {
-			
-		}else if(obj.equals(btnLamMoi)) {
-		 	clear_formThongTinNhanVien();
-        	xoaHetDuLieu();
-        	try {
-				DocDuLieuTuArrayListVaoModel();
-        	} catch (Exception e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-        	}
-		}
-	}
-
+	
 }
