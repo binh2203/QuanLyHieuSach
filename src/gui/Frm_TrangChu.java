@@ -2,24 +2,23 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
-import java.awt.Image;
 
 import javaswingdev.GradientDropdownMenu;
 import javaswingdev.MenuEvent;
 
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
+
 import javax.swing.JPanel;
 
 
 public class Frm_TrangChu extends javax.swing.JFrame {
-        private JPanel pnl_QLNV = new Pnl_QuanLyNhanVien();
+		private JPanel pnl_TrangChu = new Pnl_TrangChu();
+		private JPanel pnl_QLNV = new Pnl_QuanLyNhanVien();
         private JPanel pnl_TKNV = new Pnl_TimKiemNhanVien();
         private JPanel pnl_QLSP = new Pnl_QuanLySanPham();
         private JPanel pnl_TKSP = new Pnl_TimKiemSanPham();
-        
+        private JPanel pnl_LPDH = new Pnl_PhieuDatHang();
     public Frm_TrangChu() {
         
         initComponents();
@@ -39,7 +38,7 @@ public class Frm_TrangChu extends javax.swing.JFrame {
         menu.applay(this);  
         JPanel pnl_center = new JPanel();
         pnl_center.setLayout(new BorderLayout());
-        
+        pnl_center.add(pnl_TrangChu, BorderLayout.CENTER);
         menu.addEvent(new MenuEvent(){
             @Override
             public void selected(int index, int subIndex, boolean menuItem){
@@ -68,6 +67,17 @@ public class Frm_TrangChu extends javax.swing.JFrame {
                         pnl_center.revalidate();
                         pnl_center.repaint(); 
                         
+                    }else if(selectedMenuItem.equals("Lập phiếu đặt")) {
+                        pnl_center.removeAll();
+                        pnl_center.add(pnl_LPDH, BorderLayout.CENTER);
+                        pnl_center.revalidate();
+                        pnl_center.repaint();               
+                    }
+                    else if(selectedMenuItem.equals("Trang chủ")) {
+                        pnl_center.removeAll();
+                        pnl_center.add(pnl_TrangChu, BorderLayout.CENTER);
+                        pnl_center.revalidate();
+                        pnl_center.repaint();           
                     }
                 }
             }
