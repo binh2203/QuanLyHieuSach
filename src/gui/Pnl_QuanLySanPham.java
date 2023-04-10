@@ -9,10 +9,14 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
 import entity.NhanVien;
+import entity.Sach;
+import entity.SanPham;
+import service.SanPhamService;
+import service_impl.SanPhamServiceImpl;
 
 public class Pnl_QuanLySanPham extends javax.swing.JPanel {
 	private javax.swing.JButton btnCapNhat;
-    private javax.swing.ButtonGroup btnGroupGioiTinh;
+    private javax.swing.ButtonGroup btnGroupLoaiSP;
     private javax.swing.JButton btnLamMoi;
     private javax.swing.JButton btnNhapFile;
     private javax.swing.JButton btnThem;
@@ -28,8 +32,8 @@ public class Pnl_QuanLySanPham extends javax.swing.JPanel {
     private javax.swing.JLabel lblDiaChi;
     private javax.swing.JLabel lblEmail;
     private javax.swing.JLabel lblGioiTinh;
-    private javax.swing.JLabel lblHoVaTen;
-    private javax.swing.JLabel lblMaNhanVien;
+    private javax.swing.JLabel lblTenSanPham;
+    private javax.swing.JLabel lblMaSanPham;
     private javax.swing.JLabel lblNgaySinh;
     private javax.swing.JLabel lblSoDienThoai;
     private javax.swing.JLabel lblTenManHinh;
@@ -43,12 +47,13 @@ public class Pnl_QuanLySanPham extends javax.swing.JPanel {
     private javax.swing.JTable tblQuanLySanPham;
     private javax.swing.JTextField txtDiaChi;
     private javax.swing.JTextField txtEmail;
-    private javax.swing.JTextField txtHoVaTen;
-    private javax.swing.JTextField txtMaNhanVien;
+    private javax.swing.JTextField txtTenSanPham;
+    private javax.swing.JTextField txtMaSanPham;
     private javax.swing.JTextField txtSoDienThoai;
     private service_impl.NhanVienServiceImpl iNhanvien;
     private DefaultTableModel tableModel_SanPham;
     private List<NhanVien> dsNhanVien;
+	private List<Sach> listSanPham;
 	public Pnl_QuanLySanPham() {
         initComponents();
         btnLamMoi.setIcon(icoLamMoi.toIcon());
@@ -67,7 +72,7 @@ public class Pnl_QuanLySanPham extends javax.swing.JPanel {
         icoCapNhat = new javaswingdev.FontAwesomeIcon();
         iconNhapFile = new javaswingdev.FontAwesomeIcon();
         icoXuatFile = new javaswingdev.FontAwesomeIcon();
-        btnGroupGioiTinh = new javax.swing.ButtonGroup();
+        btnGroupLoaiSP = new javax.swing.ButtonGroup();
         pnlHeader = new javax.swing.JPanel();
         lblTenManHinh = new javax.swing.JLabel();
         pnlBangDuLieuVaChucNang = new javax.swing.JPanel();
@@ -81,10 +86,10 @@ public class Pnl_QuanLySanPham extends javax.swing.JPanel {
         btnNhapFile = new javax.swing.JButton();
         btnXuatFile = new javax.swing.JButton();
         pnlThongTinSanPham = new javax.swing.JPanel();
-        lblMaNhanVien = new javax.swing.JLabel();
-        txtMaNhanVien = new javax.swing.JTextField();
-        txtHoVaTen = new javax.swing.JTextField();
-        lblHoVaTen = new javax.swing.JLabel();
+        lblMaSanPham = new javax.swing.JLabel();
+        txtMaSanPham = new javax.swing.JTextField();
+        txtTenSanPham = new javax.swing.JTextField();
+        lblTenSanPham = new javax.swing.JLabel();
         lblGioiTinh = new javax.swing.JLabel();
         dcNgaySinh = new com.toedter.calendar.JDateChooser();
         lblNgaySinh = new javax.swing.JLabel();
@@ -165,6 +170,7 @@ public class Pnl_QuanLySanPham extends javax.swing.JPanel {
 //		tblQuanLyNhanVien.getColumnModel().getColumn(10);
 		try {
 			//DocDuLieuTuArrayListVaoModel();
+			loadSanPham();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -260,27 +266,27 @@ public class Pnl_QuanLySanPham extends javax.swing.JPanel {
 
         pnlThongTinSanPham.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        lblMaNhanVien.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lblMaNhanVien.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblMaNhanVien.setText("Mã sản phẩm");
+        lblMaSanPham.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        lblMaSanPham.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblMaSanPham.setText("Mã sản phẩm");
 
-        txtMaNhanVien.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        txtMaNhanVien.addActionListener(new java.awt.event.ActionListener() {
+        txtMaSanPham.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txtMaSanPham.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                //txtMaNhanVienActionPerformed(evt);
+                //txtMaSanPhamActionPerformed(evt);
             }
         });
 
-        txtHoVaTen.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        txtHoVaTen.addActionListener(new java.awt.event.ActionListener() {
+        txtTenSanPham.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txtTenSanPham.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                //txtHoVaTenActionPerformed(evt);
+                //txtTenSanPhamActionPerformed(evt);
             }
         });
 
-        lblHoVaTen.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lblHoVaTen.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblHoVaTen.setText("Tên sản phẩm");
+        lblTenSanPham.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        lblTenSanPham.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblTenSanPham.setText("Tên sản phẩm");
 
         lblGioiTinh.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         lblGioiTinh.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -325,7 +331,7 @@ public class Pnl_QuanLySanPham extends javax.swing.JPanel {
         lblEmail.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblEmail.setText("Nhà Xuất Bản");
 
-        btnGroupGioiTinh.add(rdoNam);
+        btnGroupLoaiSP.add(rdoNam);
         rdoNam.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         rdoNam.setText("Sách");
         rdoNam.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -335,7 +341,7 @@ public class Pnl_QuanLySanPham extends javax.swing.JPanel {
             }
         });
 
-        btnGroupGioiTinh.add(rdoNu);
+        btnGroupLoaiSP.add(rdoNu);
         rdoNu.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         rdoNu.setText("VPP");
         rdoNu.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -353,19 +359,19 @@ public class Pnl_QuanLySanPham extends javax.swing.JPanel {
                 .addGap(30, 30, 30)
                 .addGroup(pnlThongTinSanPhamLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlThongTinSanPhamLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(txtHoVaTen)
+                        .addComponent(txtTenSanPham)
                         .addComponent(dcNgaySinh, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(txtDiaChi)
                         .addComponent(txtSoDienThoai)
                         .addComponent(txtEmail, javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(txtMaNhanVien, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtMaSanPham, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(pnlThongTinSanPhamLayout.createSequentialGroup()
                         .addComponent(rdoNam, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(rdoNu, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(30, 30, 30))
-            .addComponent(lblHoVaTen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(lblMaNhanVien, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(lblTenSanPham, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(lblMaSanPham, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(lblGioiTinh, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(lblNgaySinh, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(lblSoDienThoai, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -376,13 +382,13 @@ public class Pnl_QuanLySanPham extends javax.swing.JPanel {
             pnlThongTinSanPhamLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlThongTinSanPhamLayout.createSequentialGroup()
                 .addGap(40, 40, 40)
-                .addComponent(lblMaNhanVien)
+                .addComponent(lblMaSanPham)
                 .addGap(12, 12, 12)
-                .addComponent(txtMaNhanVien, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtMaSanPham, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20)
-                .addComponent(lblHoVaTen)
+                .addComponent(lblTenSanPham)
                 .addGap(12, 12, 12)
-                .addComponent(txtHoVaTen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtTenSanPham, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20)
                 .addComponent(lblGioiTinh)
                 .addGap(20, 20, 20)
@@ -410,5 +416,17 @@ public class Pnl_QuanLySanPham extends javax.swing.JPanel {
 
         add(pnlThongTinSanPham, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
+    public void loadSanPham() throws Exception {
+    	SanPhamServiceImpl sanPhamService = new SanPhamServiceImpl();
+    	listSanPham = sanPhamService.getAllSach();
+    	String header_SanPham[] = { "STT", "Mã sản phẩm", "Tên sản phẩm", "Số lượng","Đơn vị", "Giá nhập", "Giá bán", "Nhà cung cấp" ,
+				"Tác giả", "Nhà xuất bản"};
+    	int i = 0;//Sach(maSanPham, ncc, loaiSP, soLuongTon, donVi, giaNhap,giaBan,tenSach,tacGia,nhaXuatBan,theLoai )
+    	for (Sach sp : listSanPham) {
+    		Object ob[] = { i++ +"", sp.getMaSanPham(), sp.getTenSach(), sp.getSoLuongTon()+"",sp.getDonVi(), sp.getGiaBan()+"", sp.getGiaNhap()+"", sp.getNhaCungCap().getTenNhaCungCap() ,
+    				sp.getTacGia().getTenTacGia(), sp.getNhaXuatBan().getTenNXB()};
+    		tableModel_SanPham.addRow(ob);
+		}
+    }
 
 }

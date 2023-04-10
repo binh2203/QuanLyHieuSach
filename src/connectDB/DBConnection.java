@@ -11,10 +11,10 @@ public class DBConnection {
 	private DBConnection() {
 		String url = "jdbc:sqlserver://localhost:1433;databaseName=QuanLyHieuSach;trustServerCertificate=true";
 		String user = "sa";
-		String pass = "241853048@@Binh";
+		String pass = "123456";
 		try {
 			cnt = DriverManager.getConnection(url, user, pass);
-//			System.out.println("Connected");
+			System.out.println("Connected");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -29,5 +29,6 @@ public class DBConnection {
 	public Connection getConnection() {
 		return cnt;
 	}
+	
 
 }
