@@ -1,5 +1,6 @@
 package dao;
 
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -56,7 +57,7 @@ public class NhanVienDao {
 	public List<NhanVien> timDanhSachNhanVienTheoMa(String maNV) throws SQLException {
 		List<NhanVien> dsnv = new ArrayList<>();
 		// System.out.println(maNV);
-		String query = "Select * from NhanVien where maNhanVien LIKE CONCAT('%', ?, '%')";
+		String query = "Select * from NhanVien where maNV LIKE CONCAT('%', ?, '%')";
 		ps = con.prepareStatement(query);
 		ps.setString(1, maNV);
 		rs = ps.executeQuery();
@@ -71,7 +72,7 @@ public class NhanVienDao {
 
 	public NhanVien timNhanVienTheoMa(String maNV) throws SQLException {
 		// System.out.println(maNV);
-		String query = "Select * from NhanVien where maNhanVien=?";
+		String query = "Select * from NhanVien where maNV = ?";
 		ps = con.prepareStatement(query);
 		ps.setString(1, maNV);
 		rs = ps.executeQuery();
@@ -146,7 +147,7 @@ public class NhanVienDao {
 	}
 
 	public int xoaNhanVien(String maNV) {
-		String query = "delete from NhanVien where maNhanVien = ?";
+		String query = "delete from NhanVien where maNV = ?";
 		try {
 			ps = con.prepareStatement(query);
 			ps.setString(1, maNV);
@@ -156,10 +157,11 @@ public class NhanVienDao {
 			System.out.println(e.getMessage());
 		}
 		return 1;
+		
 	}
 
-	public int suaNhanVien(NhanVien nv) {
-		String sql = "UPDATE NhanVien SET tenNV = ?, gioiTinh =?, ngaySinh = ?, phone = ?,diaChi =?, email = ? WHERE maNhanVien =?";
+	public int capNhatNhanVien(NhanVien nv) {
+		String sql = "UPDATE NhanVien SET tenNV = ?, gioiTinh =?, ngaySinh = ?, phone = ?,diaChi =?, email = ? WHERE maNV =?";
 		try {
 
 			ps = con.prepareStatement(sql);
@@ -169,12 +171,12 @@ public class NhanVienDao {
 			int month = nv.getNgaySinhNV().getMonthValue();
 			int year = nv.getNgaySinhNV().getYear();
 
-			ps.setString(4, year + "-" + month + "-" + day);
-			ps.setString(2, nv.getHoTenNV());
-			ps.setBoolean(3, nv.isGioiTinh());
-			ps.setString(5, nv.getSoDienThoaiNV());
-			ps.setString(6, nv.getDiaChiNV());
-			ps.setString(7, nv.getEmailNV());
+			ps.setString(3, year + "-" + month + "-" + day);
+			ps.setBoolean(2, nv.isGioiTinh());
+			ps.setString(4, nv.getSoDienThoaiNV());
+			ps.setString(5, nv.getDiaChiNV());
+			ps.setString(6, nv.getEmailNV());
+			ps.setString(7, nv.getMaNV());
 			// rs = ps.executeQuery();
 
 			return ps.executeUpdate();

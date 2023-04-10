@@ -2,20 +2,23 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
+
 import javaswingdev.GradientDropdownMenu;
 import javaswingdev.MenuEvent;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
+
+
 import javax.swing.JPanel;
 
 
 public class Frm_TrangChu extends javax.swing.JFrame {
-        private JPanel pnl_QLNV = new Pnl_QuanLyNhanVien();
+		private JPanel pnl_TrangChu = new Pnl_TrangChu();
+		private JPanel pnl_QLNV = new Pnl_QuanLyNhanVien();
         private JPanel pnl_TKNV = new Pnl_TimKiemNhanVien();
         private JPanel pnl_QLSP = new Pnl_QuanLySanPham();
         private JPanel pnl_TKSP = new Pnl_TimKiemSanPham();
-        
+        private JPanel pnl_LPDH = new Pnl_PhieuDatHang();
     public Frm_TrangChu() {
         
         initComponents();
@@ -29,12 +32,13 @@ public class Frm_TrangChu extends javax.swing.JFrame {
         menu.addItem("      Khách hàng       ", "Tìm kiếm khách hàng", "Quản lý khách hàng");
         menu.addItem("       Nhân viên       ", "Tìm kiếm nhân viên", "Quản lý nhân viên");
         menu.addItem("       Sản phẩm        ", "Tìm kiếm sản phẩm", "Quản lý sản phẩm");
-        menu.addItem("        Hóa đơn        ", "Tìm kiếm hóa đơn", "Lập hóa đơn và phiếu đặt");
+        menu.addItem("        Hóa đơn        ", "Tìm kiếm hóa đơn", "Lập hóa đơn");
+        menu.addItem("		Phiếu đặt hàng	 ", "Tìm kiếm hóa đơn", "Lập phiếu đặt");
         menu.addItem("        Báo cáo        ");
         menu.applay(this);  
         JPanel pnl_center = new JPanel();
         pnl_center.setLayout(new BorderLayout());
-        
+        pnl_center.add(pnl_TrangChu, BorderLayout.CENTER);
         menu.addEvent(new MenuEvent(){
             @Override
             public void selected(int index, int subIndex, boolean menuItem){
@@ -63,6 +67,17 @@ public class Frm_TrangChu extends javax.swing.JFrame {
                         pnl_center.revalidate();
                         pnl_center.repaint(); 
                         
+                    }else if(selectedMenuItem.equals("Lập phiếu đặt")) {
+                        pnl_center.removeAll();
+                        pnl_center.add(pnl_LPDH, BorderLayout.CENTER);
+                        pnl_center.revalidate();
+                        pnl_center.repaint();               
+                    }
+                    else if(selectedMenuItem.equals("Trang chủ")) {
+                        pnl_center.removeAll();
+                        pnl_center.add(pnl_TrangChu, BorderLayout.CENTER);
+                        pnl_center.revalidate();
+                        pnl_center.repaint();           
                     }
                 }
             }
