@@ -8,7 +8,7 @@ USE QuanLyHieuSach
 CREATE TABLE SanPham(
 	maSP CHAR(10) PRIMARY KEY NOT NULL,
 	maNCC char(10) NOT NULL,
-	loaiSP nVARCHAR(20) NOT NULL,
+	loaiSP nvarchar(20) NOT NULL,
 	soLuongTon int NOT NULL,
 	donVi nVARCHAR(20) NOT NULL,
 	giaNhap float NOT NULL, 
@@ -355,20 +355,20 @@ VALUES													 --Tên sách,mã TG,thể loại, mã nxb
 GO 
 INSERT INTO SanPham
 VALUES
-('SP012', N'NCC003', N'Viết', '50', N'Cây', 3500, 5000, null, null, null, null, N'Viết Xanh', N'Xanh Dương', 'NSX008'),
-('SP013', N'NCC003', N'Viết', '30', N'Cây', 3500, 5000, null, null, null, null, N'Viết Đỏ', N'Đỏ', 'NSX008'),
-('SP014', N'NCC003', N'Viết', '40', N'Cây', 3500, 5000, null, null, null, null, N'Viết Đen', N'Đen', 'NSX008'),
-('SP015', N'NCC002', N'Thước', '40', N'Cây', 8000, 10000, null, null, null, null, N'Thước thẳng', N'Trong suốt', 'NSX002'),
-('SP016', N'NCC002', N'Thước', '30', N'Cây', 7500, 9000, null, null, null, null, N'Thước đo độ', N'Trong suốt', 'NSX002'),
-('SP017', N'NCC003', N'Đồ Bấm', '30', N'Cây', 17500, 22000, null, null, null, null, N'Đồ bấm', N'Đen', 'NSX008'),
-('SP018', N'NCC003', N'Kim Bấm', '50', N'Hộp', 6500, 8000, null, null, null, null, N'Kim Bấm', N'Xám', 'NSX008'),
-('SP019', N'NCC010', N'Màu', '20', N'Hộp', 35000, 48000, null, null, null, null, N'Hộp Bút Màu', N'Nhiều Màu', 'NSX004'),
-('SP020', N'NCC009', N'Tệp Hồ Sơ', '40', N'Cái', 18000, 26000, null, null, null, null, N'Tệp Hồ Sơ', N'Trong suốt', 'NSX007'),
-('SP021', N'NCC005', N'Vở', '50', N'Quyển', 5500, 8000, null, null, null, null, N'Vở Trắng', N'Nhiều màu', 'NSX003'),
-('SP022', N'NCC004', N'Compa', '30', N'Cây', 17500, 25000, null, null, null, null, N'Compa', N'Đen', 'NSX009'),
-('SP023', N'NCC006', N'Máy tính', '50', N'Cái', 250000, 380000, null, null, null, null, N'Máy Tính Bỏ Túi', N'Xám', 'NSX006'),
-('SP024', N'NCC008', N'Kéo', '30', N'Cây', 21500, 26000, null, null, null, null, N'Kéo Cắt Giấy', N'Đen', 'NSX001'),
-('SP025', N'NCC006', N'Viết', '30', N'Cây', 15000, 19000, null, null, null, null, N'Viết Highlight', N'Vàng', 'NSX001')
+('SP012', N'NCC003', N'VPP', '50', N'Cây', 3500, 5000, null, null, null, null, N'Viết Xanh', N'Xanh Dương', 'NSX008'),
+('SP013', N'NCC003', N'VPP', '30', N'Cây', 3500, 5000, null, null, null, null, N'Viết Đỏ', N'Đỏ', 'NSX008'),
+('SP014', N'NCC003', N'VPP', '40', N'Cây', 3500, 5000, null, null, null, null, N'Viết Đen', N'Đen', 'NSX008'),
+('SP015', N'NCC002', N'VPP', '40', N'Cây', 8000, 10000, null, null, null, null, N'Thước thẳng', N'Trong suốt', 'NSX002'),
+('SP016', N'NCC002', N'VPP', '30', N'Cây', 7500, 9000, null, null, null, null, N'Thước đo độ', N'Trong suốt', 'NSX002'),
+('SP017', N'NCC003', N'VPP', '30', N'Cây', 17500, 22000, null, null, null, null, N'Đồ bấm', N'Đen', 'NSX008'),
+('SP018', N'NCC003', N'VPP', '50', N'Hộp', 6500, 8000, null, null, null, null, N'Kim Bấm', N'Xám', 'NSX008'),
+('SP019', N'NCC010', N'VPP', '20', N'Hộp', 35000, 48000, null, null, null, null, N'Hộp Bút Màu', N'Nhiều Màu', 'NSX004'),
+('SP020', N'NCC009', N'VPP', '40', N'Cái', 18000, 26000, null, null, null, null, N'Tệp Hồ Sơ', N'Trong suốt', 'NSX007'),
+('SP021', N'NCC005', N'VPP', '50', N'Quyển', 5500, 8000, null, null, null, null, N'Vở Trắng', N'Nhiều màu', 'NSX003'),
+('SP022', N'NCC004', N'VPP', '30', N'Cây', 17500, 25000, null, null, null, null, N'Compa', N'Đen', 'NSX009'),
+('SP023', N'NCC006', N'VPP', '50', N'Cái', 250000, 380000, null, null, null, null, N'Máy Tính Bỏ Túi', N'Xám', 'NSX006'),
+('SP024', N'NCC008', N'VPP', '30', N'Cây', 21500, 26000, null, null, null, null, N'Kéo Cắt Giấy', N'Đen', 'NSX001'),
+('SP025', N'NCC006', N'VPP', '30', N'Cây', 15000, 19000, null, null, null, null, N'Viết Highlight', N'Vàng', 'NSX001')
 GO 
 INSERT INTO HoaDon
 VALUES 

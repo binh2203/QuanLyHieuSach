@@ -145,7 +145,7 @@ public class SanPhamDao {
 				NhaCungCap ncc = new NhaCungCap(rs.getString("maNCC"));
 				long giaNhap = rs.getLong("giaNhap");
 				long giaBan = rs.getLong("giaBan");
-				String donVi = rs.getString("soLuongTon");
+				String donVi = rs.getString("donVi");
 				String tenSach = rs.getString("tenSach");
 				TacGia tacGia = new TacGia();
 				if (rs.getString("maTG") != null) {

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
+<<<<<<< HEAD
   <NonVisualComponents>
     <Component class="javaswingdev.FontAwesomeIcon" name="icoTim">
       <Properties>
@@ -33,6 +34,8 @@
       </Properties>
     </Component>
   </NonVisualComponents>
+=======
+>>>>>>> bcf6c870fdd01b2b62bbd0835cd9a885b76e5d51
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
@@ -125,8 +128,13 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="pnlButton" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
+<<<<<<< HEAD
                   <Component id="jScrollPane1" min="-2" pref="368" max="-2" attributes="0"/>
                   <EmptySpace pref="415" max="32767" attributes="0"/>
+=======
+                  <Component id="jScrollPane1" min="-2" pref="337" max="-2" attributes="0"/>
+                  <EmptySpace pref="444" max="32767" attributes="0"/>
+>>>>>>> bcf6c870fdd01b2b62bbd0835cd9a885b76e5d51
               </Group>
           </Group>
         </DimensionLayout>
@@ -925,7 +933,11 @@
                               <Component id="jButton5" min="-2" pref="160" max="-2" attributes="0"/>
                           </Group>
                       </Group>
+<<<<<<< HEAD
                       <EmptySpace max="-2" attributes="0"/>
+=======
+                      <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+>>>>>>> bcf6c870fdd01b2b62bbd0835cd9a885b76e5d51
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="jButton7" pref="160" max="32767" attributes="0"/>
                           <Component id="jTextField27" max="32767" attributes="0"/>
