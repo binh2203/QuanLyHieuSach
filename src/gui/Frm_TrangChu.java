@@ -19,11 +19,11 @@ public class Frm_TrangChu extends javax.swing.JFrame {
         private JPanel pnl_QLSP = new Pnl_QuanLySanPham();
         private JPanel pnl_TKSach = new Pnl_TimKiemSach() ;
         private JPanel pnl_LPDH = new Pnl_PhieuDatHang();
-<<<<<<< HEAD
+
         private JPanel pnl_TKVPP = new Pnl_TimKiemVPP();
-=======
+
         private JPanel pnl_QLHD = new Pnl_QuanLyHoaDon();
->>>>>>> duy
+
     public Frm_TrangChu() {
         
         initComponents();
@@ -36,13 +36,12 @@ public class Frm_TrangChu extends javax.swing.JFrame {
         menu.addItem("Trang chủ");
         menu.addItem("      Khách hàng       ", "Tìm kiếm khách hàng", "Quản lý khách hàng");
         menu.addItem("       Nhân viên       ", "Tìm kiếm nhân viên", "Quản lý nhân viên");
-<<<<<<< HEAD
+
         menu.addItem("       Sản phẩm        ", "Tìm kiếm VPP","Tìm kiếm sách", "Quản lý sản phẩm");
-        menu.addItem("        Hóa đơn        ", "Tìm kiếm hóa đơn", "Lập hóa đơn");
-=======
-        menu.addItem("       Sản phẩm        ", "Tìm kiếm sản phẩm", "Quản lý sản phẩm");
+
+
         menu.addItem("        Hóa đơn        ", "Tìm kiếm hóa đơn", "Lập hóa đơn", "Quản lý hóa đơn");
->>>>>>> duy
+
         menu.addItem("		Phiếu đặt hàng	 ", "Tìm kiếm hóa đơn", "Lập phiếu đặt");
         menu.addItem("        Báo cáo        ");
         menu.applay(this);  
