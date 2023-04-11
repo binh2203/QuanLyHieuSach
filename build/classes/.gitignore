@@ -1,6 +1,13 @@
 /gui/
+<<<<<<< HEAD
 /dao/
 /connectDB/
 /entity/
 /service/
 /service_impl/
+=======
+/entity/
+/service/
+/service_impl/
+/dao/
+>>>>>>> duy
