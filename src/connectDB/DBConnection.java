@@ -14,7 +14,7 @@ public class DBConnection {
 		String pass = "241853048@@Binh";
 		try {
 			cnt = DriverManager.getConnection(url, user, pass);
-//			System.out.println("Connected");
+			System.out.println("Connected");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -29,5 +29,6 @@ public class DBConnection {
 	public Connection getConnection() {
 		return cnt;
 	}
+	
 
 }

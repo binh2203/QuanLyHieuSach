@@ -13,8 +13,8 @@ import javax.swing.JPanel;
 
 
 public class Frm_TrangChu extends javax.swing.JFrame {
-		private JPanel pnl_TrangChu = new Pnl_TrangChu();
-		private JPanel pnl_QLNV = new Pnl_QuanLyNhanVien();
+	private JPanel pnl_TrangChu = new Pnl_TrangChu();
+	private JPanel pnl_QLNV = new Pnl_QuanLyNhanVien();
         private JPanel pnl_TKNV = new Pnl_TimKiemNhanVien();
         private JPanel pnl_QLSP = new Pnl_QuanLySanPham();
         private JPanel pnl_TKSP = new Pnl_TimKiemSanPham();
