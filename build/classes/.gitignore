@@ -1,2 +1,6 @@
 /gui/
 /dao/
+/connectDB/
+/entity/
+/service/
+/service_impl/
