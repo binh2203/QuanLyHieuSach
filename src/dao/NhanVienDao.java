@@ -47,8 +47,7 @@ public class NhanVienDao {
 		ps = con.prepareStatement(query);
 		rs = ps.executeQuery();
 		while (rs.next()) {
-			NhanVien nv = new NhanVien(rs.getString("manv"), rs.getString("tenNV"), rs.getBoolean("gioiTinh"),
-					rs.getDate("ngaySinh").toLocalDate(), rs.getString("phone"), rs.getString("diaChi"),  rs.getString("email"));
+			NhanVien nv = new NhanVien(rs.getString("manv"));
 			dsnv.add(nv);
 		}
 		return dsnv;
@@ -62,8 +61,7 @@ public class NhanVienDao {
 		ps.setString(1, maNV);
 		rs = ps.executeQuery();
 		while (rs.next()) {
-			NhanVien nv = new NhanVien(rs.getString("manv"), rs.getString("tenNV"), rs.getBoolean("gioiTinh"),
-					rs.getDate("ngaySinh").toLocalDate(), rs.getString("phone"), rs.getString("diaChi"),  rs.getString("email"));
+			NhanVien nv = new NhanVien(rs.getString("manv"));
 			dsnv.add(nv);
 
 		}
@@ -77,8 +75,7 @@ public class NhanVienDao {
 		ps.setString(1, maNV);
 		rs = ps.executeQuery();
 		while (rs.next()) {
-			NhanVien nv = new NhanVien(rs.getString("manv"), rs.getString("tenNV"), rs.getBoolean("gioiTinh"),
-					rs.getDate("ngaySinh").toLocalDate(), rs.getString("phone"), rs.getString("diaChi"),  rs.getString("email"));
+			NhanVien nv = new NhanVien(rs.getString("manv"));
 			return nv;
 
 		}
@@ -92,8 +89,7 @@ public class NhanVienDao {
 		ps.setString(1, tenNV);
 		rs = ps.executeQuery();
 		while (rs.next()) {
-			NhanVien nv = new NhanVien(rs.getString("manv"), rs.getString("tenNV"), rs.getBoolean("gioiTinh"),
-					rs.getDate("ngaySinh").toLocalDate(), rs.getString("phone"), rs.getString("diaChi"),  rs.getString("email"));
+			NhanVien nv = new NhanVien(rs.getString("manv"));
 			dsnv.add(nv);
 		}
 		return dsnv;
@@ -106,8 +102,7 @@ public class NhanVienDao {
 		ps.setString(1, tenNV);
 		rs = ps.executeQuery();
 		while (rs.next()) {
-			nv = new NhanVien(rs.getString("manv"), rs.getString("tenNV"), rs.getBoolean("gioiTinh"),
-					rs.getDate("ngaySinh").toLocalDate(), rs.getString("phone"), rs.getString("diaChi"),  rs.getString("email"));
+			nv = new NhanVien(rs.getString("manv"));
 			return nv;
 		}
 		return null;
@@ -120,8 +115,7 @@ public class NhanVienDao {
 		ps.setString(1, sDT);
 		rs = ps.executeQuery();
 		while (rs.next()) {
-			NhanVien nv = new NhanVien(rs.getString("manv"), rs.getString("tenNV"), rs.getBoolean("gioiTinh"),
-					rs.getDate("ngaySinh").toLocalDate(), rs.getString("phone"), rs.getString("diaChi"),  rs.getString("email"));
+			NhanVien nv = new NhanVien(rs.getString("manv"));
 			dsnv.add(nv);
 		}
 		return dsnv;
@@ -136,8 +130,7 @@ public class NhanVienDao {
 			ps.setString(2, sdt);
 			rs = ps.executeQuery();
 			while (rs.next()) {
-				NhanVien nv = new NhanVien(rs.getString("manv"), rs.getString("tenNV"), rs.getBoolean("gioiTinh"),
-						rs.getDate("ngaySinh").toLocalDate(), rs.getString("phone"), rs.getString("diaChi"),  rs.getString("email"));
+				NhanVien nv = new NhanVien(rs.getString("manv"));
 				dsnv.add(nv);
 			}
 		} catch (SQLException ex) {
@@ -156,8 +149,7 @@ public class NhanVienDao {
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
-		return 1;
-		
+		return 1;		
 	}
 
 	public int capNhatNhanVien(NhanVien nv) {
@@ -195,8 +187,7 @@ public class NhanVienDao {
 			ps.setString(1, email);
 			rs = ps.executeQuery();
 			while (rs.next()) {
-				NhanVien nv = new NhanVien(rs.getString("manv"), rs.getString("tenNV"), rs.getBoolean("gioiTinh"),
-						rs.getDate("ngaySinh").toLocalDate(), rs.getString("phone"), rs.getString("diaChi"),  rs.getString("email"));
+				NhanVien nv = new NhanVien(rs.getString("manv"));
 				return nv;
 			}
 		} catch (SQLException e) {
