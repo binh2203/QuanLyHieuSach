@@ -25,6 +25,8 @@ public interface NhanVienService {
 	public List<NhanVien> timDanhSachNhanVienTheoMa(String maNV) throws SQLException;
 
 	public List<NhanVien> timNhanVienTheoSDT(String sDT) throws SQLException;
+	
+	public List<NhanVien> timDSNhanVien(NhanVien nv) throws SQLException;
 
 	public List<NhanVien> getListNhanVienByNameAndSDT(String tenNV, String sdt);
 
@@ -33,4 +35,6 @@ public interface NhanVienService {
 	public NhanVien getNhanVienByEmail(String email);
 	
 	public List<NhanVien> thongKeDoanhThu10NVBanNhieuNhat(LocalDate ngayBatDau, LocalDate ngayKetThuc);
+
+
 }

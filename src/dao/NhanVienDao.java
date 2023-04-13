@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class NhanVienDao {
 		String insert = "Insert into NhanVien values (?, ?, ?, ?, ?, ?, ?)";
 		PreparedStatement stmt = con.prepareStatement(insert);
 		stmt.setString(1, nv.getMaNV());
-
+		
 		int day = nv.getNgaySinhNV().getDayOfMonth();
 		int month = nv.getNgaySinhNV().getMonthValue();
 		int year = nv.getNgaySinhNV().getYear();
@@ -47,7 +48,15 @@ public class NhanVienDao {
 		ps = con.prepareStatement(query);
 		rs = ps.executeQuery();
 		while (rs.next()) {
-			NhanVien nv = new NhanVien(rs.getString("manv"));
+			NhanVien nv = new NhanVien();
+			nv.setMaNV(rs.getString("manv"));
+			nv.setHoTenNV(rs.getString("tenNV"));
+			nv.setGioiTinh(rs.getBoolean("gioiTinh"));
+			nv.setNgaySinhNV(rs.getDate("ngaySinh").toLocalDate());
+			nv.setSoDienThoaiNV(rs.getString("phone"));
+			nv.setDiaChiNV(rs.getString("diaChi"));
+			nv.setEmailNV(rs.getString("email"));
+			
 			dsnv.add(nv);
 		}
 		return dsnv;
@@ -61,7 +70,8 @@ public class NhanVienDao {
 		ps.setString(1, maNV);
 		rs = ps.executeQuery();
 		while (rs.next()) {
-			NhanVien nv = new NhanVien(rs.getString("manv"));
+			NhanVien nv = new NhanVien(rs.getString("manv"), rs.getString("tenNV"), rs.getBoolean("gioiTinh"), 
+					rs.getDate("ngaySinh").toLocalDate(),rs.getString("phone"), rs.getString("diaChi"), rs.getString("email"));
 			dsnv.add(nv);
 
 		}
@@ -75,22 +85,49 @@ public class NhanVienDao {
 		ps.setString(1, maNV);
 		rs = ps.executeQuery();
 		while (rs.next()) {
-			NhanVien nv = new NhanVien(rs.getString("manv"));
+			NhanVien nv = new NhanVien(rs.getString("manv"), rs.getString("tenNV"), rs.getBoolean("gioiTinh"), 
+					rs.getDate("ngaySinh").toLocalDate(),rs.getString("phone"), rs.getString("diaChi"), rs.getString("email"));
 			return nv;
 
 		}
 		return null;
 	}
-
 	public List<NhanVien> timDSNhanVienTheoTen(String tenNV) throws SQLException {
 		List<NhanVien> dsnv = new ArrayList<>();
-		String query = "select * from NhanVien where hoTenNhanVien LIKE CONCAT('%', ?, '%')";
+		String query = "select * from NhanVien where tenNV LIKE CONCAT('%', ?, '%')";
 		ps = con.prepareStatement(query);
 		ps.setString(1, tenNV);
 		rs = ps.executeQuery();
 		while (rs.next()) {
-			NhanVien nv = new NhanVien(rs.getString("manv"));
+			NhanVien nv = new NhanVien(rs.getString("manv"), rs.getString("tenNV"), rs.getBoolean("gioiTinh"), 
+					rs.getDate("ngaySinh").toLocalDate(),rs.getString("phone"), rs.getString("diaChi"), rs.getString("email"));
 			dsnv.add(nv);
+		}
+		return dsnv;
+	}
+	public List<NhanVien> timDSNhanVien(NhanVien nv) throws SQLException {
+		List<NhanVien> dsnv = new ArrayList<>();
+		int gt = 0;
+		if(nv.isGioiTinh())
+			gt = 1;
+		String query = "select * from NhanVien where maNV LIKE CONCAT('%', ?, '%')"
+				+ " and tenNV LIKE CONCAT('%', ?, '%') "
+				+ " and gioiTinh = ? "
+				+ " and phone LIKE CONCAT('%', ?, '%')"
+				+ " and diaChi LIKE CONCAT('%', ?, '%')"
+				+ " and email LIKE CONCAT('%', ?, '%')";
+		ps = con.prepareStatement(query);
+		ps.setString(1, nv.getMaNV());
+		ps.setString(2, nv.getHoTenNV());
+		ps.setString(3, gt +"");
+		ps.setString(4, nv.getSoDienThoaiNV());
+		ps.setString(5, nv.getDiaChiNV());
+		ps.setString(6, nv.getEmailNV());
+		rs = ps.executeQuery();
+		while (rs.next()) {
+			NhanVien nv1 = new NhanVien(rs.getString("manv"), rs.getString("tenNV"), rs.getBoolean("gioiTinh"), 
+					rs.getDate("ngaySinh").toLocalDate(),rs.getString("phone"), rs.getString("diaChi"), rs.getString("email"));
+			dsnv.add(nv1);
 		}
 		return dsnv;
 	}

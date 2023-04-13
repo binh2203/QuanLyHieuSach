@@ -4,13 +4,13 @@
  */
 package gui;
 
-import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.List;
@@ -69,7 +69,7 @@ public class Pnl_QuanLyNhanVien extends javax.swing.JPanel implements ActionList
     private NhanVienServiceImpl iNhanvien;
     private List<NhanVien> dsNhanVien;
     private DefaultTableModel tableModel_NhanVien;
-    private String maNV_xoa;
+
     /**
      * Creates new form Pnl_QuanLyNhanVien
      */
@@ -87,6 +87,7 @@ public class Pnl_QuanLyNhanVien extends javax.swing.JPanel implements ActionList
 		btnCapNhat.addActionListener(this);
 		btnLamMoi.addActionListener(this);
 		btnXoa.addActionListener(this);
+		tblQuanLyNhanVien.addMouseListener(this);
 	
     }
         
@@ -135,6 +136,8 @@ public class Pnl_QuanLyNhanVien extends javax.swing.JPanel implements ActionList
         lblEmail = new javax.swing.JLabel();
         rdoNam = new javax.swing.JRadioButton();
         rdoNu = new javax.swing.JRadioButton();
+        
+        txtMaNhanVien.setEditable(false);
 
         icoLamMoi.setIcon(javaswingdev.FontAwesome.REFRESH);
         icoLamMoi.setSize(18);
@@ -395,7 +398,6 @@ public class Pnl_QuanLyNhanVien extends javax.swing.JPanel implements ActionList
                 .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(283, Short.MAX_VALUE))
         );
-
         add(pnlThongTinNhanVien, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponent
 
@@ -427,7 +429,8 @@ public class Pnl_QuanLyNhanVien extends javax.swing.JPanel implements ActionList
 	}
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
+		int i = tblQuanLyNhanVien.getSelectedRow();
+		setValueForm(i);
 		
 	}
 
@@ -436,22 +439,63 @@ public class Pnl_QuanLyNhanVien extends javax.swing.JPanel implements ActionList
 		// TODO Auto-generated method stub
 		Object obj = e.getSource();
 		if (obj.equals(btnThem)) {
-			ThemNhanVienVaoDB();
-        	xoaHetDuLieu();
-        	clear_formThongTinNhanVien();
-        	try {
-				DocDuLieuTuArrayListVaoModel();
-			} catch (Exception e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+			if(btnThem.getText().equals("Xác nhận")) {
+				
+				try {
+					btnCapNhat.setEnabled(true);
+					ThemNhanVienVaoDB();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+	        	
+			}else {
+				btnCapNhat.setEnabled(false);
+				btnThem.setText("Xác nhận");
+				btnXoa.setText("Hủy");
+				txtMaNhanVien.setText(tangMaNV());
+			}			
 		}else if(obj.equals(btnCapNhat)) {
-			
+			if (tblQuanLyNhanVien.getSelectedRow() == -1) 
+				JOptionPane.showMessageDialog(this, "Phải chọn dòng trước khi xóa");
+			else {
+				if(btnCapNhat.getText().equals("Xác nhận")) {
+					try {
+						CapNhatNhanVienVaoDB();
+						btnThem.setEnabled(true);
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}else {
+					btnCapNhat.setText("Xác nhận");
+					btnXoa.setText("Hủy");
+					btnThem.setEnabled(false);
+				}
+			}								
 		}else if(obj.equals(btnXoa)) {
+			if (tblQuanLyNhanVien.getSelectedRow() == -1) 
+				JOptionPane.showMessageDialog(this, "Phải chọn dòng trước khi xóa");
+			else {
+				if(btnCapNhat.getText().equals("Xác nhận")) {
+					try {
+						CapNhatNhanVienVaoDB();
+						btnThem.setEnabled(true);
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}else {
+					btnCapNhat.setText("Xác nhận");
+					btnXoa.setText("Hủy");
+					btnThem.setEnabled(false);
+				}
+			}
 			
 		}else if(obj.equals(btnLamMoi)) {
 		 	clear_formThongTinNhanVien();
         	xoaHetDuLieu();
+        	
         	try {
 				DocDuLieuTuArrayListVaoModel();
         	} catch (Exception e1) {
@@ -482,14 +526,19 @@ public class Pnl_QuanLyNhanVien extends javax.swing.JPanel implements ActionList
 		int nam = Integer.parseInt(date[0]);
 		int thang = Integer.parseInt(date[1]);
 		int ngay = Integer.parseInt(date[2]);
-
+		LocalDate date2 = LocalDate.now();
+		if(date2.getYear()-nam<19) {
+			JOptionPane.showMessageDialog(null, "tuổi phải trên 19");
+			return null;
+		}
 		LocalDate lcDate = LocalDate.of(nam, thang, ngay);
+		
 		String sdt = txtSoDienThoai.getText();
 		String diaChi = txtDiaChi.getText();
 		
 		String email = txtEmail.getText();
 		
-		NhanVien nv = new NhanVien(maNV);
+		NhanVien nv = new NhanVien(maNV, tenNV, gioiTinh, lcDate, sdt, diaChi, email);
 		return nv;
 	}
 	public void editOnRow() {
@@ -506,22 +555,48 @@ public class Pnl_QuanLyNhanVien extends javax.swing.JPanel implements ActionList
 		System.out.println(row);
 
 	}
-	public void ThemNhanVienVaoDB() {
+	public void ThemNhanVienVaoDB() throws Exception {
 		NhanVien nv = revertNhanVienFromTextfields();
-		
+		if(nv ==null)
+			return;
 		try {
-			iNhanvien.themNhanVien(nv);
+			if(iNhanvien.themNhanVien(nv) == 0) {
+				JOptionPane.showMessageDialog(null, "Nhập đầy đủ thông tin");
+			}
+			else {
+				btnThem.setText("Thêm");
+				btnXoa.setText("Xóa");
+				xoaHetDuLieu();
+	        	clear_formThongTinNhanVien();
+	        	DocDuLieuTuArrayListVaoModel();
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			
 		}
 		
+	}
+	public void xoaNhanVien() {
+		int i = tblQuanLyNhanVien.getSelectedRow();
+		String maNV = (String) tblQuanLyNhanVien.getValueAt(i, 1);
+		try {
+			
+			if(iNhanvien.xoaNhanVien(maNV)==0) {
+				JOptionPane.showMessageDialog(null, "khong xoa dc");
+			}else {
+				JOptionPane.showMessageDialog(null, "xoa thanh cong");
+				tableModel_NhanVien.removeRow(i);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 
 	public void clear_formThongTinNhanVien() {
 		txtMaNhanVien.setText("");
 		txtHoVaTen.setText("");
 		rdoNam.setSelected(true);
+		dcNgaySinh.setDate(null);
 		txtSoDienThoai.setText("");
 		txtDiaChi.setText("");
 		txtEmail.setText("");
@@ -530,5 +605,63 @@ public class Pnl_QuanLyNhanVien extends javax.swing.JPanel implements ActionList
 		DefaultTableModel dtm = (DefaultTableModel) tblQuanLyNhanVien.getModel();
 		dtm.getDataVector().removeAllElements();
 	}
-	
+	public String tangMaNV() {
+		int i = tableModel_NhanVien.getRowCount();
+		System.out.println(i-1);
+		String maNV = (String) tblQuanLyNhanVien.getValueAt(i-1, 1);
+		maNV = maNV.split("NV")[1].trim();
+		int num = Integer.parseInt(maNV)+ 1;
+		if(num < 10) {
+			maNV = "NV00"+num;
+		}else {
+			maNV = "NV0"+num;
+		}
+		
+		return maNV;
+	}
+	public void setValueForm(int i) {
+		String maNV = (String) tblQuanLyNhanVien.getValueAt(i, 1);
+		String tenNV = tblQuanLyNhanVien.getValueAt(i, 2) +"";
+		String gioiTinh = tblQuanLyNhanVien.getValueAt(i, 3) + "";
+		
+		txtMaNhanVien.setText(maNV);
+		txtHoVaTen.setText(tenNV);
+		if (gioiTinh.equals("Nam")) {
+			rdoNam.isSelected();
+		}
+//		
+		else rdoNu.isSelected();
+		java.util.Date ngaySinh;
+		try {
+			ngaySinh = new SimpleDateFormat("yyyy-MM-dd").parse(tblQuanLyNhanVien.getValueAt(i, 4)+"");
+			dcNgaySinh.setDate(ngaySinh);
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		txtSoDienThoai.setText(tblQuanLyNhanVien.getValueAt(i, 5)+"");
+		txtDiaChi.setText(tblQuanLyNhanVien.getValueAt(i, 6)+"");
+		txtEmail.setText(tblQuanLyNhanVien.getValueAt(i, 7)+ "");
+	}
+	public void CapNhatNhanVienVaoDB() throws Exception {
+		NhanVien nv = revertNhanVienFromTextfields();
+		if(nv ==null)
+			return;
+		try {
+			if(iNhanvien.capNhatNhanVien(nv) == 0) {
+				JOptionPane.showMessageDialog(null, "Nhập đầy đủ thông tin");
+			}
+			else {
+				btnCapNhat.setText("Cập nhật");
+				btnXoa.setText("Xóa");
+				xoaHetDuLieu();
+	        	clear_formThongTinNhanVien();
+	        	DocDuLieuTuArrayListVaoModel();
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			
+		}
+	}
 }

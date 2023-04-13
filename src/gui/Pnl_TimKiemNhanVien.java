@@ -3,9 +3,19 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package gui;
-
+import javax.swing.ButtonGroup;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+import javax.swing.JRadioButton;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -17,7 +27,7 @@ import service_impl.NhanVienServiceImpl;
  *
  * @author Admin
  */
-public class Pnl_TimKiemNhanVien extends javax.swing.JPanel {
+public class Pnl_TimKiemNhanVien extends javax.swing.JPanel implements ActionListener, MouseListener {
 
     /**
      * Creates new form Pnl_TimKiemNhanVien
@@ -27,6 +37,12 @@ public class Pnl_TimKiemNhanVien extends javax.swing.JPanel {
         btnLamMoi.setIcon(icoLamMoi.toIcon());
         btnTimKiem.setIcon(icoTimKiem.toIcon());
         btnXuatFile.setIcon(icoXuatFile.toIcon());
+        
+        dcNgaySinh.setEnabled(false);
+        btnLamMoi.addActionListener(this);
+        btnTimKiem.addActionListener(this);
+        btnXuatFile.addActionListener(this);
+        
     }
 
     /**
@@ -66,7 +82,7 @@ public class Pnl_TimKiemNhanVien extends javax.swing.JPanel {
         lblEmail = new javax.swing.JLabel();
         rdoNam = new javax.swing.JRadioButton();
         rdoNu = new javax.swing.JRadioButton();
-
+        
         icoXuatFile.setIcon(javaswingdev.FontAwesome.UPLOAD);
         icoXuatFile.setSize(18);
 
@@ -278,7 +294,10 @@ public class Pnl_TimKiemNhanVien extends javax.swing.JPanel {
                 rdoNuActionPerformed(evt);
             }
         });
-
+        ButtonGroup bg = new ButtonGroup();
+        bg.add(rdoNam);
+        bg.add(rdoNu);
+        
         javax.swing.GroupLayout pnlThongTinNhanVienLayout = new javax.swing.GroupLayout(pnlThongTinNhanVien);
         pnlThongTinNhanVien.setLayout(pnlThongTinNhanVienLayout);
         pnlThongTinNhanVienLayout.setHorizontalGroup(
@@ -419,7 +438,74 @@ public class Pnl_TimKiemNhanVien extends javax.swing.JPanel {
     private NhanVienService iNhanvien;
     private List<NhanVien> dsNhanVien;
     private DefaultTableModel tableModel_NhanVien;
+
     // End of variables declaration//GEN-END:variables
+
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object obj = e.getSource();
+		if (obj.equals(btnTimKiem)) {
+			NhanVien nv = revertNhanVienFromTextfields();
+			try {
+				dsNhanVien = iNhanvien.timDSNhanVien(nv);
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			if (dsNhanVien.size() != 0) {
+				xoaHetDuLieu();
+				int i = 1;
+				for (NhanVien nhanvien : dsNhanVien) {
+					tableModel_NhanVien.addRow(new Object[] { i++, nhanvien.getMaNV(), nhanvien.getHoTenNV()
+							, nhanvien.isGioiTinh() != true ? "Nam" : "Nữ", nhanvien.getNgaySinhNV(),
+							nhanvien.getSoDienThoaiNV(), nhanvien.getDiaChiNV(), nhanvien.getEmailNV() });
+				}
+			} else {
+				JOptionPane.showMessageDialog(this, "Không tìm thấy");
+			}
+		}else if(obj.equals(btnLamMoi)) {
+			clear_formThongTinNhanVien();
+			xoaHetDuLieu();
+			try {
+				DocDuLieuTuArrayListVaoModel();
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		
+	}
     public void DocDuLieuTuArrayListVaoModel() throws Exception {
 		iNhanvien = new NhanVienServiceImpl();
 		dsNhanVien = iNhanvien.getDSNhanVien();
@@ -430,5 +516,37 @@ public class Pnl_TimKiemNhanVien extends javax.swing.JPanel {
 			tableModel_NhanVien.addRow(ob);
 			//System.out.println(nv.isGioiTinh());
 		}
+	}
+    public NhanVien revertNhanVienFromTextfields() {
+		String maNV = txtMaNhanVien.getText();
+		String tenNV = txtHoVaTen.getText();
+		boolean gioiTinh = rdoNu.isSelected();
+		String sdt = txtSoDienThoai.getText();
+		String diaChi = txtDiaChi.getText();
+		String email = txtEmail.getText();
+		if(maNV.isEmpty() && tenNV.isEmpty() && rdoNam.isSelected() == false && rdoNu.isSelected() == false && 
+				sdt.isEmpty() && diaChi.isEmpty() && email.isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Vui lòng điền ít nhất một thông tin!");
+		}
+		NhanVien nv = new NhanVien(maNV, tenNV, gioiTinh, null, sdt, diaChi, email);
+		return nv;
+	}
+    public void TimKiemNhanVien() throws Exception {
+
+    	
+    }
+
+    public void clear_formThongTinNhanVien() {
+		txtMaNhanVien.setText("");
+		txtHoVaTen.setText("");
+		rdoNam.setSelected(true);
+		dcNgaySinh.setDate(null);
+		txtSoDienThoai.setText("");
+		txtDiaChi.setText("");
+		txtEmail.setText("");
+	}
+	public void xoaHetDuLieu() {
+		DefaultTableModel dtm = (DefaultTableModel) tblTimKiemNhanVien.getModel();
+		dtm.getDataVector().removeAllElements();
 	}
 }

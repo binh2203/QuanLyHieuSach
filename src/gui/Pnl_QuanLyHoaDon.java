@@ -47,17 +47,13 @@ public class Pnl_QuanLyHoaDon extends javax.swing.JPanel implements ActionListen
      */
     public Pnl_QuanLyHoaDon() {
         initComponents();
-        btnLamMoi.setIcon(icoLamMoi.toIcon());
-        btnThem.setIcon(icoThem.toIcon());
-        btnXoa.setIcon(icoXoa.toIcon());
-        btnCapNhat.setIcon(icoCapNhat.toIcon());
-        btnNhapFile.setIcon(iconNhapFile.toIcon());
-        btnXuatFile.setIcon(icoXuatFile.toIcon());
+        
+      
         
         btnThem.addActionListener(this);
-	btnCapNhat.addActionListener(this);
-	btnLamMoi.addActionListener(this);
-	btnXoa.addActionListener(this);
+        btnCapNhat.addActionListener(this);
+        btnLamMoi.addActionListener(this);
+        btnXoa.addActionListener(this);
     }
 
     /**

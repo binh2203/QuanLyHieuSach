@@ -42,31 +42,13 @@ public class NhanVienServiceImpl implements NhanVienService {
 
 	@Override
 	public int capNhatNhanVien(NhanVien nv) throws SQLException {
-		// TODO Auto-generated method stub
-		if (!(nv.getHoTenNV().length() > 0 && nv.getHoTenNV()
-				.matches("[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊ"
-						+ "ỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s]*"))) {
-			errorscapNhat = 1;
-			return -1;
-		} else if (!(nv.getSoDienThoaiNV().length() > 0 && nv.getSoDienThoaiNV().matches("^[0-9]{10}$"))) {
-			errorscapNhat = 2;
-			return -1;
-
-		} else if (!(nv.getEmailNV().length() > 0 && nv.getEmailNV().matches("^[A-Za-z0-9+_.-]+@(.+)$"))) {
-			errorscapNhat = 3;
-			return -1;
-		} else if (!(nv.getDiaChiNV().length() > 0 && nv.getDiaChiNV()
-				.matches("[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊ"
-						+ "ỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ,\\w\\s]*"))) {
-			errorscapNhat = 4;
-			return -1;
-		} else {
 			nhanVienDao.capNhatNhanVien(nv);
 			return 1;
-		}
-
 	}
-
+	public List<NhanVien> timDSNhanVien(NhanVien nv) throws SQLException{
+		
+		return nhanVienDao.timDSNhanVien(nv);
+	}
 
 
 	@Override

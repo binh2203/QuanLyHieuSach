@@ -65,7 +65,16 @@ public class HoaDon {
         this.tienKhachDua = tienKhachDua;
     }
     
-    public static String auto_Date() {
+    public HoaDon(String maHD, NhanVien nhanVien, KhachHang khachHang, LocalDate ngayLapHD, float tienKhachDua) {
+		super();
+		this.maHD = maHD;
+		this.nhanVien = nhanVien;
+		this.khachHang = khachHang;
+		this.ngayLapHD = ngayLapHD;
+		this.tienKhachDua = tienKhachDua;
+	}
+
+	public static String auto_Date() {
 		LocalDate myObj = LocalDate.now();
 		String ngay = String.valueOf(myObj.getDayOfMonth());
 		String thang = String.valueOf(myObj.getMonthValue());

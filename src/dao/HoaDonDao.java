@@ -44,7 +44,6 @@ public class HoaDonDao {
             hd = new HoaDon(rs.getString("maHD"));
             dshd.add(hd);
         }
-
 	return dshd;
     }
     
