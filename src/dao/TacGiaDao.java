@@ -1,6 +1,5 @@
 package dao;
 
-import java.lang.reflect.Array;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,11 +24,11 @@ public class TacGiaDao {
 
 	public ArrayList<TacGia> getListTacGia() throws Exception {
 		ArrayList<TacGia> list = new ArrayList<>();
-		query = "SELECT maTacGia, tenTacGia\r\n" + "FROM     TacGia";
+		query = "SELECT maTG, tenTG\r\n" + "FROM     TacGia";
 		ps = con.prepareStatement(query);
 		rs = ps.executeQuery();
 		while (rs.next()) {
-			TacGia t = new TacGia(rs.getString("maTacGia"), rs.getString("tenTacGia"));
+			TacGia t = new TacGia(rs.getString("maTG"), rs.getString("tenTG"));
 			list.add(t);
 
 		}
@@ -57,7 +56,7 @@ public class TacGiaDao {
 	}
 
 	public boolean themTacGia(TacGia t) throws Exception {
-		query = "INSERT [dbo].[TacGia] ([maTacGia], [tenTacGia]) VALUES ( ? , N'" + t.getTenTacGia() + "')";
+		query = "INSERT [dbo].[TacGia] ([maTG], [tenTG]) VALUES ( ? , N'" + t.getTenTacGia() + "')";
 		ps = con.prepareStatement(query);
 		ps.setString(1, t.getMaTacGia());
 		rsCheck = ps.executeUpdate();
@@ -72,17 +71,17 @@ public class TacGiaDao {
 	}
 
 	public TacGia timTacGia(String TacGia) throws SQLException {
-		query = "select * from TacGia where tenTacGia = ?";
+		query = "select * from TacGia where tenTG = ?";
 		ps = con.prepareStatement(query);
 		ps.setString(1, TacGia);
 		rs = ps.executeQuery();
 		while (rs.next()) {
-			return new TacGia(rs.getString("maTacGia"), rs.getString("tenTacGia"));
+			return new TacGia(rs.getString("maTG"), rs.getString("tenTG"));
 		}
 		return null;
 	}
 	public boolean kiemTraTonTaiTacGia(String ten) throws SQLException {
-		query = "select * from TacGia where tenTacGia = N'"+ten+"'";
+		query = "select * from TacGia where tenTG = N'"+ten+"'";
 		ps = con.prepareStatement(query);
 		rs = ps.executeQuery();
 		while (rs.next()) {

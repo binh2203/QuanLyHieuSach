@@ -10,12 +10,7 @@ import service.NhanVienService;
 
 public class NhanVienServiceImpl implements NhanVienService {
 	NhanVienDao nhanVienDao = new NhanVienDao();
-	public static int errorsThem = 0;
-	public static int errorscapNhat = 0;
 
-	/**
-	 * @author dell 1 Lỗi tên 2 Lỗi sdt 3 Lỗi cccd 4
-	 */
 	@Override
 	public int themNhanVien(NhanVien nv) throws SQLException {
 			nhanVienDao.themNhanvien(nv);
@@ -34,11 +29,6 @@ public class NhanVienServiceImpl implements NhanVienService {
 		return nhanVienDao.getDSNhanVien();
 	}
 
-	@Override
-	public List<NhanVien> timDSNhanVienTheoTen(String tenNV) throws SQLException {
-		// TODO Auto-generated method stub
-		return nhanVienDao.timDSNhanVienTheoTen(tenNV);
-	}
 
 	@Override
 	public int capNhatNhanVien(NhanVien nv) throws SQLException {
@@ -56,35 +46,8 @@ public class NhanVienServiceImpl implements NhanVienService {
 		// TODO Auto-generated method stub
 		return nhanVienDao.timNhanVienTheoMa(maNV);
 	}
-
-	@Override
-	public List<NhanVien> timDanhSachNhanVienTheoMa(String maNV) throws SQLException {
-		// TODO Auto-generated method stub
-		return nhanVienDao.timDanhSachNhanVienTheoMa(maNV);
-	}
-
-	@Override
-	public List<NhanVien> timNhanVienTheoSDT(String sDT) throws SQLException {
-		// TODO Auto-generated method stub
-		return nhanVienDao.timNhanVienTheoSDT(sDT);
-	}
-
-	@Override
-	public List<NhanVien> getListNhanVienByNameAndSDT(String tenNV, String sdt) {
-		// TODO Auto-generated method stub
-		return nhanVienDao.getListNhanVienByNameAndSDT(tenNV, sdt);
-	}
-
-	@Override
-	public NhanVien timNhanVienTheoTen(String tenNV) throws SQLException {
-		// TODO Auto-generated method stub
-		return nhanVienDao.timNhanVienTheoTen(tenNV);
-	}
-
-	@Override
-	public NhanVien getNhanVienByEmail(String email) {
-		// TODO Auto-generated method stub
-		return nhanVienDao.getNhanVienByEmail(email);
+	public NhanVien timNhanVienTheoTen(String ten) throws SQLException{
+		return nhanVienDao.timNhanVienTheoTen(ten);
 	}
 
 	@Override

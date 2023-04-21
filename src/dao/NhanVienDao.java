@@ -62,21 +62,7 @@ public class NhanVienDao {
 		return dsnv;
 	}
 
-	public List<NhanVien> timDanhSachNhanVienTheoMa(String maNV) throws SQLException {
-		List<NhanVien> dsnv = new ArrayList<>();
-		// System.out.println(maNV);
-		String query = "Select * from NhanVien where maNV LIKE CONCAT('%', ?, '%')";
-		ps = con.prepareStatement(query);
-		ps.setString(1, maNV);
-		rs = ps.executeQuery();
-		while (rs.next()) {
-			NhanVien nv = new NhanVien(rs.getString("manv"), rs.getString("tenNV"), rs.getBoolean("gioiTinh"), 
-					rs.getDate("ngaySinh").toLocalDate(),rs.getString("phone"), rs.getString("diaChi"), rs.getString("email"));
-			dsnv.add(nv);
 
-		}
-		return dsnv;
-	}
 
 	public NhanVien timNhanVienTheoMa(String maNV) throws SQLException {
 		// System.out.println(maNV);
@@ -88,7 +74,19 @@ public class NhanVienDao {
 			NhanVien nv = new NhanVien(rs.getString("manv"), rs.getString("tenNV"), rs.getBoolean("gioiTinh"), 
 					rs.getDate("ngaySinh").toLocalDate(),rs.getString("phone"), rs.getString("diaChi"), rs.getString("email"));
 			return nv;
+		}
+		return null;
+	}
+	public NhanVien timNhanVienTheoTen(String ten) throws SQLException {
 
+		String query = "Select * from NhanVien where tenNV = ?";
+		ps = con.prepareStatement(query);
+		ps.setString(1, ten);
+		rs = ps.executeQuery();
+		while (rs.next()) {
+			NhanVien nv = new NhanVien(rs.getString("manv"), rs.getString("tenNV"), rs.getBoolean("gioiTinh"), 
+					rs.getDate("ngaySinh").toLocalDate(),rs.getString("phone"), rs.getString("diaChi"), rs.getString("email"));
+			return nv;
 		}
 		return null;
 	}
@@ -132,56 +130,13 @@ public class NhanVienDao {
 		return dsnv;
 	}
 
-	public NhanVien timNhanVienTheoTen(String tenNV) throws SQLException {
-		NhanVien nv = new NhanVien();
-		String query = "select * from NhanVien where hoTenNhanVien LIKE CONCAT('%', ?, '%')";
-		ps = con.prepareStatement(query);
-		ps.setString(1, tenNV);
-		rs = ps.executeQuery();
-		while (rs.next()) {
-			nv = new NhanVien(rs.getString("manv"));
-			return nv;
-		}
-		return null;
-	}
-
-	public List<NhanVien> timNhanVienTheoSDT(String sDT) throws SQLException {
-		List<NhanVien> dsnv = new ArrayList<>();
-		String query = "select * from NhanVien where sdt LIKE CONCAT('%', ?, '%')";
-		ps = con.prepareStatement(query);
-		ps.setString(1, sDT);
-		rs = ps.executeQuery();
-		while (rs.next()) {
-			NhanVien nv = new NhanVien(rs.getString("manv"));
-			dsnv.add(nv);
-		}
-		return dsnv;
-	}
-
-	public List<NhanVien> getListNhanVienByNameAndSDT(String tenNV, String sdt) {
-		List<NhanVien> dsnv = new ArrayList<>();
-		try {
-			String sql = "select * from NhanVien where hoTenNhanVien LIKE CONCAT('%', ?, '%') or sdt LIKE CONCAT('%', ?, '%')";
-			ps = con.prepareStatement(sql);
-			ps.setString(1, tenNV);
-			ps.setString(2, sdt);
-			rs = ps.executeQuery();
-			while (rs.next()) {
-				NhanVien nv = new NhanVien(rs.getString("manv"));
-				dsnv.add(nv);
-			}
-		} catch (SQLException ex) {
-			ex.printStackTrace();
-		}
-		return dsnv;
-	}
+	
 
 	public int xoaNhanVien(String maNV) {
 		String query = "delete from NhanVien where maNV = ?";
 		try {
 			ps = con.prepareStatement(query);
 			ps.setString(1, maNV);
-			// rs = ps.executeQuery();
 			return ps.executeUpdate();
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -215,23 +170,6 @@ public class NhanVienDao {
 		return 0;
 	}
 
-	public NhanVien getNhanVienByEmail(String email) {
 
-		try {
-			String query = "select *from NhanVien where email =?";
-
-			ps = con.prepareStatement(query);
-			ps.setString(1, email);
-			rs = ps.executeQuery();
-			while (rs.next()) {
-				NhanVien nv = new NhanVien(rs.getString("manv"));
-				return nv;
-			}
-		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-		}
-		return null;
-
-	}
 
 }

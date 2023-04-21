@@ -14,25 +14,15 @@ public interface NhanVienService {
 
 	public List<NhanVien> getDSNhanVien() throws SQLException;
 
-	public List<NhanVien> timDSNhanVienTheoTen(String tenNV) throws SQLException;
-
 	public int capNhatNhanVien(NhanVien nv) throws SQLException;
+	
+	public NhanVien timNhanVienTheoTen(String ten) throws SQLException;
 
 	public List<NhanVien> getNhanVienBanNhieuNhatTheoNgayTuChon(LocalDate ngayBatDau, LocalDate ngayKetThuc);
 
 	public List<NhanVien> getDoanhThuCuaNhanVien(LocalDate ngayBatDau, LocalDate ngayKetThuc) throws SQLException;
 
-	public List<NhanVien> timDanhSachNhanVienTheoMa(String maNV) throws SQLException;
-
-	public List<NhanVien> timNhanVienTheoSDT(String sDT) throws SQLException;
-	
 	public List<NhanVien> timDSNhanVien(NhanVien nv) throws SQLException;
-
-	public List<NhanVien> getListNhanVienByNameAndSDT(String tenNV, String sdt);
-
-	public NhanVien timNhanVienTheoTen(String tenNV) throws SQLException;
-
-	public NhanVien getNhanVienByEmail(String email);
 	
 	public List<NhanVien> thongKeDoanhThu10NVBanNhieuNhat(LocalDate ngayBatDau, LocalDate ngayKetThuc);
 

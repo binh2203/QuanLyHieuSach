@@ -1,0 +1,176 @@
+[33mcommit fb2788d1b492ae31a334cbbe90ecc4731321dc64[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;32mlinh[m[33m)[m
+Author: binh2203 <you@example.com>
+Date:   Thu Apr 13 14:35:34 2023 +0700
+
+    Bình
+
+[33mcommit 7898d5e544b8c18e7885504bbb369ac9b5b575a9[m
+Merge: ee5b01d a93b705
+Author: binh2203 <you@example.com>
+Date:   Tue Apr 11 11:11:33 2023 +0700
+
+    SQL
+
+[33mcommit ee5b01dd3b5a21a6d87de41ccfaebd8978e09d40[m
+Merge: e41a682 bcf6c87
+Author: binh2203 <you@example.com>
+Date:   Tue Apr 11 11:09:40 2023 +0700
+
+    SQL
+
+[33mcommit a93b705f587e09fc32426c8aa14d6c691d5bf2d8[m
+Author: CongLinh1003 <01633007559mc@gmail.com>
+Date:   Tue Apr 11 08:21:16 2023 +0700
+
+    Modify
+
+[33mcommit e41a682568f66bec7061d6e0b246a76eec5ce578[m
+Merge: 206cccb c07e0f7
+Author: binh2203 <you@example.com>
+Date:   Tue Apr 11 08:10:46 2023 +0700
+
+    Bình
+
+[33mcommit 385ae5e62db6a156f1ba39aeebbea6b5a36101cc[m
+Merge: 7540196 f128552
+Author: CongLinh1003 <01633007559mc@gmail.com>
+Date:   Tue Apr 11 07:55:21 2023 +0700
+
+    erge branch 'duy'
+
+[33mcommit f128552c3fd51c862e73f93178e7450570ed69a2[m
+Author: CongLinh1003 <01633007559mc@gmail.com>
+Date:   Tue Apr 11 07:51:01 2023 +0700
+
+    branch duy
+
+[33mcommit a5616506775b30d75a02fbf532a7c0e7811429fb[m
+Author: CongLinh1003 <01633007559mc@gmail.com>
+Date:   Tue Apr 11 07:47:05 2023 +0700
+
+    update branch duy
+
+[33mcommit 754019617733b6805f480683533cfef3046726dd[m
+Author: CongLinh1003 <01633007559mc@gmail.com>
+Date:   Tue Apr 11 07:43:51 2023 +0700
+
+    fix conflict
+
+[33mcommit 6a7430ade5fb5d9103e321a94aea6cf3c9a70c5f[m
+Merge: bcf6c87 ed6db5f
+Author: CongLinh1003 <01633007559mc@gmail.com>
+Date:   Tue Apr 11 07:39:29 2023 +0700
+
+    merge duy
+
+[33mcommit bcf6c870fdd01b2b62bbd0835cd9a885b76e5d51[m
+Author: CongLinh1003 <01633007559mc@gmail.com>
+Date:   Tue Apr 11 06:39:56 2023 +0700
+
+    add pnl tks and pnl tkvpp
+
+[33mcommit ed6db5fd59390086f3f23cba63e09c8a16e43cd0[m
+Author: phuongduy1302 <87838011+phuongduy1302@users.noreply.github.com>
+Date:   Tue Apr 11 03:17:46 2023 +0700
+
+    11/04/23
+
+[33mcommit 206cccb4103cc199996502858715ae5266201e85[m
+Author: binh2203 <you@example.com>
+Date:   Mon Apr 10 20:22:02 2023 +0700
+
+    Bình
+
+[33mcommit c07e0f7e8d72b688d7a80ab50691cb81e49e6e8b[m
+Merge: 608d739 20e4cf3
+Author: CongLinh1003 <01633007559mc@gmail.com>
+Date:   Mon Apr 10 19:55:01 2023 +0700
+
+    add new file
+
+[33mcommit 608d7391053bf2292d799e9b645b1fb7be37fd6c[m
+Author: CongLinh1003 <01633007559mc@gmail.com>
+Date:   Mon Apr 10 19:31:18 2023 +0700
+
+    Add sanpamDAO, tacgiaDao
+
+[33mcommit 20e4cf3b109b8fa5b6cb37108d17d1d4f64f7b25[m
+Author: binh2203 <you@example.com>
+Date:   Mon Apr 10 18:30:21 2023 +0700
+
+    Bình
+
+[33mcommit e124424a4cb530967dd915914285f080ac26989f[m
+Author: binh2203 <you@example.com>
+Date:   Wed Apr 5 10:51:56 2023 +0700
+
+    Bình
+
+[33mcommit fa236d0fbad7f530ed559a8148008bedffdd88fd[m
+Merge: 93304c8 3117850
+Author: binh2203 <you@example.com>
+Date:   Wed Apr 5 09:34:26 2023 +0700
+
+    Sửa file sql
+
+[33mcommit 93304c8fd11b68889cce9fe6cde276bb31bcbedd[m
+Author: binh2203 <you@example.com>
+Date:   Tue Apr 4 11:13:26 2023 +0700
+
+    binh
+
+[33mcommit 311785078422c8531d079a9f22af614286d0029d[m
+Merge: be43b18 ab7f8b0
+Author: CongLinh1003 <01633007559mc@gmail.com>
+Date:   Tue Apr 4 07:35:36 2023 +0700
+
+    Merge branch 'main' of https://github.com/binh2203/PhatTrienUngDung
+
+[33mcommit be43b189d219483d9ebb6f413a48b7b8dc7dfbee[m
+Author: CongLinh1003 <01633007559mc@gmail.com>
+Date:   Tue Apr 4 07:33:11 2023 +0700
+
+    Thay đổi của Lĩnh, thêm các entity và Pnl
+
+[33mcommit eaf0ae7ff5c18083054429757fb5de38b27b1b75[m
+Author: CongLinh1003 <01633007559mc@gmail.com>
+Date:   Tue Apr 4 07:30:13 2023 +0700
+
+    Thay đổi của Lĩnh, thêm các entity và Pnl
+
+[33mcommit ab7f8b030b2cc9d53eed98013435cfc0bf91f0d4[m
+Merge: 7012987 3d89d1b
+Author: binh2203 <you@example.com>
+Date:   Mon Apr 3 21:08:07 2023 +0700
+
+    binh
+
+[33mcommit 7012987c92a2bcc3d4a52a723a3c6d6b733a5137[m
+Author: binh2203 <you@example.com>
+Date:   Mon Apr 3 11:43:06 2023 +0700
+
+    sql
+
+[33mcommit 3d89d1bcda9c5d3ab72224677ce51fe83519c7cd[m
+Author: CongLinh1003 <01633007559mc@gmail.com>
+Date:   Sun Apr 2 22:37:33 2023 +0700
+
+    lĩnh
+
+[33mcommit c93dee5d8924e01be02994dfc34d7eae80686adb[m
+Author: CongLinh1003 <01633007559mc@gmail.com>
+Date:   Sun Apr 2 17:51:10 2023 +0700
+
+    insert system.out
+
+[33mcommit 66774bf721b62394d311c2baca5c5f98768fcd63[m
+Author: binh2203 <you@example.com>
+Date:   Sun Apr 2 16:27:26 2023 +0700
+
+    2
+
+[33mcommit 52f0ec94d5f818617462910856a55fb20ffba769[m
+Author: binh2203 <you@example.com>
+Date:   Sun Apr 2 16:01:13 2023 +0700
+
+    first commit

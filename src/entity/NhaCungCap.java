@@ -55,11 +55,21 @@ public class NhaCungCap {
 	super();
 	this.maNhaCungCap = maNhaCungCap;
     }
-
-    @Override
-    public String toString() {
-        return super.toString(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
-    }
     
+    public NhaCungCap(String maNhaCungCap,String tenNhaCungCap) {
+    	super();
+    	this.maNhaCungCap = maNhaCungCap;
+    	this.tenNhaCungCap = tenNhaCungCap;
+        }
+    
+//    @Override
+//    public String toString() {
+//        return super.toString(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+//    }
+    @Override
+	public String toString() {
+		return "NhaCungCap [maNCC=" + maNhaCungCap + ", tenNCC=" + tenNhaCungCap 
+				+ ", email=" + email + ", sDT=" + Sdt + "]";
+	}
     
 }

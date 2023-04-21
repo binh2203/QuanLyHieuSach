@@ -177,4 +177,34 @@ public class KhachHangDao {
 	}
 	return 1;		
     }
+    
+    
+    //Bình
+	public KhachHang getKhachHangTheoMa(String maKH) throws SQLException {
+		// System.out.println(maNV);
+		String query = "Select * from KhachHang where maKH = ?";
+		ps = con.prepareStatement(query);
+		ps.setString(1, maKH);
+		rs = ps.executeQuery();
+		while (rs.next()) {
+			KhachHang kh = new KhachHang(rs.getString("maKH"), rs.getString("tenKH"), rs.getBoolean("gioiTinh"), 
+					rs.getDate("ngaySinh").toLocalDate(),rs.getString("phone"), rs.getString("diaChi"), rs.getString("email"));
+			return kh;
+		}
+		return null;
+	}
+	public KhachHang getKhachHangTheoSDT(String sDT) throws SQLException {
+		// System.out.println(maNV);
+		String query = "Select * from KhachHang where phone = ?";
+		ps = con.prepareStatement(query);
+		ps.setString(1, sDT);
+		rs = ps.executeQuery();
+		while (rs.next()) {
+			KhachHang kh = new KhachHang(rs.getString("maKH"), rs.getString("tenKH"), rs.getBoolean("gioiTinh"), 
+					rs.getDate("ngaySinh").toLocalDate(),rs.getString("phone"), rs.getString("diaChi"), rs.getString("email"));
+			return kh;
+		}
+		return null;
+	}
+	//Bình
 }

@@ -28,5 +28,7 @@ public interface HoaDonService {
     
     public List<HoaDon> timHoaDonTheoTenKH(String tenKH) throws SQLException;
     
-    public int xoaHoaDon(String maHD);
+    public List<HoaDon> timHoaDonTheoSDT (String SDT) throws SQLException;
+    
+    
 }

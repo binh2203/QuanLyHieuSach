@@ -85,7 +85,27 @@ public class KhachHang {
         this.email = email;
     }
 
-    public KhachHang() {
+    public KhachHang(String maKH, String hoTenKH, boolean gioiTinh, LocalDate ngaySinh, String sDT, String diaChi,
+			String email) {
+		super();
+		this.maKH = maKH;
+		this.hoTenKH = hoTenKH;
+		this.gioiTinh = gioiTinh;
+		this.ngaySinh = ngaySinh;
+		SDT = sDT;
+		this.diaChi = diaChi;
+		this.email = email;
+	}
+    
+
+	public KhachHang(String maKH, String hoTenKH, String sDT) {
+		super();
+		this.maKH = maKH;
+		this.hoTenKH = hoTenKH;
+		SDT = sDT;
+	}
+
+	public KhachHang() {
     }
     
     @Override

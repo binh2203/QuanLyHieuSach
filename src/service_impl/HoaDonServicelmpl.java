@@ -43,10 +43,16 @@ public class HoaDonServicelmpl implements HoaDonService{
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    @Override
-    public int xoaHoaDon(String maHD) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+//    @Override
+////    public int xoaHoaDon(String maHD) {
+////        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+////    }
+
+	@Override
+	public List<HoaDon> timHoaDonTheoSDT(String SDT) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
     
     
 }

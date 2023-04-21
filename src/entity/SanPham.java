@@ -86,7 +86,7 @@ public class SanPham {
 	}
 
 	public long getGiaBan() {
-		return giaBan;
+		return (giaNhap*20/100)+giaNhap;
 	}
 	//Tính giá bán: 
 	public void setGiaBan() {

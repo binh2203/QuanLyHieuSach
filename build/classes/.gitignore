@@ -1,7 +1,6 @@
-/connectDB/
-/dao/
-/entity/
 /gui/
-/img/
+/entity/
 /service/
 /service_impl/
+/connectDB/
+/dao/

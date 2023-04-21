@@ -1,6 +1,5 @@
 package entity;
 
-
 public class NhaSanXuat {
     private String maNhaSX;
     private String tenNhaSX;
@@ -9,17 +8,17 @@ public class NhaSanXuat {
         super();
     }
 
+    public NhaSanXuat(String maNhaSX){
+        super();
+        this.maNhaSX = maNhaSX;
+    }
+    
     public NhaSanXuat(String maNhaSX, String tenNhaSX) {
         super();
         this.maNhaSX = maNhaSX;
         this.tenNhaSX = tenNhaSX;
     }
     
-    public NhaSanXuat(String maNhaSX){
-        super();
-        this.maNhaSX = maNhaSX;
-    }
-
     public String getMaNhaSX() {
         return maNhaSX;
     }
@@ -38,7 +37,7 @@ public class NhaSanXuat {
 
     @Override
     public String toString() {
-        return "maNhaSX [maNhaSX=" + maNhaSX + ", tenNhaSX=" + tenNhaSX + "]";
+        return "NhaSanXuat [maNhaSX=" + maNhaSX + ", tenNhaSX=" + tenNhaSX + "]";
     }
     
     

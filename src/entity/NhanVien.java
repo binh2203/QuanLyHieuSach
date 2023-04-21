@@ -1,6 +1,6 @@
 package entity;
 
-import java.sql.Date;
+
 import java.time.LocalDate;
 
 public class NhanVien {
@@ -54,12 +54,11 @@ public class NhanVien {
 		this.emailNV = emailNV;
 	}
 	public NhanVien(String maNV) {
-		super();
+
 		this.maNV = maNV;
 	}
 	
 	public NhanVien(String maNV, String hoTenNV) {
-		super();
 		this.maNV = maNV;
 		this.hoTenNV = hoTenNV;
 	}
