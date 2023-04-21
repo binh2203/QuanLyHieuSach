@@ -1,6 +1,7 @@
 
 package gui;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -10,11 +11,12 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
-
-import org.apache.tools.ant.taskdefs.Length;
 
 import entity.KhachHang;
 import entity.NhanVien;
@@ -26,7 +28,7 @@ import service_impl.NhanVienServiceImpl;
 import service_impl.PhieuDatHangServiceImpl;
 import service_impl.SanPhamServiceImpl;
 
-public class Pnl_PhieuDatHang extends javax.swing.JPanel implements ActionListener, MouseListener{
+public class Pnl_PhieuDatHang extends javax.swing.JPanel implements ActionListener, MouseListener, DocumentListener{
 	 @SuppressWarnings("unchecked")
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnTim;
@@ -94,14 +96,15 @@ public class Pnl_PhieuDatHang extends javax.swing.JPanel implements ActionListen
     private List<PhieuDatHang> dsPhieuDatHang;
     private KhachHangServiceImpl iKhachHang;
     private NhanVienServiceImpl iNhanVien;
-    private int soLuong = 1;
+    private int iPDH;
+    private int iSP;
     // End of variables declaration//GEN-END:variables
 	
     public Pnl_PhieuDatHang() {
-        initComponents();
-        Khoatxt();
-        
-        
+       initComponents();
+       Khoatxt();
+       
+       txtSoLuong.getDocument().addDocumentListener(this);
        btnCong.addActionListener(this);
        btnInPD.addActionListener(this);
        btnLamMoi.addActionListener(this);
@@ -664,57 +667,125 @@ public class Pnl_PhieuDatHang extends javax.swing.JPanel implements ActionListen
 		// TODO Auto-generated method stub
 		
 	}
+	
+	@Override
+	public void insertUpdate(DocumentEvent e) {
+		// TODO Auto-generated method stub
+		checkInput();
+	}
 
+	@Override
+	public void removeUpdate(DocumentEvent e) {
+		// TODO Auto-generated method stub
+		checkInput();
+		
+	}
+
+	@Override
+	public void changedUpdate(DocumentEvent e) {
+		// TODO Auto-generated method stub
+		checkInput();
+		
+	}
+	
+	private void checkInput() {
+        String input = txtSoLuong.getText();
+        try {
+        	int SL = Integer.parseInt(input); 
+            // giá trị nhập vào là một số hợp lệ
+            // ẩn thông báo lỗi nếu có
+            txtSoLuong.setBorder(BorderFactory.createLineBorder(Color.gray));
+        } catch (NumberFormatException ex) {
+            // giá trị nhập vào không phải là một số hợp lệ
+            // hiển thị thông báo lỗi
+            txtSoLuong.setBorder(BorderFactory.createLineBorder(Color.red));
+            JOptionPane.showMessageDialog(null, "Giá trị nhập vào không hợp lệ!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+	
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
 		Object obj = e.getSource();
 		if(obj.equals(tbl_DanhSachSanPham)) {
-			int i = tbl_DanhSachSanPham.getSelectedRow();
-			setValueForm(i);
+			iSP = tbl_DanhSachSanPham.getSelectedRow();
+			setValueForm(iSP);
 		}
 		else if(obj.equals(tbl_DSSPDatHang)) {
-			int i = tbl_DSSPDatHang.getSelectedRow();
-			txtSoLuong1.setText(tbl_DSSPDatHang.getValueAt(i, 4) + "");
+			iPDH = tbl_DSSPDatHang.getSelectedRow();
+			txtSoLuong1.setText(tbl_DSSPDatHang.getValueAt(iPDH, 4) + "");
+			HienThiLaiSP();
 		}
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		int soLuong = 0;
+		//if(txtSoLuong.getText().isEmpty())
+		//	soLuong = 0;
+		//else soLuong = Integer.parseInt(txtSoLuong.getText());
+		//int sLTon = Integer.parseInt(tableModel_PDH.getValueAt(iSP, 5)+ "");
 		try {
 			Object obj = e.getSource();
-			if (obj.equals(btnCong)) 
+			if (obj.equals(btnCong)) {
+				if(soLuong == 0) {
+					JOptionPane.showMessageDialog(null, "Vui lòng chọn sản phẩm trước!");
+					return;
+				}
 				txtSoLuong.setText(++soLuong + "");
+			}	
 			else if(obj.equals(btnTru)) {
-				if(soLuong - 1 < 1)
+				if(soLuong == 0) {
+					JOptionPane.showMessageDialog(null, "Vui lòng chọn sản phẩm trước!");
+					return;
+				}
+				if(soLuong - 1 < 1) {
 					JOptionPane.showMessageDialog(null, "Số lượng sản phẩm phải là số nguyên dương!");
+					return;
+				}
+					
 				else
 					txtSoLuong.setText(--soLuong + "");
 			}
 			else if(obj.equals(btnThem)) {
+				if(soLuong == 0) {
+					JOptionPane.showMessageDialog(null, "Vui lòng chọn sản phẩm trước khi thêm!");
+					return;
+				}
 				ThemSanPhamVaoPDH();
+				
 				CapNhatThanhTien();
 			}
 			else if(obj.equals(btnTru1)) {
-				int i = tbl_DSSPDatHang.getSelectedRow();
+				if(txtSoLuong1.getText().isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Vui lòng chọn sản phẩm trước!");
+					return;
+				}
 				int sL = Integer.parseInt(txtSoLuong1.getText());
 				if(sL - 1 < 1)
 					JOptionPane.showMessageDialog(null, "Số lượng sản phẩm phải là số nguyên dương!");
 				else {
 					txtSoLuong1.setText(--sL + "");
-					tbl_DSSPDatHang.setValueAt(Integer.parseInt(txtSoLuong1.getText()), i, 4);
+					tbl_DSSPDatHang.setValueAt(Integer.parseInt(txtSoLuong1.getText()), iPDH, 4);
 					CapNhatThanhTien();
 				}
 					
 			}
 			else if(obj.equals(btnXoa)) {
-				int i = tbl_DSSPDatHang.getSelectedRow();
-				
-				tableModel_PDH1.removeRow(i);
-				for(int j = i; j < tbl_DSSPDatHang.getRowCount() ; j++) {
+				if(tbl_DSSPDatHang.getRowCount() == 0) {
+					JOptionPane.showMessageDialog(null, "Không có sản phẩm nào có thể xóa, vui lòng thêm sản phẩm!");
+					return;
+				}
+				else if(tbl_DSSPDatHang.getSelectedRow() == -1) {
+					JOptionPane.showMessageDialog(null, "Vui lòng chọn sản phẩm muốn xóa!");
+					return;
+				}
+				tableModel_PDH1.removeRow(iPDH);
+				for(int j = iPDH; j < tbl_DSSPDatHang.getRowCount() ; j++) {
 					tbl_DSSPDatHang.setValueAt(j+1, j, 0);
 				}
-				CapNhatThanhTien();
+				int sL = Integer.parseInt(txtSoLuong1.getText());
+				txtSoLuong1.setText("");
 			}
 			else if(obj.equals(btnTim)) {
 				timKH();
@@ -723,7 +794,7 @@ public class Pnl_PhieuDatHang extends javax.swing.JPanel implements ActionListen
 				LamMoi();
 			else if(obj.equals(btnLapPhieuDat))
 				revertPDH();
-				
+
 		} catch (Exception e2) {
 			e2.printStackTrace();
 		}
@@ -732,13 +803,14 @@ public class Pnl_PhieuDatHang extends javax.swing.JPanel implements ActionListen
     public void Khoatxt() {
     	btnCong.setIcon(icoCong.toIcon());
     	btnThem.setIcon(icoThem.toIcon());
-
+    	
     	btnTru1.setIcon(icoTru.toIcon());
     	btnTru.setIcon(icoTru.toIcon());
     	btnLamMoi.setIcon(icoLamMoi.toIcon());
     	btnLoc.setIcon(icoLoc.toIcon());
     	btnInPD.setIcon(iconIn.toIcon());
     	
+    	txtSoLuong1.setEditable(false);
     	txtGiaBan.setEditable(false);
     	txtMaPDH.setEditable(false);
     	txtNhanVien.setEditable(false);
@@ -771,6 +843,13 @@ public class Pnl_PhieuDatHang extends javax.swing.JPanel implements ActionListen
 		}
 	}
     public void ThemSanPhamVaoPDH() throws Exception {
+    	int soLuong = Integer.parseInt(txtSoLuong.getText());
+    	int sLTon = Integer.parseInt(tableModel_PDH.getValueAt(iSP, 5) + "");
+    	if(soLuong > sLTon || soLuong <= 0) {
+    		JOptionPane.showMessageDialog(null, "Số lượng phải lớn hơn 0 và bé hơn hoặc bằng số lượng tồn!");
+    		txtSoLuong.setText("1");
+    		return;
+    	}
     	String maSP = txtMaSP.getText();
     	for (int i = 0; i < tableModel_PDH1.getRowCount(); i++) {
     		String maSPcheck = tableModel_PDH1.getValueAt(i, 1) + "";
@@ -778,13 +857,16 @@ public class Pnl_PhieuDatHang extends javax.swing.JPanel implements ActionListen
     			tableModel_PDH1.setValueAt( Integer.parseInt(tableModel_PDH1.getValueAt(i, 4)+ "")+ soLuong,i, 4);
     			return;
     		}
-    			
     	}
     	
     	String tenSP = txtTenSP.getText();
     	String giaBan = txtGiaBan.getText();
         Object[] ob = { tableModel_PDH1.getRowCount() + 1, maSP, tenSP, giaBan, soLuong};
     	tableModel_PDH1.addRow(ob);
+    	int soLuong1 = Integer.parseInt(txtSoLuong.getText());
+    	int sLTon1 = Integer.parseInt(tableModel_PDH.getValueAt(iSP, 5) + "");
+    	sLTon1 -= soLuong1;
+		tableModel_PDH.setValueAt(sLTon1, iSP, 5);
     }
     public void CapNhatThanhTien() {
     	double thanhTien = 0;
@@ -798,7 +880,7 @@ public class Pnl_PhieuDatHang extends javax.swing.JPanel implements ActionListen
     public void setValueForm(int i) {
     	String maSP = tbl_DanhSachSanPham.getValueAt(i, 1) + "";
     	String tenSP = tbl_DanhSachSanPham.getValueAt(i, 2) + "";
-    	soLuong = 1;
+    	int soLuong = 1;
     	iSanPham = new SanPhamServiceImpl();
     	try {
 			SanPham s = iSanPham.timSanPhamTheoMa(maSP);
@@ -881,7 +963,9 @@ public class Pnl_PhieuDatHang extends javax.swing.JPanel implements ActionListen
     }
     public void LamMoi() {
     	txtMaSP.setText("");
+    	txtMaSP.setEditable(true);
     	txtTenSP.setText("");
+    	txtTenSP.setEditable(true);
     	txtDonVi.setText("");
     	txtGiaBan.setText("");
     	txtSoLuong.setText("");
@@ -893,5 +977,19 @@ public class Pnl_PhieuDatHang extends javax.swing.JPanel implements ActionListen
 			e.printStackTrace();
 		}
     }
-    
+    public void HienThiLaiSP() {
+    	String maSP = tbl_DSSPDatHang.getValueAt(iPDH, 1) + "";
+    	for (int i = 0; i < tbl_DanhSachSanPham.getRowCount(); i++) {
+    		String maSPcheck = tbl_DanhSachSanPham.getValueAt(i, 1) + "";
+    		if(maSP.equals(maSPcheck)) {
+    			iSP = i;
+    			setValueForm(i);
+    			tbl_DanhSachSanPham.setRowSelectionInterval(i, i);
+    			return;
+    		}
+    	}
+    }
+
+	
+
 }
