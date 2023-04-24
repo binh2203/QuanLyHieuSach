@@ -14,21 +14,35 @@ CREATE TABLE SanPham(
 	giaNhap float NOT NULL, 
 	giaBan float NOT NULL,
 
-	tenSach nVARCHAR(20),
+	tenSach nVARCHAR(100),
 	maTG char(10),
-	theLoai nVARCHAR(20),
+	maTheLoaiSach nVARCHAR(5),
 	maNXB char(10),
 	
 	tenVanPhongPham nVARCHAR(20),
-	mauSac nVARCHAR(20),
-	maNSX char(10)	
+	maMauSac nVARCHAR(5),
+	maNSX char(10),
+	maLoaiVanPhongPham nvarchar(5)
 )
 GO
+CREATE TABLE TheLoaiSach(
+	[maTheLoai] [nvarchar](5) PRIMARY KEY NOT NULL,
+	[tenTheLoai] [nvarchar](50) NOT NULL,
+)
+CREATE TABLE MauSac(
+	[maMauSac] [nvarchar](5) PRIMARY KEY NOT NULL,
+	[tenMau] [nvarchar](30) NOT NULL,
+)
 CREATE TABLE NhaCungCap(
 	maNCC char(10) PRIMARY KEY NOT NULL,
 	tenNCC  nvarchar(50) NOT NULL,
 	email varchar(40) NOT NULL,
 	phone varchar(10) NOT NULL
+)
+GO
+CREATE TABLE LoaiVanPhongPham(
+	[maLoaiVanPhongPham] [nvarchar](5) PRIMARY KEY NOT NULL,
+	[tenTheLoai] [nvarchar](50) NOT NULL,
 )
 GO
 CREATE TABLE TacGia(
@@ -180,7 +194,22 @@ ALTER TABLE SanPham
 ADD CONSTRAINT FR_SP_NXB
 FOREIGN KEY (maNXB)
 REFERENCES NhaXuatBan(maNXB)
-
+GO
+ALTER TABLE SanPham
+ADD CONSTRAINT FR_SP_TLS
+FOREIGN KEY (maTheLoaiSach)
+REFERENCES [dbo].[TheLoaiSach] ([maTheLoai])
+GO
+ALTER TABLE SanPham
+ADD CONSTRAINT FR_SP_TLVPP
+FOREIGN KEY (maLoaiVanPhongPham)
+REFERENCES [dbo].[LoaiVanPhongPham] ([maLoaiVanPhongPham])
+GO
+ALTER TABLE SanPham
+ADD CONSTRAINT FR_SP_MS
+FOREIGN KEY ([maMauSac])
+REFERENCES [dbo].[MauSac] ([maMauSac])
+GO
 -- Nhập dữ liệu vào các bảng
 GO
 INSERT INTO NhanVien
@@ -200,7 +229,7 @@ VALUES
 ('KH003',N'Nguyễn Hoàng Phương Anh',1,'2003-11-05','0942856855',N'Gò Vấp, TP HCM','nguyenhoangphuonganh@gmail.com'),
 ('KH004',N'Nguyễn Thị Phương Anh',1,'2003-03-26','0943856856',N'Bình Thạnh, TP HCM','nguyenthiphuonganh@gmail.com'),
 ('KH005',N'Lý Nguyễn Trọng Bảo',0,'2003-08-20','0944856857',N'Bình Thạnh, TP HCM','lynguyentrongbao@gmail.com'),
-('KH006',N'Mai Thị Mộng Bình',1,'2003-02-12','0940856127',N'Quận 4, TP HCM','maithimongbinh@gmail.com'),
+('KH006',N'Mai Thị Mộng Bình',1,'2003-02-12','0945856858',N'Quận 4, TP HCM','maithimongbinh@gmail.com'),
 ('KH007',N'Đỗ Đức Cảnh',0,'2002-11-20','0946856859',N'Củ Chi, TP HCM','doduccanh@gmail.com'),
 ('KH008',N'Trần Nguyễn Ngọc Châu',1,'2003-09-12','0947856860',N'Quận 4, TP HCM','trannguyenngocchau@gmail.com'),
 ('KH009',N'Nguyễn Thị Phương Đài',1,'2003-09-26','0948856861',N'Quận 1, TP HCM','nguyenthiphuongdai@gmail.com'),
@@ -269,7 +298,7 @@ VALUES
 ('KH072',N'Lê Thị Ngân Uyển',1,'2003-08-09','0940856124',N'Phú Nhuận, TP HCM','lethinganuyen@gmail.com'),
 ('KH073',N'Nguyễn Thị Anh Vân',1,'2003-12-25','0940856125',N'Nhà Bè, TP HCM','nguyenthianhvan@gmail.com'),
 ('KH074',N'Hồ Trần Thị Thảo Vy',1,'2003-07-10','0940856126',N'Bình Tân, TP HCM','hotranthithaovy@gmail.com'),
-('KH075',N'Nguyễn Vân Tường Vy',1,'2003-10-22','0978812401',N'Gò Vấp, TP HCM','nguyenvantuongvy@gmail.com'),
+('KH075',N'Nguyễn Vân Tường Vy',1,'2003-10-22','0940856127',N'Gò Vấp, TP HCM','nguyenvantuongvy@gmail.com'),
 ('KH076',N'Trần Hồ Hạnh Vy',1,'2003-10-14','0940856128',N'Quận 6, TP HCM','tranhohanhvy@gmail.com'),
 ('KH077',N'Nguyễn Thị Thanh Xuân',1,'2003-12-07','0940856129',N'Củ Chi, TP HCM','nguyenthithanhxuan@gmail.com'),
 ('KH078',N'Nguyễn Thị Hồng Yến',1,'2003-08-13','0940856130',N'Quận 8, TP HCM','nguyenthihongyen@gmail.com'),
@@ -339,36 +368,47 @@ VALUES
 ('TG019', N'Herman Melville'),
 ('TG020', N'Art Spiegelman')
 GO
+INSERT INTO [dbo].[MauSac] 
+VALUES ('MS001',N'Ðen'),('MS002', N'Ðỏ'), 
+('MS003', N'Trắng'), ('MS004', N'Xanh'), ('MS005', N'Nhiều Màu')
+GO
+INSERT INTO [dbo].[TheLoaiSach] 
+VALUES ('L001', N'SGK'), ('L002', N'Truyện'), ('L003', N'Tiểu thuyết'), 
+('L004', N'Kĩ năng sống'), ('L005', N'Kinh doanh'), ('L006', N'Thiếu nhi')
+GO
+INSERT INTO [dbo].[LoaiVanPhongPham] 
+VALUES ('TL001', N'Dụng cụ học sinh'), ('TL002', N'Thiết bị văn phòng') ,('TL003', N'Thiết bị trường học')
+GO
 INSERT INTO SanPham
 VALUES													 --Tên sách,mã TG,thể loại, mã nxb
-('SP001', N'NCC001', N'Sách', '20', N'Quyển', 100000, 100000+(100000*0.2), N'Mắt biếc', 'TG001', N'Truyện dài','NXB001', null, null, null),
-('SP002', N'NCC001', N'Sách', '50', N'Quyển', 120000, 120000+(120000*0.2), N'Cho tôi xin một vé', 'TG001', N'Truyện dài','NXB001', null, null, null),
-('SP003', N'NCC001', N'Sách', '25', N'Quyển', 240000, 240000+(240000*0.2), N'Cho em gần anh', 'TG003', N'Truyện dài','NXB001', null, null, null),
-('SP004', N'NCC001', N'Sách', '75', N'Quyển', 758000, 758000+(758000*0.2), N'Tự sát', 'TG003', N'Văn học','NXB001', null, null, null),
-('SP005', N'NCC001', N'Sách', '100', N'Quyển', 104200, 104200+(104200*0.2), N'Nhật ký son môi', 'TG003', N'Văn học','NXB001', null, null, null),
-('SP006', N'NCC001', N'Sách', '35', N'Quyển', 230000, 230000+(230000*0.2), N'Tiếng thở dài', 'TG005', N'Truyện ngắn','NXB002', null, null, null),
-('SP007', N'NCC002', N'Sách', '80', N'Quyển', 89000, 89000+(89000*0.2), N'Cuộc đổi chác', 'TG005', N'Truyện ngắn','NXB002', null, null, null),
-('SP008', N'NCC002', N'Sách', '110', N'Quyển', 99000, 99000+(99000*0.2), N'Đức Phật và tôi', 'TG005', N'Truyện ngắn','NXB002', null, null, null),
-('SP009', N'NCC002', N'Sách', '200', N'Quyển', 181000, 181000+(181000*0.2), N'Ông già và biển cả', 'TG010', N'Văn học','NXB002', null, null, null),
-('SP010', N'NCC002', N'Sách', '180', N'Quyển', 230000, 230000+(230000*0.2), N'Chuông nguyện hồn ai', 'TG010', N'Văn học','NXB002', null, null, null),
-('SP011', N'NCC002', N'Sách', '15', N'Quyển', 155000, 155000+(155000*0.2), N'Vườn địa đàng', 'TG010', N'Văn học','NXB002', null, null, null)
+('SP001', N'NCC001', N'Sách', '20', N'Quyển', 100000, 100000+(100000*0.2), N'Mắt biếc', 'TG001', 'L002','NXB001', null, null, null, null),
+('SP002', N'NCC001', N'Sách', '50', N'Quyển', 120000, 120000+(120000*0.2), N'Cho tôi xin một vé', 'TG001','L002','NXB001', null, null, null, null),
+('SP003', N'NCC001', N'Sách', '25', N'Quyển', 240000, 240000+(240000*0.2), N'Cho em gần anh', 'TG003','L002','NXB001', null, null, null, null),
+('SP004', N'NCC001', N'Sách', '75', N'Quyển', 758000, 758000+(758000*0.2), N'Tự sát', 'TG003', 'L003','NXB001', null, null, null, null),
+('SP005', N'NCC001', N'Sách', '100', N'Quyển', 104200, 104200+(104200*0.2), N'Nhật ký son môi', 'TG003', 'L002','NXB001', null, null, null, null),
+('SP006', N'NCC001', N'Sách', '35', N'Quyển', 230000, 230000+(230000*0.2), N'Tiếng thở dài', 'TG005', 'L002','NXB002', null, null, null, null),
+('SP007', N'NCC002', N'Sách', '80', N'Quyển', 89000, 89000+(89000*0.2), N'Cuộc đổi chác', 'TG005','L002','NXB002', null, null, null, null),
+('SP008', N'NCC002', N'Sách', '110', N'Quyển', 99000, 99000+(99000*0.2), N'Đức Phật và tôi', 'TG005','L002','NXB002', null, null, null, null),
+('SP009', N'NCC002', N'Sách', '200', N'Quyển', 181000, 181000+(181000*0.2), N'Ông già và biển cả', 'TG010', 'L004','NXB002', null, null, null, null),
+('SP010', N'NCC002', N'Sách', '180', N'Quyển', 230000, 230000+(230000*0.2), N'Chuông nguyện hồn ai', 'TG010','L004','NXB002', null, null, null, null),
+('SP011', N'NCC002', N'Sách', '15', N'Quyển', 155000, 155000+(155000*0.2), N'Vườn địa đàng', 'TG010', 'L004','NXB002', null, null, null, null)
 GO 
 INSERT INTO SanPham
 VALUES
-('SP012', N'NCC003', N'VPP', '50', N'Cây', 3500, 5000, null, null, null, null, N'Viết Xanh', N'Xanh Dương', 'NSX008'),
-('SP013', N'NCC003', N'VPP', '30', N'Cây', 3500, 5000, null, null, null, null, N'Viết Đỏ', N'Đỏ', 'NSX008'),
-('SP014', N'NCC003', N'VPP', '40', N'Cây', 3500, 5000, null, null, null, null, N'Viết Đen', N'Đen', 'NSX008'),
-('SP015', N'NCC002', N'VPP', '40', N'Cây', 8000, 10000, null, null, null, null, N'Thước thẳng', N'Trong suốt', 'NSX002'),
-('SP016', N'NCC002', N'VPP', '30', N'Cây', 7500, 9000, null, null, null, null, N'Thước đo độ', N'Trong suốt', 'NSX002'),
-('SP017', N'NCC003', N'VPP', '30', N'Cây', 17500, 22000, null, null, null, null, N'Đồ bấm', N'Đen', 'NSX008'),
-('SP018', N'NCC003', N'VPP', '50', N'Hộp', 6500, 8000, null, null, null, null, N'Kim Bấm', N'Xám', 'NSX008'),
-('SP019', N'NCC010', N'VPP', '20', N'Hộp', 35000, 48000, null, null, null, null, N'Hộp Bút Màu', N'Nhiều Màu', 'NSX004'),
-('SP020', N'NCC009', N'VPP', '40', N'Cái', 18000, 26000, null, null, null, null, N'Tệp Hồ Sơ', N'Trong suốt', 'NSX007'),
-('SP021', N'NCC005', N'VPP', '50', N'Quyển', 5500, 8000, null, null, null, null, N'Vở Trắng', N'Nhiều màu', 'NSX003'),
-('SP022', N'NCC004', N'VPP', '30', N'Cây', 17500, 25000, null, null, null, null, N'Compa', N'Đen', 'NSX009'),
-('SP023', N'NCC006', N'VPP', '50', N'Cái', 250000, 380000, null, null, null, null, N'Máy Tính Bỏ Túi', N'Xám', 'NSX006'),
-('SP024', N'NCC008', N'VPP', '30', N'Cây', 21500, 26000, null, null, null, null, N'Kéo Cắt Giấy', N'Đen', 'NSX001'),
-('SP025', N'NCC006', N'VPP', '30', N'Cây', 15000, 19000, null, null, null, null, N'Viết Highlight', N'Vàng', 'NSX001')
+('SP012', N'NCC003', N'VPP', '50', N'Cây', 3500, 5000, null, null, null, null, N'Viết Xanh', N'MS004', 'NSX008','TL001'),
+('SP013', N'NCC003', N'VPP', '30', N'Cây', 3500, 5000, null, null, null, null, N'Viết Đỏ', N'MS002', 'NSX008','TL001'),
+('SP014', N'NCC003', N'VPP', '40', N'Cây', 3500, 5000, null, null, null, null, N'Viết Đen','MS001', 'NSX008','TL001'),
+('SP015', N'NCC002', N'VPP', '40', N'Cây', 8000, 10000, null, null, null, null, N'Thước thẳng', 'MS003', 'NSX002','TL001'),
+('SP016', N'NCC002', N'VPP', '30', N'Cây', 7500, 9000, null, null, null, null, N'Thước đo độ', 'MS003', 'NSX002','TL001'),
+('SP017', N'NCC003', N'VPP', '30', N'Cây', 17500, 22000, null, null, null, null, N'Đồ bấm', N'MS001', 'NSX008','TL001'),
+('SP018', N'NCC003', N'VPP', '50', N'Hộp', 6500, 8000, null, null, null, null, N'Kim Bấm', N'MS001', 'NSX008','TL001'),
+('SP019', N'NCC010', N'VPP', '20', N'Hộp', 35000, 48000, null, null, null, null, N'Hộp Bút Màu', 'MS005', 'NSX004','TL001'),
+('SP020', N'NCC009', N'VPP', '40', N'Cái', 18000, 26000, null, null, null, null, N'Tệp Hồ Sơ', 'MS003', 'NSX007','TL001'),
+('SP021', N'NCC005', N'VPP', '50', N'Quyển', 5500, 8000, null, null, null, null, N'Vở Trắng', 'MS005', 'NSX003','TL001'),
+('SP022', N'NCC004', N'VPP', '30', N'Cây', 17500, 25000, null, null, null, null, N'Compa', 'MS001', 'NSX009','TL001'),
+('SP023', N'NCC006', N'VPP', '50', N'Cái', 250000, 380000, null, null, null, null, N'Máy Tính Bỏ Túi', N'MS001', 'NSX006','TL001'),
+('SP024', N'NCC008', N'VPP', '30', N'Cây', 21500, 26000, null, null, null, null, N'Kéo Cắt Giấy', 'MS001', 'NSX001','TL001'),
+('SP025', N'NCC006', N'VPP', '30', N'Cây', 15000, 19000, null, null, null, null, N'Viết Highlight', N'MS002', 'NSX001','TL001')
 GO 
 INSERT INTO HoaDon
 VALUES 
@@ -479,3 +519,4 @@ VALUES
 ('PDH020','SP018',4),
 ('PDH020','SP002',5)
 
+select * from SanPham

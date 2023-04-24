@@ -381,7 +381,7 @@ public class Pnl_TimKiemPhieuDat extends javax.swing.JPanel implements ActionLis
 		int i = 1;
 		for (PhieuDatHang pdh : dsPhieuDatHang) {
 				Object[] ob = { i++, pdh.getMaPDH(), pdh.getNhanVien().getHoTenNV(), pdh.getKhachHang().getHoTenKH(), 
-					pdh.getKhachHang().getSDT(), pdh.getNgayLapPDH(), pdh.getNgayLayHang(), pdh.isTrangThai()};
+					pdh.getKhachHang().getSDT(), pdh.getNgayLapPDH(), pdh.getNgayLayHang(), pdh.isTrangThai()== true ? "Đã thanh toán" : "Chưa thanh toán"};
 				tableModel_PDH.addRow(ob);
 				//System.out.println(nv.isGioiTinh());
 		}
@@ -395,7 +395,7 @@ public class Pnl_TimKiemPhieuDat extends javax.swing.JPanel implements ActionLis
 			int i = 1;
 			for (PhieuDatHang pdh : dsPhieuDatHang) {
 				Object[] ob = { i++, pdh.getMaPDH(), pdh.getNhanVien().getHoTenNV(), pdh.getKhachHang().getHoTenKH(), 
-					pdh.getKhachHang().getSDT(), pdh.getNgayLapPDH(), pdh.getNgayLayHang(), pdh.isTrangThai()};
+					pdh.getKhachHang().getSDT(), pdh.getNgayLapPDH(), pdh.getNgayLayHang(), pdh.isTrangThai()== true ? "Đã thanh toán" : "Chưa thanh toán"};
 				tableModel_PDH.addRow(ob);
 				//System.out.println(nv.isGioiTinh());
 			}
