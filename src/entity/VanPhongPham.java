@@ -3,14 +3,16 @@ package entity;
 public class VanPhongPham extends SanPham {
 	private String tenVanPhongPham;
 	private NhaSanXuat nhaSanXuat;
-	private String mauSac;
-	
+	private MauSac mauSac;
+	private TheLoaiVanPhongPham loaiVanPhongPham;
+
 	public VanPhongPham(String maSanPham, NhaCungCap nhaCungCap, String loaiSanPham, int soLuongTon, String donVi,
-			long giaNhap, long giaBan,String tenVanPhongPham, String mauSac, NhaSanXuat nhaSanXuat) {
+			long giaNhap, long giaBan,String tenVanPhongPham, MauSac mauSac, NhaSanXuat nhaSanXuat,TheLoaiVanPhongPham loaiVanPhongPham) {
 		super(maSanPham, nhaCungCap, loaiSanPham, soLuongTon, donVi, giaNhap,giaBan);
 		this.tenVanPhongPham = tenVanPhongPham;
 		this.nhaSanXuat = nhaSanXuat;
 		this.mauSac = mauSac;
+		this.loaiVanPhongPham = loaiVanPhongPham;
 	}
 	
 	public VanPhongPham() {
@@ -38,17 +40,26 @@ public class VanPhongPham extends SanPham {
 		this.nhaSanXuat = nhaSanXuat;
 	}
 
-	public String getMauSac() {
+	public MauSac getMauSac() {
 		return mauSac;
 	}
 
-	public void setMauSac(String mauSac) {
+	public void setMauSac(MauSac mauSac) {
 		this.mauSac = mauSac;
+	}
+	
+	
+	public TheLoaiVanPhongPham getLoaiVanPhongPham() {
+		return loaiVanPhongPham;
+	}
+
+	public void setLoaiVanPhongPham(TheLoaiVanPhongPham loaiVanPhongPham) {
+		this.loaiVanPhongPham = loaiVanPhongPham;
 	}
 
 	@Override
 	public String toString() {
-		return "VanPhongPham [tenVanPhongPham=" + tenVanPhongPham + ", nhaSanXuat=" + nhaSanXuat + ", mauSac=" + mauSac + "]";
+		return "VanPhongPham [tenVanPhongPham=" + tenVanPhongPham + ", nhaSanXuat=" + nhaSanXuat + ", mauSac=" + mauSac + ", loaiVanPhongPham=" + loaiVanPhongPham + "]";
 	}
 	
 }

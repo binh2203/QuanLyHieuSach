@@ -4,7 +4,7 @@ public class Sach extends SanPham{
 	private String tenSach;
 	private TacGia tacGia;
 	private NhaXuatBan nhaXuatBan;
-	private String theLoaiSach;
+	private TheLoaiSach theLoaiSach;
 
 	public Sach() {
 		super();
@@ -15,7 +15,7 @@ public class Sach extends SanPham{
 	}
 
 	public Sach(String maSanPham, NhaCungCap nhaCungCap, String loaiSanPham, int soLuongTon, String donVi,
-			long giaNhap, long giaBan,String tenSach, TacGia tacGia, NhaXuatBan nhaXuatBan, String theLoaiSach) {
+			long giaNhap, long giaBan,String tenSach, TacGia tacGia, NhaXuatBan nhaXuatBan, TheLoaiSach theLoaiSach) {
 		super(maSanPham, nhaCungCap, loaiSanPham, soLuongTon, donVi, giaNhap,giaBan);
 		this.tenSach = tenSach;
 		this.tacGia = tacGia;
@@ -47,11 +47,11 @@ public class Sach extends SanPham{
 		this.nhaXuatBan = nhaXuatBan;
 	}
 
-	public String getTheLoaiSach() {
+	public TheLoaiSach getTheLoaiSach() {
 		return theLoaiSach;
 	}
 
-	public void setTheLoaiSach(String theLoaiSach) {
+	public void setTheLoaiSach(TheLoaiSach theLoaiSach) {
 		this.theLoaiSach = theLoaiSach;
 	}
 

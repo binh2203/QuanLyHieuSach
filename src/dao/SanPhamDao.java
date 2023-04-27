@@ -7,12 +7,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import connectDB.DBConnection;
+import entity.MauSac;
 import entity.NhaCungCap;
 import entity.NhaSanXuat;
 import entity.NhaXuatBan;
 import entity.Sach;
 import entity.SanPham;
 import entity.TacGia;
+import entity.TheLoaiSach;
+import entity.TheLoaiVanPhongPham;
 import entity.VanPhongPham;
 
 public class SanPhamDao {
@@ -23,6 +26,7 @@ public class SanPhamDao {
 	private int rsCheck;
 	private TacGiaDao tacgiaDao;
 	private NhaSanXuatDao nhaSanXuatDao;
+	private TheLoaiDao theloaiDao;
 	public SanPhamDao() {
 		DBConnection connection = DBConnection.getInstance();
 		con = connection.getConnection();
@@ -34,12 +38,15 @@ public class SanPhamDao {
 		VanPhongPham v = new VanPhongPham();
 		if (sanPham instanceof Sach) {
 			s = (Sach) sanPham;
-			System.out.println("Tên sách là:"+s.getTenSach());
+			query = "INSERT [dbo].[SanPham] VALUES " + "(?, ?, ?, ?, ?, ?, ?, ?," + "?, ?, ?, "
+					+ " null, null, null, null)";
+			ps = con.prepareStatement(query);
+			ps.setString(rsCheck, query);
 			query = "INSERT [dbo].[SanPham] VALUES " + "('"+s.getMaSanPham()+"','"+s.getNhaCungCap().getMaNhaCungCap() 
 					+"',N'"+s.getLoaiSanPham()	+"',"+s.getSoLuongTon()	+",N'"+s.getDonVi()+"',"+s.getGiaNhap()+","+s.getGiaBan()
 					+",N'"+s.getTenSach()+"','"+s.getTacGia().getMaTacGia()+"','"+s.getTheLoaiSach()+"','"+s.getNhaXuatBan().getMaNXB()+"', null, null, null)";
 			ps = con.prepareStatement(query);
-			//('SP001', N'NCC001', N'Sách', '20', N'Quyển', 100000, 100000+(100000*0.2), N'Mắt biếc', 'TG001', N'Truyện dài','NXB001', null, null, null),
+			
 		} else {
 			v = (VanPhongPham) sanPham;
 			query = "INSERT [dbo].[SanPham] VALUES (?,?,?,?,?,?,?, "
@@ -52,7 +59,7 @@ public class SanPhamDao {
 			ps.setLong(6, s.getGiaNhap());
 			ps.setLong(7, s.getGiaBan());
 			ps.setString(8, v.getTenVanPhongPham());
-			ps.setString(9, v.getMauSac());
+			ps.setString(9, v.getMauSac().getMaMau());
 			ps.setString(10, v.getNhaSanXuat().getMaNhaSX());
 		}
 		rsCheck = ps.executeUpdate();
@@ -101,7 +108,7 @@ public class SanPhamDao {
 			String tenSach = rs.getString("tenSach");
 			TacGia tacGia = new TacGia(rs.getString("maTacGia"));
 			NhaXuatBan nhaXuatBan = new NhaXuatBan(rs.getString("maNXB"));
-			String theLoaiSach = rs.getString("theLoai");
+			TheLoaiSach theLoaiSach = new TheLoaiSach(rs.getString("maTheLoaiSach"));
 			s = new Sach(maSanPham, ncc, loaiSP, soLuongTon, donVi, giaNhap,giaBan,tenSach,tacGia,nhaXuatBan,theLoaiSach );
 			return s;
 		}
@@ -153,7 +160,7 @@ public class SanPhamDao {
 			Sach s = new Sach(rs.getString("maSP"), new NhaCungCap(rs.getString("maNCC"), rs.getString("tenNCC"),rs.getString("email"),rs.getString("Sdt")), rs.getString("loaiSP"), 
 					rs.getInt("soLuongTon"),rs.getString("donVi"), rs.getLong("giaNhap"), rs.getLong("giaBan"), 
 					rs.getString("tenSach"), new TacGia(rs.getString("maTacGia"), rs.getString("tenTacGia")),
-					new NhaXuatBan(rs.getString("maNXB"), rs.getString("tenNXB")), rs.getString("theLoai"));
+					new NhaXuatBan(rs.getString("maNXB"), rs.getString("tenNXB")),new TheLoaiSach(rs.getString("maTheLoaiSach")));
 			listSach.add(s);
 		}
 		return listSach;
@@ -185,8 +192,8 @@ public class SanPhamDao {
 					tacGia = null;
 				}
 				NhaXuatBan nhaXuatBan = new NhaXuatBan(rs.getString("maNXB"));
-				String theLoai =  rs.getString("theLoai");
-				Sach s = new Sach(maSanPham, ncc, loaiSP, soLuongTon, donVi, giaNhap,giaBan,tenSach,tacGia,nhaXuatBan,theLoai );
+				TheLoaiSach theLoaiSach = theloaiDao.getSachTheoTheLoai(rs.getString("maTheLoai")).get(0);
+				Sach s = new Sach(maSanPham, ncc, loaiSP, soLuongTon, donVi, giaNhap,giaBan,tenSach,tacGia,nhaXuatBan,theLoaiSach );
 				dsS.add(s);
 			}
 		} catch (SQLException e) {
@@ -214,8 +221,8 @@ public class SanPhamDao {
 				long giaBan = rs.getLong("giaBan");
 				String donVi = rs.getString("donVi");
 				String tenVPP = rs.getString("tenVanPhongPham");
-				String mauSac = rs.getString("mauSac");
-				
+				MauSac mauSac = new MauSac(rs.getString("maMauSac"));
+				TheLoaiVanPhongPham theLoaiVanPhongPham = new TheLoaiVanPhongPham(rs.getString("maLoaiVanPhongPham"));
 				NhaSanXuat nhaSanXuat = new NhaSanXuat();
 				if (rs.getString("maNSX") != null) {
 					nhaSanXuat = nhaSanXuatDao.getNhaSanXuat(rs.getString("maNSX")).get(0);
@@ -223,7 +230,7 @@ public class SanPhamDao {
 					nhaSanXuat = null;
 				}
 				
-				VanPhongPham vpp = new VanPhongPham(maSanPham, ncc, loaiSP, soLuongTon, donVi, giaNhap,giaBan, tenVPP, mauSac, nhaSanXuat);
+				VanPhongPham vpp = new VanPhongPham(maSanPham, ncc, loaiSP, soLuongTon, donVi, giaNhap,giaBan, tenVPP, mauSac, nhaSanXuat, theLoaiVanPhongPham);
 
 				dsVPP.add(vpp);
 
