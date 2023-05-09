@@ -169,6 +169,7 @@ public class SanPhamDao {
 	public List<Sach> getAllSach() throws Exception {
 		List<Sach> dsS = new ArrayList<Sach>();
 		tacgiaDao = new TacGiaDao();
+		theloaiDao = new TheLoaiDao();
 		try {
 			String query = "Select * from SanPham where loaiSP=?";
 			ps = con.prepareStatement(query);
@@ -192,7 +193,7 @@ public class SanPhamDao {
 					tacGia = null;
 				}
 				NhaXuatBan nhaXuatBan = new NhaXuatBan(rs.getString("maNXB"));
-				TheLoaiSach theLoaiSach = theloaiDao.getSachTheoTheLoai(rs.getString("maTheLoai")).get(0);
+				TheLoaiSach theLoaiSach = theloaiDao.getSachTheoTheLoai(rs.getString("maTheLoaiSach")).get(0);
 				Sach s = new Sach(maSanPham, ncc, loaiSP, soLuongTon, donVi, giaNhap,giaBan,tenSach,tacGia,nhaXuatBan,theLoaiSach );
 				dsS.add(s);
 			}
@@ -206,8 +207,11 @@ public class SanPhamDao {
 	public List<VanPhongPham> getAllVPP() {
 		List<VanPhongPham> dsVPP = new ArrayList<>();
 		nhaSanXuatDao = new NhaSanXuatDao();
+		
 		try {
-			String query = "Select * from SanPham where loaiSP=?";
+			String query = "Select * "
+					+ "	FROM SanPham INNER JOIN"
+					+ " MauSac ON SanPham.maMauSac = MauSac.maMauSac where loaiSP=?";
 			ps = con.prepareStatement(query);
 			ps.setString(1, "VPP");
 			rs = ps.executeQuery();
@@ -221,7 +225,7 @@ public class SanPhamDao {
 				long giaBan = rs.getLong("giaBan");
 				String donVi = rs.getString("donVi");
 				String tenVPP = rs.getString("tenVanPhongPham");
-				MauSac mauSac = new MauSac(rs.getString("maMauSac"));
+				MauSac mauSac = new MauSac(rs.getString("maMauSac"),rs.getString("tenMau"));
 				TheLoaiVanPhongPham theLoaiVanPhongPham = new TheLoaiVanPhongPham(rs.getString("maLoaiVanPhongPham"));
 				NhaSanXuat nhaSanXuat = new NhaSanXuat();
 				if (rs.getString("maNSX") != null) {
