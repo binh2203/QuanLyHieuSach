@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -113,6 +114,13 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 		lblGiaNhapSach = new javax.swing.JLabel();
 		lblSLSach = new javax.swing.JLabel();
 		txtMaSach = new javax.swing.JTextField();
+		txtMaSach.setEditable(false);
+		try {
+			txtMaSach.setText(tangMa());
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
 		txtTenSach = new javax.swing.JTextField();
 		lblDonViSach = new javax.swing.JLabel();
 		txtGiaSach = new javax.swing.JTextField();
@@ -138,6 +146,13 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 		lblGiaNhapVPP = new javax.swing.JLabel();
 		lblSL = new javax.swing.JLabel();
 		txtMaVPP = new javax.swing.JTextField();
+		txtMaVPP.setEditable(false);
+		try {
+			txtMaVPP.setText(tangMa());
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
 		txtTenVPP = new javax.swing.JTextField();
 		lblDonViVPP = new javax.swing.JLabel();
 		txtGiaNhapVPP = new javax.swing.JTextField();
@@ -1187,10 +1202,16 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		String src = e.getActionCommand();
-		if (src.equals("Làm mới") || src.equals("Thêm")) {
+		Object src = e.getSource();
+		if (src.equals(btnLamMoiSach)) {
 			this.lamMoi();
 		}
+		if (src.equals(btnThemSach)) {
+			//this.lamMoi();
+			this.themSP();		}
+		if (src.equals(btnThemVPP)) {
+			//this.lamMoi();
+			this.themSP();		}
 		if (src.equals("Lưu")) {
 			try {
 				this.themSP();
@@ -1209,7 +1230,12 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 	public void lamMoi() {
 		txtDonViSach.setText("");
 		txtDonViVPP.setText("");
-		txtMaSach.setText("");
+		try {
+			txtMaSach.setText(tangMa());
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		txtMaVPP.setText("");
 		txtGiaNhapVPP.setText("");
 		txtGiaSach.setText("");
@@ -1229,11 +1255,13 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 	}
 
 	public void themSP() {
-		if (txtTenSach.getText().equals("")) {// || txtTenVPP.getText().equals("")
+		if (txtTenSach.getText().equals("")&& txtTenVPP.getText().equals("")) { 
 			JOptionPane.showMessageDialog(null, "Tên sản phẩm không được để rỗng", "Báo lỗi",
 					JOptionPane.ERROR_MESSAGE);
-			txtTenSp.requestFocus();
-			txtTenSp.selectAll();
+			txtTenSach.requestFocus();
+			txtTenSach.selectAll();
+			txtTenVPP.requestFocus();
+			txtTenVPP.selectAll();
 			return;
 		}
 		Sach s = new Sach();
@@ -1250,7 +1278,7 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 					tableModel_Sach.setRowCount(0);
 					lamMoi();
 					loadSach();
-					//txtMasp.setText(tangMa());
+					txtMaSach.setText(tangMa());
 				} else {
 					JOptionPane.showMessageDialog(null, "Sản phẩm đã tồn tại", "Báo lỗi", JOptionPane.ERROR_MESSAGE);
 					txtTenSp.requestFocus();
@@ -1269,8 +1297,10 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 				boolean kt = sanPhamServiceImpl.themSanPham(v);
 				if (kt == true) {
 					JOptionPane.showMessageDialog(null, "Thêm thành công !!!");
+					tableModel_VPP.setRowCount(0);
 					lamMoi();
-					// txtMasp.setText(tangMa());
+					loadVPP();
+					txtMaVPP.setText(tangMa());
 				} else {
 					JOptionPane.showMessageDialog(null, "Sản phẩm đã tồn tại", "Báo lỗi", JOptionPane.ERROR_MESSAGE);
 					txtTenSp.requestFocus();
@@ -1283,6 +1313,17 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 		}
 	}
 
+	public String tangMa() throws SQLException {
+		String s = sanPhamServiceImpl.getMaSPMax();
+		String so = s.substring(2).replaceAll("\\s+", "");
+		int n = Integer.parseInt(so);
+		if ((n + 1) % 10 == 0) {
+			s = s.replaceAll("0" + n + "", n + 1 + "");
+		} else
+			s = s.replaceAll(n + "", n + 1 + "");
+		return s;
+	}
+	
 	public VanPhongPham taoVanPhongPham() {
 		VanPhongPham v = null;
 		String maSanPham = txtMaVPP.getText().toString().trim();

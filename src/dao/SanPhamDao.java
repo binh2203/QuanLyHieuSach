@@ -37,20 +37,11 @@ public class SanPhamDao {
 		Sach s = new Sach();
 		VanPhongPham v = new VanPhongPham();
 		if (sanPham instanceof Sach) {
-			s = (Sach) sanPham;
+			s = (Sach)sanPham;
 			query = "INSERT [dbo].[SanPham] VALUES " + "(?, ?, ?, ?, ?, ?, ?, ?," + "?, ?, ?, "
 					+ " null, null, null, null)";
 			ps = con.prepareStatement(query);
-			ps.setString(rsCheck, query);
-			query = "INSERT [dbo].[SanPham] VALUES " + "('"+s.getMaSanPham()+"','"+s.getNhaCungCap().getMaNhaCungCap() 
-					+"',N'"+s.getLoaiSanPham()	+"',"+s.getSoLuongTon()	+",N'"+s.getDonVi()+"',"+s.getGiaNhap()+","+s.getGiaBan()
-					+",N'"+s.getTenSach()+"','"+s.getTacGia().getMaTacGia()+"','"+s.getTheLoaiSach()+"','"+s.getNhaXuatBan().getMaNXB()+"', null, null, null)";
-			ps = con.prepareStatement(query);
 			
-		} else {
-			v = (VanPhongPham) sanPham;
-			query = "INSERT [dbo].[SanPham] VALUES (?,?,?,?,?,?,?, "
-					+ "null, null, null, null, ?,?,?)";
 			ps.setString(1, s.getMaSanPham());
 			ps.setString(2, s.getNhaCungCap().getMaNhaCungCap());
 			ps.setString(3, s.getLoaiSanPham());
@@ -58,15 +49,43 @@ public class SanPhamDao {
 			ps.setString(5, s.getDonVi());
 			ps.setLong(6, s.getGiaNhap());
 			ps.setLong(7, s.getGiaBan());
+			ps.setString(8, s.getTenSach());
+			ps.setString(9, s.getTacGia().getMaTacGia());
+			ps.setString(10, s.getTheLoaiSach().getMaLoai());
+			ps.setString(11, s.getNhaXuatBan().getMaNXB());			
+		} else {
+			v = (VanPhongPham) sanPham;
+			query = "INSERT [dbo].[SanPham] VALUES (?,?,?,?,?,?,?, "
+					+ "null, null, null, null, ?,?,?,?)";
+			ps = con.prepareStatement(query);
+			ps.setString(1, v.getMaSanPham());
+			ps.setString(2, v.getNhaCungCap().getMaNhaCungCap());
+			ps.setString(3, v.getLoaiSanPham());
+			ps.setInt(4, v.getSoLuongTon());
+			ps.setString(5, v.getDonVi());
+			ps.setLong(6, v.getGiaNhap());
+			ps.setLong(7, v.getGiaBan());
 			ps.setString(8, v.getTenVanPhongPham());
 			ps.setString(9, v.getMauSac().getMaMau());
 			ps.setString(10, v.getNhaSanXuat().getMaNhaSX());
+			ps.setString(11, v.getLoaiVanPhongPham().getMaLoai());
 		}
 		rsCheck = ps.executeUpdate();
 		if (rsCheck == 0) {
 			return false;
 		}
 		return true;
+	}
+	
+	public String getMaSPMax() throws SQLException {
+		query = "select MAX(maSP) as maSP from SanPham";
+		ps = con.prepareStatement(query);
+		rs = ps.executeQuery();
+		String s = null;
+		while (rs.next()) {
+			s = rs.getString("maSP");
+		}
+		return s;
 	}
 	
 	public SanPham timSanPhamTheoMa(String maSP) throws SQLException {

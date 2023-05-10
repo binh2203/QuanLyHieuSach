@@ -87,7 +87,7 @@ public class SanPhamServiceImpl implements SanPhamService {
 	@Override
 	public String getMaSPMax() throws SQLException {
 		// TODO Auto-generated method stub
-		return null;
+		return sanPhamDao.getMaSPMax();
 	}
 	@Override
 	public boolean capNhatSanPham(String maSP, SanPham temp) throws Exception {
