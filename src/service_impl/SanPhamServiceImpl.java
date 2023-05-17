@@ -15,9 +15,9 @@ public class SanPhamServiceImpl implements SanPhamService {
 	SanPhamDao sanPhamDao = new SanPhamDao();
 	
 	public ArrayList<Sach> getListSach(String maSach, String tenSP, String maTheLoai, Long giaTu, Long giaDen,
-			String maTacGia, String maNXB, String maNCC, boolean hetHang) throws Exception {
+			String maTacGia, String maNXB, String maNCC) throws Exception {
 		// TODO Auto-generated method stub
-		return sanPhamDao.getListSach(maSach, tenSP, maTheLoai, giaTu, giaDen, maTacGia, maNXB, maNCC, hetHang);
+		return sanPhamDao.getListSach(maSach, tenSP, maTheLoai, giaTu, giaDen, maTacGia, maNXB, maNCC);
 	}
 	public List<Sach> getAllSach() throws Exception {
 		// TODO Auto-generated method stub
@@ -90,9 +90,9 @@ public class SanPhamServiceImpl implements SanPhamService {
 		return sanPhamDao.getMaSPMax();
 	}
 	@Override
-	public boolean capNhatSanPham(String maSP, SanPham temp) throws Exception {
+	public boolean capNhatSanPham(String maSP, SanPham temp) throws SQLException {
 		// TODO Auto-generated method stub
-		return false;
+		return sanPhamDao.capNhatSanPham(maSP, temp);
 	}
 	@Override
 	public boolean themSanPham(SanPham sanPham) throws Exception {
@@ -101,14 +101,13 @@ public class SanPhamServiceImpl implements SanPhamService {
 		if(sanPham instanceof Sach) {
 			Sach sach = (Sach) sanPham;
 			exist = sanPhamDao.kiemTraTonTaiSanPham(sach.getTenSach());
-			System.out.println("Đã vào tới đây");
 		}else {
 			VanPhongPham vanPhongPham = (VanPhongPham) sanPham;
 			exist = sanPhamDao.kiemTraTonTaiSanPham(vanPhongPham.getTenVanPhongPham());
 		}
 		if(exist == true) {
 			return false;
-		}//sanPhamDao.themSanPham(sanPham)
+		}
 		return sanPhamDao.themSanPham(sanPham);
 	}
 	@Override

@@ -70,6 +70,7 @@ public class SanPhamDao {
 			ps.setString(10, v.getNhaSanXuat().getMaNhaSX());
 			ps.setString(11, v.getLoaiVanPhongPham().getMaLoai());
 		}
+		System.out.println("Trong SpDAO nhà cung cấp là:" + s.getNhaCungCap().getTenNhaCungCap());
 		rsCheck = ps.executeUpdate();
 		if (rsCheck == 0) {
 			return false;
@@ -154,32 +155,31 @@ public class SanPhamDao {
 	}
 	
 	public ArrayList<Sach> getListSach(String maSach, String tenSP, String maTheLoai, Long giaTu, Long giaDen,
-			String maTacGia, String maNXB, String maNCC, boolean hetHang) throws Exception {
+			String maTacGia, String maNXB, String maNCC) throws Exception {
 
 		ArrayList<Sach> listSach = new ArrayList<>();
-		query = "SELECT SanPham.maSP, SanPham.soLuongTon,SanPham.loaiSP, NhaCungCap.maNCC, NhaCungCap.tenNCC, SanPham.giaNhap, SanPham.ghiChu, SanPham.trongLuong, SanPham.donVi, SanPham.hinhAnh, SanPham.tenSach, TacGia.maTacGia, \r\n"
-				+ "                  TacGia.tenTacGia, NhaXuatBan.maNXB, NhaXuatBan.tenNXB, SanPham.namXB, SanPham.soTrang, TheLoaiSach.maTheLoai, TheLoaiSach.tenTheLoai\r\n"
+		query = "SELECT SanPham.maSP, SanPham.soLuongTon,SanPham.loaiSP, NhaCungCap.maNCC, NhaCungCap.tenNCC, NhaCungCap.phone, NhaCungCap.email,  "
+				+ "		SanPham.giaNhap, SanPham.giaBan, SanPham.donVi, SanPham.tenSach, TacGia.maTG, \r\n"
+				+ "     TacGia.tenTG, NhaXuatBan.maNXB, NhaXuatBan.tenNXB, TheLoaiSach.maTheLoai, TheLoaiSach.tenTheLoai\r\n"
 				+ "FROM     SanPham INNER JOIN\r\n"
 				+ "                  NhaCungCap ON SanPham.maNCC = NhaCungCap.maNCC INNER JOIN\r\n"
 				+ "                  NhaXuatBan ON SanPham.maNXB = NhaXuatBan.maNXB INNER JOIN\r\n"
-				+ "                  TacGia ON SanPham.maTacGia = TacGia.maTacGia INNER JOIN\r\n"
-				+ "                  TheLoaiSach ON SanPham.maTheLoai = TheLoaiSach.maTheLoai"
+				+ "                  TacGia ON SanPham.maTG = TacGia.maTG INNER JOIN\r\n"
+				+ "                  TheLoaiSach ON SanPham.maTheLoaiSach = TheLoaiSach.maTheLoai"
 				+ " where maSP like '%" + maSach + "%' and tenSach like N'%" + tenSP
-				+ "%' and SanPham.maTheLoai like '%" + maTheLoai + "%' \r\n"
-				+ "	and SanPham.giaNhap > ? and SanPham.giaNhap < ? and SanPham.maTacGia like '%" + maTacGia + "%' \r\n"
+				+ "%' and SanPham.maTheLoaiSach like '%" + maTheLoai + "%' \r\n"
+				+ "	and SanPham.giaNhap > ? and SanPham.giaNhap < ? and SanPham.maTG like '%" + maTacGia + "%' \r\n"
 				+ "	and SanPham.maNXB like '%" + maNXB + "%' and SanPham.maNCC like '%" + maNCC + "%'";
-		if (hetHang) {
-			query = query + " and soLuongTon = 0";
-		}
+		
 		ps = con.prepareStatement(query);
 		ps.setLong(1, giaTu);
 		ps.setLong(2, giaDen);
 		rs = ps.executeQuery();
 		while (rs.next()) {
-			Sach s = new Sach(rs.getString("maSP"), new NhaCungCap(rs.getString("maNCC"), rs.getString("tenNCC"),rs.getString("email"),rs.getString("Sdt")), rs.getString("loaiSP"), 
+			Sach s = new Sach(rs.getString("maSP"), new NhaCungCap(rs.getString("maNCC"), rs.getString("tenNCC"),rs.getString("email"),rs.getString("phone")), rs.getString("loaiSP"), 
 					rs.getInt("soLuongTon"),rs.getString("donVi"), rs.getLong("giaNhap"), rs.getLong("giaBan"), 
-					rs.getString("tenSach"), new TacGia(rs.getString("maTacGia"), rs.getString("tenTacGia")),
-					new NhaXuatBan(rs.getString("maNXB"), rs.getString("tenNXB")),new TheLoaiSach(rs.getString("maTheLoaiSach")));
+					rs.getString("tenSach"), new TacGia(rs.getString("maTG"), rs.getString("tenTG")),
+					new NhaXuatBan(rs.getString("maNXB"), rs.getString("tenNXB")),new TheLoaiSach(rs.getString("maTheLoai"), rs.getString("tenTheLoai")));
 			listSach.add(s);
 		}
 		return listSach;
@@ -270,7 +270,7 @@ public class SanPhamDao {
 			ps = con.prepareStatement(query);
 			rs = ps.executeQuery();
 			while(rs.next()) {
-				System.out.println("Đã vào tới đây luôn rồi");
+				System.out.println("Đã vào tới kiểm tra tồn tại sản phẩm sách");
 				return true;
 			}
 			
@@ -280,4 +280,71 @@ public class SanPhamDao {
 		}
 		return false;
 	}
+	
+	public boolean capNhatSanPham(String maSP, SanPham temp) throws SQLException {
+		Sach s = new Sach();
+		VanPhongPham v = new VanPhongPham();
+		if (temp instanceof Sach) {
+			s = (Sach) temp;
+			System.out.println(temp.toString());
+			System.out.println(s.getNhaCungCap().getTenNhaCungCap());
+			query = "update SanPham set " 
+					+ "[maNCC]= ? "
+//					+ ",[loaiSP]= ?"
+//					+ ",[soLuongTon]= ?"
+//					+ ",[donVi]= ?"
+//					+ ",[giaNhap]= ?"
+//					+ ",[giaBan]= ?"
+//					+ ",[tenSach]= ?"
+//					+ ",[maTG]= ?"
+//					+ ",[maTheLoaiSach]= ?"
+//					+ ",[maNXB]= ? "
+					+ " where maSP = ? ";
+			ps = con.prepareStatement(query);
+			ps.setString(1, s.getNhaCungCap().getMaNhaCungCap());
+//			ps.setString(2, s.getLoaiSanPham());
+//			ps.setInt(3, s.getSoLuongTon());
+//			ps.setString(4, s.getDonVi());
+//			ps.setLong(5, s.getGiaNhap());
+//			ps.setLong(6, s.getGiaBan());
+//			ps.setString(7, s.getTenSach());
+//			ps.setString(8, s.getTacGia().getMaTacGia());
+//			ps.setString(9, s.getTheLoaiSach().getMaLoai());
+//			ps.setString(10, s.getNhaXuatBan().getMaNXB());
+			ps.setString(2, s.getMaSanPham());
+			
+		} else {
+			v = (VanPhongPham) temp;
+			query = "update SanPham set " 
+					+ "[maNCC]= ?"
+					+ ",[loaiSP]= ?"
+					+ ",[soLuongTon]= ?"
+					+ ",[donVi]= ?"
+					+ ",[giaNhap]= ?"
+					+ ",[giaBan]= ?"
+					+ ",[tenVanPhongPham]= ?"
+					+ ",[maMauSac]= ?"
+					+ ",[maNSX]= ? "
+					+ ",[maLoaiVanPhongPham]= ?"
+					+ "where maSP like ?";
+			ps = con.prepareStatement(query);
+			ps.setString(11, s.getMaSanPham());
+			ps.setString(1, s.getNhaCungCap().getMaNhaCungCap());
+			ps.setString(2, s.getLoaiSanPham());
+			ps.setInt(3, s.getSoLuongTon());
+			ps.setString(4, s.getDonVi());
+			ps.setLong(5, s.getGiaNhap());
+			ps.setLong(6, s.getGiaBan());
+			ps.setString(7, v.getTenVanPhongPham());
+			ps.setString(8, v.getMauSac().getMaMau());
+			ps.setString(9, v.getNhaSanXuat().getMaNhaSX());
+			ps.setString(10, v.getLoaiVanPhongPham().getMaLoai());
+		}
+		rsCheck = ps.executeUpdate();
+		if (rsCheck == 0) {
+			return false;
+		}
+		return true;
+	}
+	
 }

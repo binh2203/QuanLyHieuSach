@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -56,6 +57,9 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 	private ArrayList<TheLoaiSach> theLoaiSachs;
 	TheLoaiServiceImpl theLoaiServiceImpl = new TheLoaiServiceImpl();
 	MauSacServiceImpl mauSacServiceImpl = new MauSacServiceImpl();
+	private JLabel lblSoLuongHienThi;
+	private ArrayList<NhaCungCap> nhaCungCapSachs;
+	private ArrayList<NhaCungCap> nhaCungCapVPPs;
 
 	/**
 	 * Creates new form Pnl_TimKiem
@@ -475,25 +479,10 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 		lblNCCSach.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 		lblNCCSach.setText("NCC:");
 		String header_Sach[] = { "STT", "Mã Sản Phẩm", "Tên Sản Phẩm", "Số lượng", "Đơn vị", "Giá Nhập",
-				"Loại sản phẩm", "Nhà cung cấp", "Tác giả", "Nhà Xuất Bản" };
+				"Thể Loại Sách", "Nhà cung cấp", "Tác giả", "Nhà Xuất Bản" };
 		tableModel_Sach = new DefaultTableModel(header_Sach, 0);
 		tblSach = new JTable(tableModel_Sach);
-//        tblSach.setModel(new javax.swing.table.DefaultTableModel(
-//            new Object [][] {
-//
-//            },
-//            new String [] {
-//                "Mã Sản Phẩm", "Tên Sản Phẩm", "Số lượng", "Đơn vị", "Giá Nhập", "Loại sản phẩm", "Nhà cung cấp", "Nhà sản xuất"
-//            }
-//        ) {
-//            Class[] types = new Class [] {
-//                java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.Double.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-//            };
-//
-//            public Class getColumnClass(int columnIndex) {
-//                return types [columnIndex];
-//            }
-//        });
+		tblSach.addMouseListener(this);
 		scrSach.setViewportView(tblSach);
 
 		jPanel14.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -601,16 +590,26 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 		}
 		// Nhà cung cấp sách
 		nhaCungCaps = new ArrayList<NhaCungCap>();
+		nhaCungCapSachs = new ArrayList<NhaCungCap>();
 		try {
-			nhaCungCaps = nhaCungCapServiceImpl.getListNhaCungCap("Sách");
+			nhaCungCapSachs = nhaCungCapServiceImpl.getListNhaCungCap("Sách");
+			nhaCungCaps = nhaCungCapServiceImpl.getAllListNhaCungCap();
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		cmbNCCSach = new JComboBox<Object>();
 		cmbNCCSach.addItem("");
-		for (NhaCungCap nhaCungCap : nhaCungCaps) {
+		for (NhaCungCap nhaCungCap : nhaCungCapSachs) {
 			cmbNCCSach.addItem(nhaCungCap.getTenNhaCungCap());
+		}
+		for (int i = 0; i < cmbNCCSach.getItemCount(); i++) {
+		    Object item = cmbNCCSach.getItemAt(i);
+		    System.out.println("Index: " + i + ", Value: " + item);
+		}
+		for (NhaCungCap nhaCungCap : nhaCungCapSachs) {
+			int i=0;
+			System.out.println(i+nhaCungCap.getTenNhaCungCap()+"");
 		}
 		//Thể loại sách:
 		theLoaiSachs = new ArrayList<TheLoaiSach>();
@@ -625,6 +624,11 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 		for(TheLoaiSach theLoaiSach : theLoaiSachs ) {
 			cmbLoaiSach.addItem(theLoaiSach.getTenLoai());
 		}
+		
+		lblSoLuongHienThi = new JLabel();
+		lblSoLuongHienThi.setText("Hiển thị 0 sản phẩm!");
+		lblSoLuongHienThi.setHorizontalAlignment(SwingConstants.CENTER);
+		lblSoLuongHienThi.setFont(new Font("Segoe UI", Font.PLAIN, 18));
 		
 		javax.swing.GroupLayout pnlSachLayout = new javax.swing.GroupLayout(pnlSach);
 		pnlSachLayout.setHorizontalGroup(
@@ -662,7 +666,7 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 											.addPreferredGap(ComponentPlacement.RELATED)
 											.addComponent(txtDonViSach, GroupLayout.PREFERRED_SIZE, 105, GroupLayout.PREFERRED_SIZE))
 										.addGroup(pnlSachLayout.createSequentialGroup()
-											.addComponent(cmbTacGia, 0, 243, Short.MAX_VALUE)
+											.addComponent(cmbTacGia, 0, 244, Short.MAX_VALUE)
 											.addPreferredGap(ComponentPlacement.RELATED)))
 									.addGap(71))
 								.addGroup(pnlSachLayout.createSequentialGroup()
@@ -678,10 +682,13 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 							.addGap(385))
 						.addGroup(pnlSachLayout.createSequentialGroup()
 							.addContainerGap()
-							.addComponent(jPanel14, GroupLayout.DEFAULT_SIZE, 1587, Short.MAX_VALUE))
+							.addComponent(jPanel14, GroupLayout.DEFAULT_SIZE, 1588, Short.MAX_VALUE))
 						.addGroup(pnlSachLayout.createSequentialGroup()
 							.addContainerGap()
-							.addComponent(scrSach, GroupLayout.PREFERRED_SIZE, 1519, GroupLayout.PREFERRED_SIZE)))
+							.addComponent(scrSach, GroupLayout.PREFERRED_SIZE, 1519, GroupLayout.PREFERRED_SIZE))
+						.addGroup(pnlSachLayout.createSequentialGroup()
+							.addGap(589)
+							.addComponent(lblSoLuongHienThi, GroupLayout.PREFERRED_SIZE, 296, GroupLayout.PREFERRED_SIZE)))
 					.addContainerGap())
 		);
 		pnlSachLayout.setVerticalGroup(
@@ -733,8 +740,10 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 							.addPreferredGap(ComponentPlacement.RELATED)))
 					.addComponent(jPanel14, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(scrSach, GroupLayout.PREFERRED_SIZE, 741, GroupLayout.PREFERRED_SIZE)
-					.addGap(23))
+					.addComponent(scrSach, GroupLayout.PREFERRED_SIZE, 335, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addComponent(lblSoLuongHienThi, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+					.addGap(28))
 		);
 		pnlSach.setLayout(pnlSachLayout);
 
@@ -858,19 +867,19 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 		lblNSXVPP.setText("NSX:");
 
 		// Nhà cung cấp VPP:
-		nhaCungCaps = new ArrayList<NhaCungCap>();
+		nhaCungCapVPPs = new ArrayList<NhaCungCap>();
 		try {
-			nhaCungCaps = nhaCungCapServiceImpl.getListNhaCungCap("VPP");
+			nhaCungCapVPPs = nhaCungCapServiceImpl.getListNhaCungCap("VPP");
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		cmbNCCVPP = new JComboBox<Object>();
 		cmbNCCVPP.addItem("");
-		for (NhaCungCap nhaCungCap : nhaCungCaps) {
+		for (NhaCungCap nhaCungCap : nhaCungCapVPPs) {
 			cmbNCCVPP.addItem(nhaCungCap.getTenNhaCungCap());
 		}
-		
+		//Nhà sản xuất:
 		nhaSanXuats = new ArrayList<NhaSanXuat>();
 		try {
 			nhaSanXuats = nhaSanXuatServiceImpl.getListNhaSanXuat();
@@ -1019,14 +1028,20 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 		tbp_sanpham.addTab("Văn Phòng Phẩm", null, pnlVPP, "");
 
 		javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+		jPanel1Layout.setHorizontalGroup(
+			jPanel1Layout.createParallelGroup(Alignment.LEADING)
+				.addGroup(jPanel1Layout.createSequentialGroup()
+					.addComponent(tbp_sanpham, GroupLayout.PREFERRED_SIZE, 1523, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(102, Short.MAX_VALUE))
+		);
+		jPanel1Layout.setVerticalGroup(
+			jPanel1Layout.createParallelGroup(Alignment.LEADING)
+				.addGroup(jPanel1Layout.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(tbp_sanpham, GroupLayout.PREFERRED_SIZE, 696, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+		);
 		jPanel1.setLayout(jPanel1Layout);
-		jPanel1Layout.setHorizontalGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-				.addGroup(jPanel1Layout.createSequentialGroup().addComponent(tbp_sanpham).addContainerGap()));
-		jPanel1Layout.setVerticalGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-				.addGroup(jPanel1Layout.createSequentialGroup().addContainerGap()
-						.addComponent(tbp_sanpham, javax.swing.GroupLayout.PREFERRED_SIZE,
-								javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(31, Short.MAX_VALUE)));
 
 		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
 		this.setLayout(layout);
@@ -1053,8 +1068,8 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 												javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 										.addContainerGap())));
 		try {
-			loadSanPham();
-			loadSach();
+			//loadSanPham();
+			loadDuLieuSach();
 			loadVPP();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -1172,7 +1187,9 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
-
+		int i = tblSach.getSelectedRow();
+		setHienThiSach(i);
+		
 	}
 
 	@Override
@@ -1205,6 +1222,12 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 		Object src = e.getSource();
 		if (src.equals(btnLamMoiSach)) {
 			this.lamMoi();
+			try {
+				this.loadDuLieuSach();
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 		if (src.equals(btnThemSach)) {
 			//this.lamMoi();
@@ -1212,18 +1235,24 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 		if (src.equals(btnThemVPP)) {
 			//this.lamMoi();
 			this.themSP();		}
-		if (src.equals("Lưu")) {
+		if (src.equals(btnCapNhatSach)) {
+			int row = tblSach.getSelectedRow();
+			if (row == -1) {
+				JOptionPane.showMessageDialog(null, "Chưa chọn dòng nào!!", "Thông báo",
+						JOptionPane.INFORMATION_MESSAGE);
+			} else {
+				String maSP = tableModel_Sach.getValueAt(row, 0).toString();
+				String loai = "Sách";
+				this.capNhatSP(maSP, loai);
+
+			}
 			try {
-				this.themSP();
+				lamMoi();
+				loadDuLieuSach();
 			} catch (Exception e1) {
+				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-		}
-		if (src.equals("Xóa")) {
-			// this.thucHienXoa();
-		}
-		if (src.equals("Cập nhật")) {
-			// this.hienThiThongTinThiSinhDaChon();
 		}
 	}
 
@@ -1239,13 +1268,13 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 		txtMaVPP.setText("");
 		txtGiaNhapVPP.setText("");
 		txtGiaSach.setText("");
-		cmbMauSac.setSelectedIndex(-1);
-		cmbNCCSach.setSelectedIndex(-1);
-		cmbNCCVPP.setSelectedIndex(-1);
-		cmbTacGia.setSelectedIndex(-1);
-		cmbNSX.setSelectedIndex(-1);
-		cmbNXB.setSelectedIndex(-1);
-		cmbLoaiSach.setSelectedIndex(-1);
+		cmbMauSac.setSelectedIndex(0);
+		cmbNCCSach.setSelectedIndex(0);
+		cmbNCCVPP.setSelectedIndex(0);
+		cmbTacGia.setSelectedIndex(0);
+		cmbNSX.setSelectedIndex(0);
+		cmbNXB.setSelectedIndex(0);
+		cmbLoaiSach.setSelectedIndex(0);
 		txtTenVPP.setText("");
 		txtTenSach.setText("");
 		txtSoLuongSach.setText("");
@@ -1253,7 +1282,46 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 		// .setSelectedIndex(-1);
 		// btnGrGioiTinh.clearSelection();
 	}
-
+	public void capNhatSP(String maSanPham, String loaiSanPham) {
+		Sach s= new Sach();
+		VanPhongPham v = new VanPhongPham();
+		if (loaiSanPham.equals("Sách")) {
+			s = taoSach();
+			if(s == null) {
+				return;
+			}
+			try {
+				boolean kt = sanPhamServiceImpl.capNhatSanPham(s.getMaSanPham(), s);
+				if(kt == true) {
+					JOptionPane.showMessageDialog(null,  "Cập nhật thành công!");
+				}
+				else {
+					JOptionPane.showMessageDialog(null,  "Số trang phải lớn hơn 0!\nSố lượng phải lớn hơn 0!\nTrọng lượng phải lớn hơn 0!\n Giá nhập lớn hơn 1000!","Báo lỗi", JOptionPane.ERROR_MESSAGE);
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+		}
+		else {
+			v = taoVanPhongPham();
+			if(v == null)
+				return;
+			try {
+				boolean kt = sanPhamServiceImpl.capNhatSanPham(v.getMaSanPham(), v);
+				if (kt == true) {
+					JOptionPane.showMessageDialog(null, "Cập nhật thành công !!!");
+				} else {
+					JOptionPane.showMessageDialog(null,
+							"Số lượng phải lớn hơn 0!\nTrọng lượng phải lớn hơn 0!\n Giá nhập lớn hơn 1000!",
+							"Báo lỗi", JOptionPane.ERROR_MESSAGE);
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+		}
+	}
 	public void themSP() {
 		if (txtTenSach.getText().equals("")&& txtTenVPP.getText().equals("")) { 
 			JOptionPane.showMessageDialog(null, "Tên sản phẩm không được để rỗng", "Báo lỗi",
@@ -1277,7 +1345,7 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 					JOptionPane.showMessageDialog(null, "Thêm thành công !!!");
 					tableModel_Sach.setRowCount(0);
 					lamMoi();
-					loadSach();
+					loadDuLieuSach();
 					txtMaSach.setText(tangMa());
 				} else {
 					JOptionPane.showMessageDialog(null, "Sản phẩm đã tồn tại", "Báo lỗi", JOptionPane.ERROR_MESSAGE);
@@ -1385,7 +1453,7 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 			txtSoLuongSach.selectAll();
 			return null;
 		}
-		NhaCungCap nhaCungCap = nhaCungCaps.get(cmbNCCSach.getSelectedIndex());
+		
 		long giaNhap;
 		try {
 			giaNhap = Long.parseLong(txtGiaSach.getText().trim());
@@ -1404,10 +1472,12 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 		}
 		String donVi = txtDonViSach.getText();
 		String tenSach = txtTenSach.getText().trim();
-		TacGia tacGia = tacGias.get(cmbTacGia.getSelectedIndex());
-		NhaXuatBan nhaXuatBan = nhaXuatBans.get(cmbNXB.getSelectedIndex());
+		TacGia tacGia = tacGias.get(cmbTacGia.getSelectedIndex()-1);
+		NhaXuatBan nhaXuatBan = nhaXuatBans.get(cmbNXB.getSelectedIndex()-1);
+		NhaCungCap nhaCungCap = nhaCungCaps.get(cmbNCCSach.getSelectedIndex()-1);
+		
 		long giaBan = (giaNhap * 20 / 100) + giaNhap;
-		TheLoaiSach theLoaiSach = theLoaiSachs.get(cmbLoaiSach.getSelectedIndex());
+		TheLoaiSach theLoaiSach = theLoaiSachs.get(cmbLoaiSach.getSelectedIndex()-1);
 		s = new Sach(maSanPham, nhaCungCap, loaiSanPham, soLuongTon, donVi, giaNhap, giaBan, tenSach, tacGia,
 				nhaXuatBan, theLoaiSach);
 		return s;
@@ -1435,6 +1505,100 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 			tableModel_SanPham.addRow(obj);
 		}
 	}
+	public void loadDuLieuSach() throws Exception {
+		listSach = new ArrayList<Sach>();
+		String maSach = "";
+		
+		String tenSP = txtTenSach.getText().trim();
+
+		String maTheLoai = "";
+		if (cmbLoaiSach.getSelectedIndex() != 0) {
+			maTheLoai = theLoaiSachs.get(cmbLoaiSach.getSelectedIndex()-1).getMaLoai();
+			System.out.println("Ma thể loại là: "+maTheLoai);
+			//maTheLoai = theLoaiSachs.get(cmbLoaiSach.getSelectedIndex()-1).getMaLoai();
+		}	
+		Long giaTu = (long) 0;
+		Long giaDen = (long) 100000000;
+//		if (cbbGia.getSelectedIndex() != 0) {
+//			int key = cbbGia.getSelectedIndex();
+//			switch (key) {
+//			case 1:
+//				giaTu = (long) 0;
+//				giaDen = (long) 50001;
+//				break;
+//			case 2:
+//				giaTu = (long) 50001;
+//				giaDen = (long) 120001;
+//				break;
+//			case 3:
+//				giaTu = (long) 120001;
+//				giaDen = (long) 250001;
+//				break;
+//			case 4:
+//				giaTu = (long) 250001;
+//				giaDen = (long) 100000000;
+//				break;
+//			default:
+//				break;
+//			}
+//		}
+//		try {
+//			if (!txtGiaTu.getText().trim().equals("Từ 0đ") && !txtGiaDen.getText().trim().equals("Đến 10,000,000đ")) {
+//				giaTu = Long.parseLong(txtGiaTu.getText().trim());
+//				giaDen = Long.parseLong(txtGiaDen.getText().trim());
+//			}
+//		} catch (Exception e) {
+//			JOptionPane.showMessageDialog(null, "Giá từ bao nhiêu đến bao nhiêu phải nhập số!!!");
+//			txtGiaTu.requestFocus();
+//			return;
+//		}
+
+		String maTacGia = "";
+		if (cmbTacGia.getSelectedIndex() != 0)
+			maTacGia = tacGias.get(cmbTacGia.getSelectedIndex()-1).getMaTacGia();
+		String maNXB = "";
+		if (cmbNSX.getSelectedIndex() != 0)
+			maNXB = nhaXuatBans.get(cmbNSX.getSelectedIndex() - 1).getMaNXB();
+		String maNCC = "";
+		if (cmbNCCSach.getSelectedIndex() != 0)
+			maNCC = nhaCungCaps.get(cmbNCCSach.getSelectedIndex() - 1).getMaNhaCungCap();
+		
+		try {
+			listSach = sanPhamServiceImpl.getListSach(maSach, tenSP, maTheLoai, giaTu, giaDen, maTacGia, maNXB, maNCC);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		
+		tableModel_Sach.setRowCount(0);
+//		if (listSach == null) {
+//			JOptionPane.showMessageDialog(null, "Giá từ bao nhiêu phải bé hơn giá nhập!!", "Báo lỗi",
+//					JOptionPane.ERROR_MESSAGE);
+//			txtGiaTu.requestFocus();
+//			txtGiaTu.selectAll();
+//			return;
+//		}
+		int i = 0;
+		for (Sach sp : listSach) {
+			Object ob[] = { i+=1, sp.getMaSanPham(), sp.getTenSach(), sp.getSoLuongTon() + "", sp.getDonVi(),
+					sp.getGiaNhap() + " VNĐ", sp.getTheLoaiSach().getTenLoai() + "", sp.getNhaCungCap().getTenNhaCungCap(),
+					sp.getTacGia().getTenTacGia(), sp.getNhaXuatBan().getTenNXB() };
+			tableModel_Sach.addRow(ob);
+		}
+		lblSoLuongHienThi.setText("Hiển thị " + listSach.size() + " sản phẩm");
+		TableColumnModel columnMode = tblSach.getColumnModel();
+		columnMode.getColumn(0).setMaxWidth(40);
+		columnMode.getColumn(1).setMaxWidth(150);
+		//columnMode.getColumn(2).setMaxWidth(200);
+		columnMode.getColumn(3).setMaxWidth(60);
+		columnMode.getColumn(4).setMaxWidth(60);
+		columnMode.getColumn(5).setMaxWidth(150);
+		//columnMode.getColumn(6).setMaxWidth(150);
+		//columnMode.getColumn(7).setMaxWidth(200);
+		//columnMode.getColumn(8).setMaxWidth(150);
+		//columnMode.getColumn(9).setMaxWidth(100);
+		
+	}
 
 	public void loadSach() throws Exception {
 		SanPhamServiceImpl sanPhamService = new SanPhamServiceImpl();
@@ -1442,8 +1606,8 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 		int i = 1;
 		for (Sach sp : listSach) {
 			Object ob[] = { i++ + "", sp.getMaSanPham(), sp.getTenSach(), sp.getSoLuongTon() + "", sp.getDonVi(),
-					sp.getGiaNhap() + " VNĐ", sp.getLoaiSanPham() + "", sp.getNhaCungCap().getMaNhaCungCap(),
-					sp.getTacGia().getTenTacGia(), sp.getNhaXuatBan().getMaNXB() };
+					sp.getGiaNhap() + " VNĐ", sp.getTheLoaiSach().getTenLoai() + "", sp.getNhaCungCap().getMaNhaCungCap(),
+					sp.getTacGia().getTenTacGia(), sp.getNhaXuatBan().getTenNXB() };
 			tableModel_Sach.addRow(ob);
 		}
 	}
@@ -1458,5 +1622,17 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 					vpp.getNhaCungCap().getMaNhaCungCap(), vpp.getNhaSanXuat().getTenNhaSX(), vpp.getMauSac() };
 			tableModel_VPP.addRow(obj);
 		}
+	}
+	
+	public void setHienThiSach(int row) {
+		txtMaSach.setText(tblSach.getValueAt(row, 1)+ "");
+		txtTenSach.setText(tblSach.getValueAt(row, 2)+ "");
+		txtGiaSach.setText(tblSach.getValueAt(row, 5).toString());
+		txtSoLuongSach.setText(tblSach.getValueAt(row, 3)+ "");
+		txtDonViSach.setText(tblSach.getValueAt(row, 4)+ "");
+		cmbTacGia.setSelectedItem(tblSach.getValueAt(row,8)+ "");
+		cmbLoaiSach.setSelectedItem(tblSach.getValueAt(row,6)+ "");
+		cmbNCCSach.setSelectedItem(tblSach.getValueAt(row,7)+ "");
+		cmbNXB.setSelectedItem(tblSach.getValueAt(row,9)+ "");
 	}
 }

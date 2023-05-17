@@ -9,7 +9,7 @@ public interface SanPhamService {
 	
 	//Sách:
 	public ArrayList<Sach> getListSach(String maSach, String tenSP, String maTheLoai, Long giaTu, Long giaDen,
-			String maTacGia, String maNXB, String maNCC, boolean hetHang) throws Exception;
+			String maTacGia, String maNXB, String maNCC) throws Exception;
 	
 	public List<Sach> getAllSach() throws Exception;
 	public Sach getSachTheoTen(String ten);
