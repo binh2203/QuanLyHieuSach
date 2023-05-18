@@ -30,9 +30,9 @@ public class SanPhamServiceImpl implements SanPhamService {
 	}
 	@Override
 	public ArrayList<VanPhongPham> getListVanPhongPham(String maVPP, String tenVPP, String theLoaiVPP, Long giaTu,
-			Long giaDen, String maChatLieu, String maXuatXu, String maNCC, boolean hetHang) throws Exception {
+			Long giaDen, String maNSX, String maNCC, boolean hetHang) throws Exception {
 		// TODO Auto-generated method stub
-		return null;
+		return sanPhamDao.getListVanPhongPham(maVPP, tenVPP, theLoaiVPP, giaTu, giaDen, maNSX, maNCC, hetHang);
 	}
 	@Override
 	public Sach getSachTheoTen(String ten) {

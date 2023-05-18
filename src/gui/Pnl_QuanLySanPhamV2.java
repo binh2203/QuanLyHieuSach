@@ -43,6 +43,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
+import javax.swing.JCheckBox;
 
 /**
  *
@@ -60,6 +61,7 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 	private JLabel lblSoLuongHienThi;
 	private ArrayList<NhaCungCap> nhaCungCapSachs;
 	private ArrayList<NhaCungCap> nhaCungCapVPPs;
+	private JCheckBox chckbxHetHangVPP;
 
 	/**
 	 * Creates new form Pnl_TimKiem
@@ -630,6 +632,12 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 		lblSoLuongHienThi.setHorizontalAlignment(SwingConstants.CENTER);
 		lblSoLuongHienThi.setFont(new Font("Segoe UI", Font.PLAIN, 18));
 		
+		JLabel lblVND = new JLabel();
+		lblVND.setToolTipText("");
+		lblVND.setText("VNĐ");
+		lblVND.setHorizontalAlignment(SwingConstants.LEFT);
+		lblVND.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+		
 		javax.swing.GroupLayout pnlSachLayout = new javax.swing.GroupLayout(pnlSach);
 		pnlSachLayout.setHorizontalGroup(
 			pnlSachLayout.createParallelGroup(Alignment.LEADING)
@@ -647,7 +655,10 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 							.addGroup(pnlSachLayout.createParallelGroup(Alignment.LEADING, false)
 								.addComponent(txtMaSach, GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
 								.addComponent(txtTenSach)
-								.addComponent(txtGiaSach))
+								.addGroup(pnlSachLayout.createSequentialGroup()
+									.addComponent(txtGiaSach, GroupLayout.PREFERRED_SIZE, 126, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(lblVND, GroupLayout.PREFERRED_SIZE, 81, GroupLayout.PREFERRED_SIZE)))
 							.addGap(116)
 							.addGroup(pnlSachLayout.createParallelGroup(Alignment.TRAILING)
 								.addGroup(pnlSachLayout.createSequentialGroup()
@@ -666,7 +677,7 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 											.addPreferredGap(ComponentPlacement.RELATED)
 											.addComponent(txtDonViSach, GroupLayout.PREFERRED_SIZE, 105, GroupLayout.PREFERRED_SIZE))
 										.addGroup(pnlSachLayout.createSequentialGroup()
-											.addComponent(cmbTacGia, 0, 244, Short.MAX_VALUE)
+											.addComponent(cmbTacGia, 0, 243, Short.MAX_VALUE)
 											.addPreferredGap(ComponentPlacement.RELATED)))
 									.addGap(71))
 								.addGroup(pnlSachLayout.createSequentialGroup()
@@ -682,7 +693,7 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 							.addGap(385))
 						.addGroup(pnlSachLayout.createSequentialGroup()
 							.addContainerGap()
-							.addComponent(jPanel14, GroupLayout.DEFAULT_SIZE, 1588, Short.MAX_VALUE))
+							.addComponent(jPanel14, GroupLayout.DEFAULT_SIZE, 1587, Short.MAX_VALUE))
 						.addGroup(pnlSachLayout.createSequentialGroup()
 							.addContainerGap()
 							.addComponent(scrSach, GroupLayout.PREFERRED_SIZE, 1519, GroupLayout.PREFERRED_SIZE))
@@ -714,7 +725,7 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 											.addComponent(txtTenSach, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
 											.addComponent(lblNCCSach)))
 									.addGroup(pnlSachLayout.createSequentialGroup()
-										.addPreferredGap(ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+										.addPreferredGap(ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
 										.addComponent(lblTheLoaiSach)
 										.addGap(4)))
 								.addGroup(pnlSachLayout.createSequentialGroup()
@@ -729,7 +740,8 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 										.addComponent(lblSLSach)
 										.addComponent(txtGiaSach, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
 										.addComponent(txtSoLuongSach, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-										.addComponent(lblDonViSach)))
+										.addComponent(lblDonViSach)
+										.addComponent(lblVND, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)))
 								.addGroup(pnlSachLayout.createSequentialGroup()
 									.addGap(18)
 									.addComponent(txtDonViSach, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)))
@@ -788,6 +800,7 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 				"Loại sản phẩm", "Nhà cung cấp", "Nhà sản xuất" };
 		tableModel_VPP = new DefaultTableModel(header_VPP, 0);
 		tblVPP = new JTable(tableModel_VPP);
+		tblVPP.addMouseListener(this);
 		TableColumnModel columnMode = tblVPP.getColumnModel();
 		columnMode.getColumn(0).setMaxWidth(40);
 		scrVPP.setViewportView(tblVPP);
@@ -923,6 +936,19 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 		for (TheLoaiVanPhongPham theLoaiVanPhongPham : theLoaiVanPhongPhams) {
 			cmbLoaiVPP.addItem(theLoaiVanPhongPham.getTenLoai());
 		}
+		
+		lblVNDVPP = new JLabel();
+		lblVNDVPP.setToolTipText("");
+		lblVNDVPP.setText("VNĐ");
+		lblVNDVPP.setHorizontalAlignment(SwingConstants.LEFT);
+		lblVNDVPP.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+		
+		lblHetHang = new JLabel();
+		lblHetHang.setText("Hết hàng:");
+		lblHetHang.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblHetHang.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+		
+		chckbxHetHangVPP = new JCheckBox("");
 		javax.swing.GroupLayout pnlVPPLayout = new javax.swing.GroupLayout(pnlVPP);
 		pnlVPPLayout.setHorizontalGroup(
 			pnlVPPLayout.createParallelGroup(Alignment.TRAILING)
@@ -941,7 +967,10 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 							.addGroup(pnlVPPLayout.createParallelGroup(Alignment.LEADING, false)
 								.addComponent(txtMaVPP, GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
 								.addComponent(txtTenVPP)
-								.addComponent(txtGiaNhapVPP))
+								.addGroup(pnlVPPLayout.createSequentialGroup()
+									.addComponent(txtGiaNhapVPP, GroupLayout.PREFERRED_SIZE, 135, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addComponent(lblVNDVPP, GroupLayout.PREFERRED_SIZE, 81, GroupLayout.PREFERRED_SIZE)))
 							.addGap(116)
 							.addGroup(pnlVPPLayout.createParallelGroup(Alignment.LEADING)
 								.addGroup(pnlVPPLayout.createSequentialGroup()
@@ -969,14 +998,17 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 									.addPreferredGap(ComponentPlacement.UNRELATED)
 									.addComponent(cmbNSX, GroupLayout.PREFERRED_SIZE, 243, GroupLayout.PREFERRED_SIZE))
 								.addGroup(pnlVPPLayout.createSequentialGroup()
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(lblLoaiVPP, GroupLayout.PREFERRED_SIZE, 78, GroupLayout.PREFERRED_SIZE)
+									.addGroup(pnlVPPLayout.createParallelGroup(Alignment.TRAILING, false)
+										.addComponent(lblHetHang, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+										.addComponent(lblLoaiVPP, GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE))
 									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addComponent(cmbLoaiVPP, GroupLayout.PREFERRED_SIZE, 243, GroupLayout.PREFERRED_SIZE)))
-							.addPreferredGap(ComponentPlacement.RELATED, 411, Short.MAX_VALUE))
+									.addGroup(pnlVPPLayout.createParallelGroup(Alignment.LEADING)
+										.addComponent(chckbxHetHangVPP)
+										.addComponent(cmbLoaiVPP, GroupLayout.PREFERRED_SIZE, 243, GroupLayout.PREFERRED_SIZE))))
+							.addPreferredGap(ComponentPlacement.RELATED, 322, Short.MAX_VALUE))
 						.addGroup(pnlVPPLayout.createSequentialGroup()
 							.addContainerGap()
-							.addComponent(jPanel13, GroupLayout.DEFAULT_SIZE, 1598, Short.MAX_VALUE))
+							.addComponent(jPanel13, GroupLayout.DEFAULT_SIZE, 1509, Short.MAX_VALUE))
 						.addGroup(pnlVPPLayout.createSequentialGroup()
 							.addContainerGap()
 							.addComponent(scrVPP, GroupLayout.PREFERRED_SIZE, 1509, GroupLayout.PREFERRED_SIZE)))
@@ -1011,10 +1043,14 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 										.addComponent(lblSL)
 										.addComponent(txtGiaNhapVPP, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
 										.addComponent(txtSoLuongVPP, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-										.addComponent(lblDonViVPP)))
+										.addComponent(lblDonViVPP)
+										.addComponent(lblVNDVPP, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)))
 								.addGroup(pnlVPPLayout.createSequentialGroup()
 									.addGap(18)
-									.addComponent(txtDonViVPP, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))))
+									.addGroup(pnlVPPLayout.createParallelGroup(Alignment.BASELINE)
+										.addComponent(txtDonViVPP, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+										.addComponent(lblHetHang, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+										.addComponent(chckbxHetHangVPP)))))
 						.addGroup(pnlVPPLayout.createParallelGroup(Alignment.TRAILING)
 							.addComponent(lblLoaiVPP, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
 							.addComponent(cmbLoaiVPP, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)))
@@ -1068,9 +1104,8 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 												javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 										.addContainerGap())));
 		try {
-			//loadSanPham();
 			loadDuLieuSach();
-			loadVPP();
+			loadDuLieuVPP();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -1182,13 +1217,22 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 	NhaCungCapServiceImpl nhaCungCapServiceImpl = new NhaCungCapServiceImpl();
 	NhaXuatBanServiceImpl nhaXuatBanServiceImpl = new NhaXuatBanServiceImpl();
 	private JComboBox<Object> cmbLoaiSach;
+	private JLabel lblVNDVPP;
+	private JLabel lblHetHang;
 
 	// End of variables declaration//GEN-END:variables
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
-		int i = tblSach.getSelectedRow();
-		setHienThiSach(i);
+		Object o = e.getSource();
+		if(o.equals(tblSach)) {
+			int i = tblSach.getSelectedRow();
+			setHienThiSach(i);
+		}
+		if (o.equals(tblVPP)) {
+			int j = tblVPP.getSelectedRow();
+			setHienThiVPP(j);
+		}
 		
 	}
 
@@ -1220,22 +1264,25 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		Object src = e.getSource();
-		if (src.equals(btnLamMoiSach)) {
-			this.lamMoi();
+		if (src.equals(btnLamMoiSach)||src.equals(btnLamMoiVPP)) {
+			this.lamMoiSach();
+			this.lamMoiVPP();
 			try {
 				this.loadDuLieuSach();
+				this.loadDuLieuVPP();
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		}
 		if (src.equals(btnThemSach)) {
-			//this.lamMoi();
+			lamMoiVPP();
 			this.themSP();		}
 		if (src.equals(btnThemVPP)) {
-			//this.lamMoi();
+			lamMoiSach();
 			this.themSP();		}
 		if (src.equals(btnCapNhatSach)) {
+			lamMoiVPP();
 			int row = tblSach.getSelectedRow();
 			if (row == -1) {
 				JOptionPane.showMessageDialog(null, "Chưa chọn dòng nào!!", "Thông báo",
@@ -1247,40 +1294,68 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 
 			}
 			try {
-				lamMoi();
+				lamMoiSach();
 				loadDuLieuSach();
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+		
+		}
+		if (src.equals(btnCapNhatVPP)) {
+			lamMoiSach();
+			int row = tblVPP.getSelectedRow();
+			if (row == -1) {
+				JOptionPane.showMessageDialog(null, "Chưa chọn dòng nào!!", "Thông báo",
+						JOptionPane.INFORMATION_MESSAGE);
+			} else {
+				String maSP = tableModel_VPP.getValueAt(row, 0).toString();
+				String loai = "VPP";
+				this.capNhatSP(maSP, loai);
+
+			}
+			try {
+				lamMoiVPP();
+				loadDuLieuVPP();
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		
 		}
 	}
 
-	public void lamMoi() {
+	public void lamMoiSach() {
 		txtDonViSach.setText("");
-		txtDonViVPP.setText("");
 		try {
 			txtMaSach.setText(tangMa());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		txtMaVPP.setText("");
-		txtGiaNhapVPP.setText("");
 		txtGiaSach.setText("");
-		cmbMauSac.setSelectedIndex(0);
 		cmbNCCSach.setSelectedIndex(0);
-		cmbNCCVPP.setSelectedIndex(0);
 		cmbTacGia.setSelectedIndex(0);
-		cmbNSX.setSelectedIndex(0);
 		cmbNXB.setSelectedIndex(0);
 		cmbLoaiSach.setSelectedIndex(0);
-		txtTenVPP.setText("");
 		txtTenSach.setText("");
 		txtSoLuongSach.setText("");
+	}
+	public void lamMoiVPP() {
+		txtDonViVPP.setText("");
+		try {
+			txtMaVPP.setText(tangMa());
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		txtGiaNhapVPP.setText("");
+		cmbMauSac.setSelectedIndex(0);
+		cmbNCCVPP.setSelectedIndex(0);
+		cmbNSX.setSelectedIndex(0);
+		cmbLoaiVPP.setSelectedIndex(0);
+		txtTenVPP.setText("");
 		txtSoLuongVPP.setText("");
-		// .setSelectedIndex(-1);
-		// btnGrGioiTinh.clearSelection();
 	}
 	public void capNhatSP(String maSanPham, String loaiSanPham) {
 		Sach s= new Sach();
@@ -1344,7 +1419,7 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 				if (kt == true) {
 					JOptionPane.showMessageDialog(null, "Thêm thành công !!!");
 					tableModel_Sach.setRowCount(0);
-					lamMoi();
+					lamMoiSach();
 					loadDuLieuSach();
 					txtMaSach.setText(tangMa());
 				} else {
@@ -1366,8 +1441,8 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 				if (kt == true) {
 					JOptionPane.showMessageDialog(null, "Thêm thành công !!!");
 					tableModel_VPP.setRowCount(0);
-					lamMoi();
-					loadVPP();
+					lamMoiVPP();
+					loadDuLieuVPP();
 					txtMaVPP.setText(tangMa());
 				} else {
 					JOptionPane.showMessageDialog(null, "Sản phẩm đã tồn tại", "Báo lỗi", JOptionPane.ERROR_MESSAGE);
@@ -1412,7 +1487,7 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 			txtSoLuongVPP.selectAll();
 			return null;
 		}
-		NhaCungCap nhaCungCap = nhaCungCaps.get(cmbNCCVPP.getSelectedIndex());
+		NhaCungCap nhaCungCap = nhaCungCapVPPs.get(cmbNCCVPP.getSelectedIndex()-1);
 		long giaNhap;
 		try {
 			giaNhap = Long.parseLong(txtGiaNhapVPP.getText().trim());
@@ -1425,9 +1500,9 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 		long giaBan = (giaNhap * 20 / 100) + giaNhap;
 		String donViSanPham = txtDonViVPP.getText();
 		String tenVPP = txtTenVPP.getText().trim();
-		MauSac mauSac = mauSacs.get(cmbMauSac.getSelectedIndex());
-		NhaSanXuat nhaSanXuat = nhaSanXuats.get(cmbNSX.getSelectedIndex());
-		TheLoaiVanPhongPham loaiVanPhongPham = theLoaiVanPhongPhams.get(cmbLoaiVPP.getSelectedIndex());
+		MauSac mauSac = mauSacs.get(cmbMauSac.getSelectedIndex()-1);
+		NhaSanXuat nhaSanXuat = nhaSanXuats.get(cmbNSX.getSelectedIndex()-1);
+		TheLoaiVanPhongPham loaiVanPhongPham = theLoaiVanPhongPhams.get(cmbLoaiVPP.getSelectedIndex()-1);
 		v = new VanPhongPham(maSanPham, nhaCungCap, loaiSanPham, soLuongTon, donViSanPham, giaNhap, giaBan, tenVPP,
 				mauSac, nhaSanXuat, loaiVanPhongPham);
 		return v;
@@ -1446,8 +1521,8 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 			txtSoLuongSach.selectAll();
 			return null;
 		}
-		if (soLuongTon <= 0 || soLuongTon >= 10000) {
-			JOptionPane.showMessageDialog(null, "Số lượng lớn hơn 0 và bé hơn 10000!!", "Báo lỗi",
+		if (soLuongTon < 0 || soLuongTon >= 10000) {
+			JOptionPane.showMessageDialog(null, "Số lượng >= 0 và < 10000!!", "Báo lỗi",
 					JOptionPane.ERROR_MESSAGE);
 			txtSoLuongSach.requestFocus();
 			txtSoLuongSach.selectAll();
@@ -1474,7 +1549,7 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 		String tenSach = txtTenSach.getText().trim();
 		TacGia tacGia = tacGias.get(cmbTacGia.getSelectedIndex()-1);
 		NhaXuatBan nhaXuatBan = nhaXuatBans.get(cmbNXB.getSelectedIndex()-1);
-		NhaCungCap nhaCungCap = nhaCungCaps.get(cmbNCCSach.getSelectedIndex()-1);
+		NhaCungCap nhaCungCap = nhaCungCapSachs.get(cmbNCCSach.getSelectedIndex()-1);
 		
 		long giaBan = (giaNhap * 20 / 100) + giaNhap;
 		TheLoaiSach theLoaiSach = theLoaiSachs.get(cmbLoaiSach.getSelectedIndex()-1);
@@ -1561,7 +1636,7 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 			maNXB = nhaXuatBans.get(cmbNSX.getSelectedIndex() - 1).getMaNXB();
 		String maNCC = "";
 		if (cmbNCCSach.getSelectedIndex() != 0)
-			maNCC = nhaCungCaps.get(cmbNCCSach.getSelectedIndex() - 1).getMaNhaCungCap();
+			maNCC = nhaCungCapSachs.get(cmbNCCSach.getSelectedIndex() - 1).getMaNhaCungCap();
 		
 		try {
 			listSach = sanPhamServiceImpl.getListSach(maSach, tenSP, maTheLoai, giaTu, giaDen, maTacGia, maNXB, maNCC);
@@ -1581,7 +1656,7 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 		int i = 0;
 		for (Sach sp : listSach) {
 			Object ob[] = { i+=1, sp.getMaSanPham(), sp.getTenSach(), sp.getSoLuongTon() + "", sp.getDonVi(),
-					sp.getGiaNhap() + " VNĐ", sp.getTheLoaiSach().getTenLoai() + "", sp.getNhaCungCap().getTenNhaCungCap(),
+					sp.getGiaNhap(), sp.getTheLoaiSach().getTenLoai() + "", sp.getNhaCungCap().getTenNhaCungCap(),
 					sp.getTacGia().getTenTacGia(), sp.getNhaXuatBan().getTenNXB() };
 			tableModel_Sach.addRow(ob);
 		}
@@ -1589,17 +1664,52 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 		TableColumnModel columnMode = tblSach.getColumnModel();
 		columnMode.getColumn(0).setMaxWidth(40);
 		columnMode.getColumn(1).setMaxWidth(150);
-		//columnMode.getColumn(2).setMaxWidth(200);
 		columnMode.getColumn(3).setMaxWidth(60);
 		columnMode.getColumn(4).setMaxWidth(60);
 		columnMode.getColumn(5).setMaxWidth(150);
-		//columnMode.getColumn(6).setMaxWidth(150);
-		//columnMode.getColumn(7).setMaxWidth(200);
-		//columnMode.getColumn(8).setMaxWidth(150);
-		//columnMode.getColumn(9).setMaxWidth(100);
-		
 	}
 
+	public void loadDuLieuVPP() {
+		listVPP = new ArrayList<VanPhongPham>();
+		String maVPP = "";
+		String tenVPP = txtTenVPP.getText().trim();
+		if(!tenVPP.equals(""))
+			maVPP = txtMaVPP.getText().trim();
+		String maTheLoai = "";
+		if(cmbLoaiVPP.getSelectedIndex() != 0)
+			maTheLoai = theLoaiVanPhongPhams.get(cmbLoaiVPP.getSelectedIndex() - 1).getMaLoai();
+		Long giaTu = (long) 0;
+		Long giaDen = (long) 100000000;
+		String maNSX = "";
+		if(cmbNSX.getSelectedIndex() != 0)
+			maNSX = nhaSanXuats.get(cmbNSX.getSelectedIndex() - 1).getMaNhaSX();
+		String maNCC = "";
+		if (cmbNCCVPP.getSelectedIndex() != 0)
+			maNCC = nhaCungCapVPPs.get(cmbNCCVPP.getSelectedIndex() - 1).getMaNhaCungCap();
+		try {
+			listVPP = sanPhamServiceImpl.getListVanPhongPham(maVPP, tenVPP, maTheLoai, giaTu, giaDen, 
+					maNSX, maNCC, chckbxHetHangVPP.isSelected());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		tableModel_VPP.setRowCount(0);
+		int i = 0;
+		for (VanPhongPham vpp : listVPP) {
+			Object obj[] = { i+=1 , vpp.getMaSanPham(), vpp.getTenVanPhongPham(), vpp.getMauSac().getTenMau(),
+					vpp.getSoLuongTon() + "", vpp.getDonVi(), vpp.getGiaNhap(), vpp.getLoaiVanPhongPham().getTenLoai(),
+					vpp.getNhaCungCap().getTenNhaCungCap(), vpp.getNhaSanXuat().getTenNhaSX(), vpp.getMauSac() };
+			tableModel_VPP.addRow(obj);
+		}
+		TableColumnModel columnMode = tblVPP.getColumnModel();
+		columnMode.getColumn(0).setMaxWidth(40);
+		columnMode.getColumn(1).setMaxWidth(150);
+		columnMode.getColumn(3).setMaxWidth(100);
+		columnMode.getColumn(4).setMaxWidth(60);
+		columnMode.getColumn(5).setMaxWidth(80);
+		columnMode.getColumn(6).setMaxWidth(120);
+	}
+	
 	public void loadSach() throws Exception {
 		SanPhamServiceImpl sanPhamService = new SanPhamServiceImpl();
 		listSach = sanPhamService.getAllSach();
@@ -1634,5 +1744,17 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 		cmbLoaiSach.setSelectedItem(tblSach.getValueAt(row,6)+ "");
 		cmbNCCSach.setSelectedItem(tblSach.getValueAt(row,7)+ "");
 		cmbNXB.setSelectedItem(tblSach.getValueAt(row,9)+ "");
+	}
+	
+	public void setHienThiVPP(int row) {
+		txtMaVPP.setText(tblVPP.getValueAt(row, 1)+ "");
+		txtTenVPP.setText(tblVPP.getValueAt(row, 2)+ "");
+		cmbMauSac.setSelectedItem(tblVPP.getValueAt(row, 3)+ "");
+		txtSoLuongVPP.setText(tblVPP.getValueAt(row, 4)+ "");
+		txtDonViVPP.setText(tblVPP.getValueAt(row, 5)+ "");
+		txtGiaNhapVPP.setText(tblVPP.getValueAt(row, 6).toString());
+		cmbLoaiVPP.setSelectedItem(tblVPP.getValueAt(row,7)+ "");
+		cmbNCCVPP.setSelectedItem(tblVPP.getValueAt(row,8)+ "");
+		cmbNSX.setSelectedItem(tblVPP.getValueAt(row,9)+ "");
 	}
 }

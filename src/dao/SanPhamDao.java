@@ -70,7 +70,6 @@ public class SanPhamDao {
 			ps.setString(10, v.getNhaSanXuat().getMaNhaSX());
 			ps.setString(11, v.getLoaiVanPhongPham().getMaLoai());
 		}
-		System.out.println("Trong SpDAO nhà cung cấp là:" + s.getNhaCungCap().getTenNhaCungCap());
 		rsCheck = ps.executeUpdate();
 		if (rsCheck == 0) {
 			return false;
@@ -185,6 +184,41 @@ public class SanPhamDao {
 		return listSach;
 	}
 
+	public ArrayList<VanPhongPham> getListVanPhongPham(String maVPP, String tenVPP, String theLoaiVPP, Long giaTu,
+			Long giaDen, String maXuatXu, String maNCC, boolean hetHang) throws Exception {
+		ArrayList<VanPhongPham> list = new ArrayList<>();
+		query = "SELECT SanPham.maSP, SanPham.soLuongTon,SanPham.loaiSP, NhaCungCap.maNCC, NhaCungCap.tenNCC, NhaCungCap.phone, NhaCungCap.email,"
+				+ "	SanPham.giaNhap, SanPham.giaBan, SanPham.donVi, SanPham.[tenVanPhongPham], MauSac.[maMauSac], MauSac.[tenMau], "
+				+ "	SanPham.maNSX, NhaSanXuat.tenNSX,LoaiVanPhongPham.tenTheLoai, LoaiVanPhongPham.[maLoaiVanPhongPham] "
+				+ "	FROM SanPham INNER JOIN"
+				+ "	LoaiVanPhongPham ON SanPham.maLoaiVanPhongPham = LoaiVanPhongPham.maLoaiVanPhongPham INNER JOIN "
+				+ " MauSac ON SanPham.maMauSac = MauSac.maMauSac INNER JOIN "
+				+ "	 NhaSanXuat ON SanPham.maNSX = NhaSanXuat.maNSX INNER JOIN "
+				+ "	NhaCungCap ON SanPham.maNCC = NhaCungCap.maNCC\r\n" + "	where maSP like '%" + maVPP
+				+ "%' and tenVanPhongPham like N'%" + tenVPP + "%' and SanPham.maLoaiVanPhongPham like '%" + theLoaiVPP
+				+ "%' \r\n" + "	and SanPham.giaNhap > ? and SanPham.giaNhap < ? "
+				+ "	and SanPham.maNSX like '%" + maXuatXu
+				+ "%' and SanPham.maNCC like '%" + maNCC + "%' ";
+//		if (hetHang) {
+//			query = query + " and soLuongTon = 0";
+//		}
+		ps = con.prepareStatement(query);
+		ps.setLong(1, giaTu);
+		ps.setLong(2, giaDen);
+		rs = ps.executeQuery();
+		while (rs.next()) {
+			VanPhongPham vanPhongPham = new VanPhongPham(rs.getString("maSP"), new NhaCungCap(rs.getString("maNCC"), 
+					rs.getString("tenNCC"),rs.getString("email"),rs.getString("phone")), rs.getString("loaiSP"), 
+					rs.getInt("soLuongTon"),rs.getString("donVi"), rs.getLong("giaNhap"), rs.getLong("giaBan"),
+					rs.getString("tenVanPhongPham"),
+					new MauSac(rs.getString("maMauSac"), rs.getString("tenMau")),
+					new NhaSanXuat(rs.getString("maNSX"), rs.getString("tenNSX")),
+					new TheLoaiVanPhongPham(rs.getString("maLoaiVanPhongPham"), rs.getString("tenTheLoai")));
+			list.add(vanPhongPham);
+		}
+		return list;
+	}
+	
 	public List<Sach> getAllSach() throws Exception {
 		List<Sach> dsS = new ArrayList<Sach>();
 		tacgiaDao = new TacGiaDao();
@@ -290,28 +324,28 @@ public class SanPhamDao {
 			System.out.println(s.getNhaCungCap().getTenNhaCungCap());
 			query = "update SanPham set " 
 					+ "[maNCC]= ? "
-//					+ ",[loaiSP]= ?"
-//					+ ",[soLuongTon]= ?"
-//					+ ",[donVi]= ?"
-//					+ ",[giaNhap]= ?"
-//					+ ",[giaBan]= ?"
-//					+ ",[tenSach]= ?"
-//					+ ",[maTG]= ?"
-//					+ ",[maTheLoaiSach]= ?"
-//					+ ",[maNXB]= ? "
+					+ ",[loaiSP]= ?"
+					+ ",[soLuongTon]= ?"
+					+ ",[donVi]= ?"
+					+ ",[giaNhap]= ?"
+					+ ",[giaBan]= ?"
+					+ ",[tenSach]= ?"
+					+ ",[maTG]= ?"
+					+ ",[maTheLoaiSach]= ?"
+					+ ",[maNXB]= ? "
 					+ " where maSP = ? ";
 			ps = con.prepareStatement(query);
 			ps.setString(1, s.getNhaCungCap().getMaNhaCungCap());
-//			ps.setString(2, s.getLoaiSanPham());
-//			ps.setInt(3, s.getSoLuongTon());
-//			ps.setString(4, s.getDonVi());
-//			ps.setLong(5, s.getGiaNhap());
-//			ps.setLong(6, s.getGiaBan());
-//			ps.setString(7, s.getTenSach());
-//			ps.setString(8, s.getTacGia().getMaTacGia());
-//			ps.setString(9, s.getTheLoaiSach().getMaLoai());
-//			ps.setString(10, s.getNhaXuatBan().getMaNXB());
-			ps.setString(2, s.getMaSanPham());
+			ps.setString(2, s.getLoaiSanPham());
+			ps.setInt(3, s.getSoLuongTon());
+			ps.setString(4, s.getDonVi());
+			ps.setLong(5, s.getGiaNhap());
+			ps.setLong(6, s.getGiaBan());
+			ps.setString(7, s.getTenSach());
+			ps.setString(8, s.getTacGia().getMaTacGia());
+			ps.setString(9, s.getTheLoaiSach().getMaLoai());
+			ps.setString(10, s.getNhaXuatBan().getMaNXB());
+			ps.setString(11, s.getMaSanPham());
 			
 		} else {
 			v = (VanPhongPham) temp;
@@ -325,16 +359,16 @@ public class SanPhamDao {
 					+ ",[tenVanPhongPham]= ?"
 					+ ",[maMauSac]= ?"
 					+ ",[maNSX]= ? "
-					+ ",[maLoaiVanPhongPham]= ?"
-					+ "where maSP like ?";
+					+ ",[maLoaiVanPhongPham]= ? "
+					+ " where maSP = ? ";
 			ps = con.prepareStatement(query);
-			ps.setString(11, s.getMaSanPham());
-			ps.setString(1, s.getNhaCungCap().getMaNhaCungCap());
-			ps.setString(2, s.getLoaiSanPham());
-			ps.setInt(3, s.getSoLuongTon());
-			ps.setString(4, s.getDonVi());
-			ps.setLong(5, s.getGiaNhap());
-			ps.setLong(6, s.getGiaBan());
+			ps.setString(11, v.getMaSanPham());
+			ps.setString(1, v.getNhaCungCap().getMaNhaCungCap());
+			ps.setString(2, v.getLoaiSanPham());
+			ps.setInt(3, v.getSoLuongTon());
+			ps.setString(4, v.getDonVi());
+			ps.setLong(5, v.getGiaNhap());
+			ps.setLong(6, v.getGiaBan());
 			ps.setString(7, v.getTenVanPhongPham());
 			ps.setString(8, v.getMauSac().getMaMau());
 			ps.setString(9, v.getNhaSanXuat().getMaNhaSX());

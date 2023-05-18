@@ -21,7 +21,7 @@ public interface SanPhamService {
 	public List<VanPhongPham> getAllVPP();
 	
 	public ArrayList<VanPhongPham> getListVanPhongPham(String maVPP, String tenVPP, String theLoaiVPP, Long giaTu,
-			Long giaDen, String maChatLieu, String maXuatXu, String maNCC, boolean hetHang) throws Exception;
+			Long giaDen, String maNSX, String maNCC, boolean hetHang) throws Exception;
 	public VanPhongPham timSanPhamTheoMaVPP(String maVPP) throws Exception;
 	public VanPhongPham getVPPTheoMaSP(String maSP) throws SQLException;
 
