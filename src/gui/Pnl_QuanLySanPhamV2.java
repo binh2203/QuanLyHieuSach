@@ -10,14 +10,29 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
+
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.jfree.data.json.impl.JSONArray;
+import org.jfree.data.json.impl.JSONObject;
 
 import entity.MauSac;
 import entity.NhaCungCap;
@@ -38,12 +53,17 @@ import service_impl.SanPhamServiceImpl;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.GroupLayout;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.JCheckBox;
+import javax.swing.JButton;
+import java.awt.Color;
+import java.awt.Desktop;
 
 /**
  *
@@ -51,8 +71,10 @@ import javax.swing.JCheckBox;
  */
 public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionListener, MouseListener {
 
-
-
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JComboBox<Object> cmbLoaiVPP;
 	private ArrayList<TheLoaiVanPhongPham> theLoaiVanPhongPhams;
 	private ArrayList<TheLoaiSach> theLoaiSachs;
@@ -62,6 +84,7 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 	private ArrayList<NhaCungCap> nhaCungCapSachs;
 	private ArrayList<NhaCungCap> nhaCungCapVPPs;
 	private JCheckBox chckbxHetHangVPP;
+	private JButton btnDanhMucVPP;
 
 	/**
 	 * Creates new form Pnl_TimKiem
@@ -122,7 +145,7 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 		txtMaSach = new javax.swing.JTextField();
 		txtMaSach.setEditable(false);
 		try {
-			txtMaSach.setText(tangMa());
+			txtMaSach.setText(tangMaSP());
 		} catch (SQLException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
@@ -138,7 +161,7 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 		jPanel14 = new javax.swing.JPanel();
 		btnThemSach = new javax.swing.JButton();
 		btnLamMoiSach = new javax.swing.JButton();
-		btnXoaSach = new javax.swing.JButton();
+		btnDanhMucSach = new javax.swing.JButton();
 		btnCapNhatSach = new javax.swing.JButton();
 		btnNhapSach = new javax.swing.JButton();
 		btnXuatSach = new javax.swing.JButton();
@@ -154,7 +177,7 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 		txtMaVPP = new javax.swing.JTextField();
 		txtMaVPP.setEditable(false);
 		try {
-			txtMaVPP.setText(tangMa());
+			txtMaVPP.setText(tangMaSP());
 		} catch (SQLException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
@@ -170,7 +193,6 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 		jPanel13 = new javax.swing.JPanel();
 		btnThemVPP = new javax.swing.JButton();
 		btnLamMoiVPP = new javax.swing.JButton();
-		btnXoaVPP = new javax.swing.JButton();
 		btnCapNhatVPP = new javax.swing.JButton();
 		btnNhapVPP = new javax.swing.JButton();
 		btnXuatVPP = new javax.swing.JButton();
@@ -500,9 +522,9 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 		btnLamMoiSach.setPreferredSize(new java.awt.Dimension(60, 30));
 		btnLamMoiSach.addActionListener(this);
 
-		btnXoaSach.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-		btnXoaSach.setText("Xóa");
-		btnXoaSach.addActionListener(this);
+		btnDanhMucSach.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+		btnDanhMucSach.setText("Quản lý danh mục");
+		btnDanhMucSach.addActionListener(this);
 
 		btnCapNhatSach.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 		btnCapNhatSach.setText("Cập nhật");
@@ -522,39 +544,29 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 		btnLuuSach.addActionListener(this);
 
 		javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
-		jPanel14Layout.setHorizontalGroup(
-			jPanel14Layout.createParallelGroup(Alignment.LEADING)
-				.addGroup(jPanel14Layout.createSequentialGroup()
-					.addGap(27)
-					.addComponent(btnLamMoiSach, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE)
-					.addGap(54)
-					.addComponent(btnThemSach, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE)
-					.addGap(51)
-					.addComponent(btnXoaSach, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE)
-					.addGap(47)
-					.addComponent(btnCapNhatSach, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE)
-					.addGap(51)
-					.addComponent(btnNhapSach, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE)
-					.addGap(56)
-					.addComponent(btnXuatSach, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE)
-					.addGap(83)
-					.addComponent(btnLuuSach, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(116, Short.MAX_VALUE))
-		);
-		jPanel14Layout.setVerticalGroup(
-			jPanel14Layout.createParallelGroup(Alignment.LEADING)
-				.addGroup(jPanel14Layout.createSequentialGroup()
-					.addGap(17)
-					.addGroup(jPanel14Layout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnThemSach, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnLamMoiSach, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnXoaSach, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
+		jPanel14Layout.setHorizontalGroup(jPanel14Layout.createParallelGroup(Alignment.LEADING).addGroup(jPanel14Layout
+				.createSequentialGroup().addGap(27)
+				.addComponent(btnLamMoiSach, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE).addGap(54)
+				.addComponent(btnThemSach, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE).addGap(33)
+				.addComponent(btnCapNhatSach, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE)
+				.addPreferredGap(ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+				.addComponent(btnDanhMucSach, GroupLayout.PREFERRED_SIZE, 201, GroupLayout.PREFERRED_SIZE).addGap(33)
+				.addComponent(btnNhapSach, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE).addGap(36)
+				.addComponent(btnXuatSach, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE).addGap(42)
+				.addComponent(btnLuuSach, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE).addGap(72)));
+		jPanel14Layout.setVerticalGroup(jPanel14Layout.createParallelGroup(Alignment.LEADING).addGroup(jPanel14Layout
+				.createSequentialGroup().addGap(17)
+				.addGroup(jPanel14Layout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btnThemSach, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+								GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnLamMoiSach, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+								GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnCapNhatSach, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnNhapSach, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnXuatSach, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnLuuSach, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE))
-					.addGap(20))
-		);
+						.addComponent(btnLuuSach, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnDanhMucSach, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE))
+				.addGap(20)));
 		jPanel14.setLayout(jPanel14Layout);
 
 		lblNSXSach.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -602,18 +614,18 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 		}
 		cmbNCCSach = new JComboBox<Object>();
 		cmbNCCSach.addItem("");
-		for (NhaCungCap nhaCungCap : nhaCungCapSachs) {
+		for (NhaCungCap nhaCungCap : nhaCungCaps) {
 			cmbNCCSach.addItem(nhaCungCap.getTenNhaCungCap());
 		}
 		for (int i = 0; i < cmbNCCSach.getItemCount(); i++) {
-		    Object item = cmbNCCSach.getItemAt(i);
-		    System.out.println("Index: " + i + ", Value: " + item);
+			Object item = cmbNCCSach.getItemAt(i);
+			System.out.println("Index: " + i + ", Value: " + item);
 		}
-		for (NhaCungCap nhaCungCap : nhaCungCapSachs) {
-			int i=0;
-			System.out.println(i+nhaCungCap.getTenNhaCungCap()+"");
+		for (NhaCungCap nhaCungCap : nhaCungCaps) {
+			int i = 0;
+			System.out.println(i + nhaCungCap.getTenNhaCungCap() + "");
 		}
-		//Thể loại sách:
+		// Thể loại sách:
 		theLoaiSachs = new ArrayList<TheLoaiSach>();
 		try {
 			theLoaiSachs = theLoaiServiceImpl.getListTheLoaiSach();
@@ -623,140 +635,141 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 		}
 		cmbLoaiSach = new JComboBox<Object>();
 		cmbLoaiSach.addItem("");
-		for(TheLoaiSach theLoaiSach : theLoaiSachs ) {
+		for (TheLoaiSach theLoaiSach : theLoaiSachs) {
 			cmbLoaiSach.addItem(theLoaiSach.getTenLoai());
 		}
-		
+
 		lblSoLuongHienThi = new JLabel();
+		lblSoLuongHienThi.setForeground(new Color(64, 128, 128));
 		lblSoLuongHienThi.setText("Hiển thị 0 sản phẩm!");
 		lblSoLuongHienThi.setHorizontalAlignment(SwingConstants.CENTER);
-		lblSoLuongHienThi.setFont(new Font("Segoe UI", Font.PLAIN, 18));
-		
+		lblSoLuongHienThi.setFont(new Font("Segoe UI", Font.BOLD, 18));
+
 		JLabel lblVND = new JLabel();
 		lblVND.setToolTipText("");
 		lblVND.setText("VNĐ");
 		lblVND.setHorizontalAlignment(SwingConstants.LEFT);
 		lblVND.setFont(new Font("Segoe UI", Font.PLAIN, 18));
-		
+
+		chckbxHetHangSach = new JCheckBox("");
+		chckbxHetHangSach.addActionListener(this);
+		lblHetHangSach = new JLabel("Hiện hết hàng:");
+		lblHetHangSach.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+
 		javax.swing.GroupLayout pnlSachLayout = new javax.swing.GroupLayout(pnlSach);
-		pnlSachLayout.setHorizontalGroup(
-			pnlSachLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(pnlSachLayout.createSequentialGroup()
-					.addGroup(pnlSachLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(pnlSachLayout.createSequentialGroup()
-							.addGroup(pnlSachLayout.createParallelGroup(Alignment.LEADING)
-								.addGroup(pnlSachLayout.createSequentialGroup()
-									.addGap(34)
-									.addGroup(pnlSachLayout.createParallelGroup(Alignment.TRAILING)
-										.addComponent(lblTenSach)
-										.addComponent(lblGiaNhapSach, GroupLayout.PREFERRED_SIZE, 81, GroupLayout.PREFERRED_SIZE)))
-								.addComponent(lblMaSach, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE))
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addGroup(pnlSachLayout.createParallelGroup(Alignment.LEADING, false)
+		pnlSachLayout.setHorizontalGroup(pnlSachLayout.createParallelGroup(Alignment.LEADING).addGroup(pnlSachLayout
+				.createSequentialGroup()
+				.addGroup(pnlSachLayout.createParallelGroup(Alignment.LEADING).addGroup(pnlSachLayout
+						.createSequentialGroup()
+						.addGroup(pnlSachLayout.createParallelGroup(Alignment.LEADING)
+								.addGroup(pnlSachLayout.createSequentialGroup().addGap(34)
+										.addGroup(pnlSachLayout.createParallelGroup(Alignment.TRAILING)
+												.addComponent(lblTenSach).addComponent(lblGiaNhapSach,
+														GroupLayout.PREFERRED_SIZE, 81, GroupLayout.PREFERRED_SIZE)))
+								.addComponent(lblMaSach, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 75,
+										GroupLayout.PREFERRED_SIZE))
+						.addPreferredGap(ComponentPlacement.UNRELATED)
+						.addGroup(pnlSachLayout.createParallelGroup(Alignment.LEADING, false)
 								.addComponent(txtMaSach, GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
 								.addComponent(txtTenSach)
 								.addGroup(pnlSachLayout.createSequentialGroup()
-									.addComponent(txtGiaSach, GroupLayout.PREFERRED_SIZE, 126, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(lblVND, GroupLayout.PREFERRED_SIZE, 81, GroupLayout.PREFERRED_SIZE)))
-							.addGap(116)
-							.addGroup(pnlSachLayout.createParallelGroup(Alignment.TRAILING)
+										.addComponent(txtGiaSach, GroupLayout.PREFERRED_SIZE, 126,
+												GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(ComponentPlacement.RELATED).addComponent(lblVND,
+												GroupLayout.PREFERRED_SIZE, 81, GroupLayout.PREFERRED_SIZE)))
+						.addGap(101)
+						.addGroup(pnlSachLayout.createParallelGroup(Alignment.TRAILING)
 								.addGroup(pnlSachLayout.createSequentialGroup()
-									.addComponent(lblTheLoaiSach, GroupLayout.PREFERRED_SIZE, 78, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED))
+										.addComponent(lblTheLoaiSach, GroupLayout.PREFERRED_SIZE, 78,
+												GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(ComponentPlacement.RELATED))
 								.addComponent(lblTacGiaSach, GroupLayout.PREFERRED_SIZE, 78, GroupLayout.PREFERRED_SIZE)
 								.addComponent(lblSLSach))
-							.addGroup(pnlSachLayout.createParallelGroup(Alignment.LEADING)
-								.addGroup(pnlSachLayout.createSequentialGroup()
-									.addGroup(pnlSachLayout.createParallelGroup(Alignment.TRAILING)
+						.addGroup(pnlSachLayout.createParallelGroup(Alignment.LEADING).addGroup(pnlSachLayout
+								.createSequentialGroup()
+								.addGroup(pnlSachLayout.createParallelGroup(Alignment.TRAILING).addGroup(pnlSachLayout
+										.createSequentialGroup().addPreferredGap(ComponentPlacement.RELATED)
+										.addComponent(txtSoLuongSach, GroupLayout.PREFERRED_SIZE, 60,
+												GroupLayout.PREFERRED_SIZE)
+										.addGap(18).addComponent(lblDonViSach)
+										.addPreferredGap(ComponentPlacement.RELATED).addComponent(txtDonViSach,
+												GroupLayout.PREFERRED_SIZE, 105, GroupLayout.PREFERRED_SIZE))
 										.addGroup(pnlSachLayout.createSequentialGroup()
-											.addPreferredGap(ComponentPlacement.RELATED)
-											.addComponent(txtSoLuongSach, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
-											.addGap(18)
-											.addComponent(lblDonViSach)
-											.addPreferredGap(ComponentPlacement.RELATED)
-											.addComponent(txtDonViSach, GroupLayout.PREFERRED_SIZE, 105, GroupLayout.PREFERRED_SIZE))
-										.addGroup(pnlSachLayout.createSequentialGroup()
-											.addComponent(cmbTacGia, 0, 243, Short.MAX_VALUE)
-											.addPreferredGap(ComponentPlacement.RELATED)))
-									.addGap(71))
-								.addGroup(pnlSachLayout.createSequentialGroup()
-									.addComponent(cmbLoaiSach, GroupLayout.PREFERRED_SIZE, 243, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED)))
-							.addGroup(pnlSachLayout.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblNSXSach, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 78, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblNCCSach, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 78, GroupLayout.PREFERRED_SIZE))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(pnlSachLayout.createParallelGroup(Alignment.LEADING)
+												.addComponent(cmbTacGia, 0, 243, Short.MAX_VALUE)
+												.addPreferredGap(ComponentPlacement.RELATED)))
+								.addGap(71))
+								.addComponent(cmbLoaiSach, GroupLayout.PREFERRED_SIZE, 243, GroupLayout.PREFERRED_SIZE))
+						.addGap(37)
+						.addGroup(pnlSachLayout.createParallelGroup(Alignment.TRAILING)
+								.addComponent(lblNSXSach, GroupLayout.PREFERRED_SIZE, 78, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblNCCSach, GroupLayout.PREFERRED_SIZE, 78, GroupLayout.PREFERRED_SIZE))
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addGroup(pnlSachLayout.createParallelGroup(Alignment.LEADING)
+								.addGroup(pnlSachLayout.createSequentialGroup().addComponent(lblHetHangSach)
+										.addPreferredGap(ComponentPlacement.UNRELATED).addComponent(chckbxHetHangSach))
 								.addComponent(cmbNXB, GroupLayout.PREFERRED_SIZE, 243, GroupLayout.PREFERRED_SIZE)
 								.addComponent(cmbNCCSach, GroupLayout.PREFERRED_SIZE, 243, GroupLayout.PREFERRED_SIZE))
-							.addGap(385))
-						.addGroup(pnlSachLayout.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(jPanel14, GroupLayout.DEFAULT_SIZE, 1587, Short.MAX_VALUE))
-						.addGroup(pnlSachLayout.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(scrSach, GroupLayout.PREFERRED_SIZE, 1519, GroupLayout.PREFERRED_SIZE))
-						.addGroup(pnlSachLayout.createSequentialGroup()
-							.addGap(589)
-							.addComponent(lblSoLuongHienThi, GroupLayout.PREFERRED_SIZE, 296, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap())
-		);
-		pnlSachLayout.setVerticalGroup(
-			pnlSachLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(pnlSachLayout.createSequentialGroup()
-					.addGap(18)
-					.addGroup(pnlSachLayout.createParallelGroup(Alignment.TRAILING)
+						.addGap(385))
+						.addGroup(pnlSachLayout.createSequentialGroup().addContainerGap().addComponent(scrSach,
+								GroupLayout.PREFERRED_SIZE, 1519, GroupLayout.PREFERRED_SIZE))
+						.addGroup(pnlSachLayout.createSequentialGroup().addGap(589).addComponent(lblSoLuongHienThi,
+								GroupLayout.PREFERRED_SIZE, 296, GroupLayout.PREFERRED_SIZE))
+						.addGroup(pnlSachLayout.createSequentialGroup().addContainerGap().addComponent(jPanel14,
+								GroupLayout.PREFERRED_SIZE, 1497, GroupLayout.PREFERRED_SIZE)))
+				.addContainerGap()));
+		pnlSachLayout.setVerticalGroup(pnlSachLayout.createParallelGroup(Alignment.LEADING).addGroup(pnlSachLayout
+				.createSequentialGroup().addGap(18)
+				.addGroup(pnlSachLayout.createParallelGroup(Alignment.TRAILING)
 						.addGroup(pnlSachLayout.createParallelGroup(Alignment.BASELINE)
-							.addComponent(txtMaSach, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-							.addComponent(lblTacGiaSach)
-							.addComponent(lblMaSach)
-							.addComponent(cmbTacGia, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE))
-						.addComponent(lblNSXSach)
+								.addComponent(txtMaSach, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblTacGiaSach).addComponent(lblMaSach)
+								.addComponent(cmbTacGia, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE))
+						.addComponent(
+								lblNSXSach)
 						.addComponent(cmbNXB, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE))
-					.addGroup(pnlSachLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(pnlSachLayout.createSequentialGroup()
-							.addGroup(pnlSachLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(pnlSachLayout.createParallelGroup(Alignment.LEADING).addGroup(pnlSachLayout
+						.createSequentialGroup()
+						.addGroup(pnlSachLayout.createParallelGroup(Alignment.LEADING)
 								.addGroup(pnlSachLayout.createParallelGroup(Alignment.LEADING)
-									.addGroup(pnlSachLayout.createSequentialGroup()
-										.addGap(20)
+										.addGroup(pnlSachLayout.createSequentialGroup().addGap(20)
+												.addGroup(pnlSachLayout.createParallelGroup(Alignment.BASELINE)
+														.addComponent(lblTenSach)
+														.addComponent(txtTenSach, GroupLayout.PREFERRED_SIZE, 30,
+																GroupLayout.PREFERRED_SIZE)
+														.addComponent(lblNCCSach)))
+										.addGroup(pnlSachLayout.createSequentialGroup()
+												.addPreferredGap(ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+												.addComponent(lblTheLoaiSach).addGap(4)))
+								.addGroup(pnlSachLayout.createSequentialGroup().addGap(18)
+										.addComponent(cmbLoaiSach, GroupLayout.PREFERRED_SIZE, 27,
+												GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(ComponentPlacement.RELATED)))
+						.addGroup(pnlSachLayout.createParallelGroup(Alignment.LEADING)
+								.addGroup(pnlSachLayout.createSequentialGroup().addGap(20)
 										.addGroup(pnlSachLayout.createParallelGroup(Alignment.BASELINE)
-											.addComponent(lblTenSach)
-											.addComponent(txtTenSach, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-											.addComponent(lblNCCSach)))
-									.addGroup(pnlSachLayout.createSequentialGroup()
-										.addPreferredGap(ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
-										.addComponent(lblTheLoaiSach)
-										.addGap(4)))
-								.addGroup(pnlSachLayout.createSequentialGroup()
-									.addGap(18)
-									.addComponent(cmbLoaiSach, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED)))
-							.addGroup(pnlSachLayout.createParallelGroup(Alignment.LEADING)
-								.addGroup(pnlSachLayout.createSequentialGroup()
-									.addGap(20)
-									.addGroup(pnlSachLayout.createParallelGroup(Alignment.BASELINE)
-										.addComponent(lblGiaNhapSach)
-										.addComponent(lblSLSach)
-										.addComponent(txtGiaSach, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-										.addComponent(txtSoLuongSach, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-										.addComponent(lblDonViSach)
-										.addComponent(lblVND, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)))
-								.addGroup(pnlSachLayout.createSequentialGroup()
-									.addGap(18)
-									.addComponent(txtDonViSach, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)))
-							.addGap(18))
-						.addGroup(pnlSachLayout.createSequentialGroup()
-							.addGap(18)
-							.addComponent(cmbNCCSach, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)))
-					.addComponent(jPanel14, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(scrSach, GroupLayout.PREFERRED_SIZE, 335, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
-					.addComponent(lblSoLuongHienThi, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-					.addGap(28))
-		);
+												.addComponent(lblGiaNhapSach).addComponent(lblSLSach)
+												.addComponent(txtGiaSach, GroupLayout.PREFERRED_SIZE, 30,
+														GroupLayout.PREFERRED_SIZE)
+												.addComponent(txtSoLuongSach, GroupLayout.PREFERRED_SIZE, 30,
+														GroupLayout.PREFERRED_SIZE)
+												.addComponent(lblDonViSach).addComponent(lblVND,
+														GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)))
+								.addGroup(pnlSachLayout.createSequentialGroup().addGap(18).addGroup(pnlSachLayout
+										.createParallelGroup(Alignment.LEADING).addComponent(chckbxHetHangSach)
+										.addGroup(pnlSachLayout.createParallelGroup(Alignment.BASELINE)
+												.addComponent(txtDonViSach, GroupLayout.PREFERRED_SIZE, 30,
+														GroupLayout.PREFERRED_SIZE)
+												.addComponent(lblHetHangSach)))))
+						.addGap(18))
+						.addGroup(pnlSachLayout.createSequentialGroup().addGap(18).addComponent(cmbNCCSach,
+								GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)))
+				.addPreferredGap(ComponentPlacement.RELATED)
+				.addComponent(jPanel14, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+						GroupLayout.PREFERRED_SIZE)
+				.addPreferredGap(ComponentPlacement.RELATED)
+				.addComponent(scrSach, GroupLayout.PREFERRED_SIZE, 335, GroupLayout.PREFERRED_SIZE).addGap(18)
+				.addComponent(lblSoLuongHienThi, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+				.addGap(28)));
 		pnlSach.setLayout(pnlSachLayout);
 
 		lblMaSach.getAccessibleContext().setAccessibleName("Mã Sách:");
@@ -765,11 +778,11 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 
 		lblMaVPP.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 		lblMaVPP.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-		lblMaVPP.setText("Mã SP:");
+		lblMaVPP.setText("Mã VPP:");
 
 		lblTenVPP.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 		lblTenVPP.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-		lblTenVPP.setText("Tên SP:");
+		lblTenVPP.setText("Tên VPP:");
 
 		lblMauVPP.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 		lblMauVPP.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -818,10 +831,6 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 		btnLamMoiVPP.setPreferredSize(new java.awt.Dimension(60, 30));
 		btnLamMoiVPP.addActionListener(this);
 
-		btnXoaVPP.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-		btnXoaVPP.setText("Xóa");
-		btnXoaVPP.addActionListener(this);
-
 		btnCapNhatVPP.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 		btnCapNhatVPP.setText("Cập nhật");
 		btnCapNhatVPP.setActionCommand("Sửa");
@@ -839,40 +848,34 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 		btnLuuVPP.setText("Lưu");
 		btnLuuVPP.addActionListener(this);
 
+		btnDanhMucVPP = new JButton();
+		btnDanhMucVPP.setText("Quản lý danh mục");
+		btnDanhMucVPP.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+		btnDanhMucVPP.addActionListener(this);
 		javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
-		jPanel13Layout.setHorizontalGroup(
-			jPanel13Layout.createParallelGroup(Alignment.LEADING)
-				.addGroup(jPanel13Layout.createSequentialGroup()
-					.addGap(27)
-					.addComponent(btnLamMoiVPP, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE)
-					.addGap(54)
-					.addComponent(btnThemVPP, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE)
-					.addGap(51)
-					.addComponent(btnXoaVPP, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE)
-					.addGap(47)
-					.addComponent(btnCapNhatVPP, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE)
-					.addGap(51)
-					.addComponent(btnNhapVPP, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE)
-					.addGap(56)
-					.addComponent(btnXuatVPP, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE)
-					.addGap(49)
-					.addComponent(btnLuuVPP, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(139, Short.MAX_VALUE))
-		);
-		jPanel13Layout.setVerticalGroup(
-			jPanel13Layout.createParallelGroup(Alignment.LEADING)
-				.addGroup(jPanel13Layout.createSequentialGroup()
-					.addGap(17)
-					.addGroup(jPanel13Layout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnThemVPP, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnLamMoiVPP, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnXoaVPP, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnCapNhatVPP, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnNhapVPP, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnXuatVPP, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnLuuVPP, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE))
-					.addGap(20))
-		);
+		jPanel13Layout.setHorizontalGroup(jPanel13Layout.createParallelGroup(Alignment.LEADING).addGroup(jPanel13Layout
+				.createSequentialGroup().addGap(27)
+				.addComponent(btnLamMoiVPP, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE).addGap(54)
+				.addComponent(btnThemVPP, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE).addGap(42)
+				.addComponent(btnCapNhatVPP, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE).addGap(34)
+				.addComponent(btnDanhMucVPP, GroupLayout.PREFERRED_SIZE, 201, GroupLayout.PREFERRED_SIZE).addGap(45)
+				.addComponent(btnNhapVPP, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE).addGap(45)
+				.addComponent(btnXuatVPP, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE).addGap(36)
+				.addComponent(btnLuuVPP, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE)
+				.addContainerGap(163, Short.MAX_VALUE)));
+		jPanel13Layout.setVerticalGroup(jPanel13Layout.createParallelGroup(Alignment.LEADING)
+				.addGroup(jPanel13Layout.createSequentialGroup().addGap(17)
+						.addGroup(jPanel13Layout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(btnThemVPP, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE)
+								.addComponent(btnLamMoiVPP, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE)
+								.addComponent(btnDanhMucVPP, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
+								.addComponent(btnCapNhatVPP, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
+								.addComponent(btnNhapVPP, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
+								.addComponent(btnXuatVPP, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
+								.addComponent(btnLuuVPP, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE))
+						.addGap(20)));
 		jPanel13.setLayout(jPanel13Layout);
 
 		lblNSXVPP.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -889,10 +892,10 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 		}
 		cmbNCCVPP = new JComboBox<Object>();
 		cmbNCCVPP.addItem("");
-		for (NhaCungCap nhaCungCap : nhaCungCapVPPs) {
+		for (NhaCungCap nhaCungCap : nhaCungCaps) {
 			cmbNCCVPP.addItem(nhaCungCap.getTenNhaCungCap());
 		}
-		//Nhà sản xuất:
+		// Nhà sản xuất:
 		nhaSanXuats = new ArrayList<NhaSanXuat>();
 		try {
 			nhaSanXuats = nhaSanXuatServiceImpl.getListNhaSanXuat();
@@ -902,10 +905,10 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 		}
 		cmbNSX = new JComboBox<Object>();
 		cmbNSX.addItem("");
-		for (NhaSanXuat nhaSanXuat  : nhaSanXuats) {
+		for (NhaSanXuat nhaSanXuat : nhaSanXuats) {
 			cmbNSX.addItem(nhaSanXuat.getTenNhaSX());
 		}
-		//Màu Sắc
+		// Màu Sắc
 		mauSacs = new ArrayList<MauSac>();
 		try {
 			mauSacs = mauSacServiceImpl.getListMauSac();
@@ -915,15 +918,15 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 		}
 		cmbMauSac = new JComboBox<Object>();
 		cmbMauSac.addItem("");
-		for (MauSac mauSac  : mauSacs) {
+		for (MauSac mauSac : mauSacs) {
 			cmbMauSac.addItem(mauSac.getTenMau());
 		}
-		
+
 		JLabel lblLoaiVPP = new JLabel();
 		lblLoaiVPP.setText("Loại VPP");
 		lblLoaiVPP.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblLoaiVPP.setFont(new Font("Segoe UI", Font.PLAIN, 18));
-		//Thể loại VPP:
+		// Thể loại VPP:
 		theLoaiVanPhongPhams = new ArrayList<TheLoaiVanPhongPham>();
 		try {
 			theLoaiVanPhongPhams = theLoaiServiceImpl.getListTheLoaiVanPhongPham();
@@ -936,147 +939,163 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 		for (TheLoaiVanPhongPham theLoaiVanPhongPham : theLoaiVanPhongPhams) {
 			cmbLoaiVPP.addItem(theLoaiVanPhongPham.getTenLoai());
 		}
-		
+
 		lblVNDVPP = new JLabel();
 		lblVNDVPP.setToolTipText("");
 		lblVNDVPP.setText("VNĐ");
 		lblVNDVPP.setHorizontalAlignment(SwingConstants.LEFT);
 		lblVNDVPP.setFont(new Font("Segoe UI", Font.PLAIN, 18));
-		
-		lblHetHang = new JLabel();
-		lblHetHang.setText("Hết hàng:");
-		lblHetHang.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblHetHang.setFont(new Font("Segoe UI", Font.PLAIN, 18));
-		
+
+		lblHetHangVPP = new JLabel();
+		lblHetHangVPP.setText("Hiện hết hàng:");
+		lblHetHangVPP.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblHetHangVPP.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+
 		chckbxHetHangVPP = new JCheckBox("");
+		chckbxHetHangVPP.addActionListener(this);
+		lblSoLuongHienThiVPP = new JLabel("Hiển thị 0 sản phẩm");
+		lblSoLuongHienThiVPP.setForeground(new Color(64, 128, 128));
+		lblSoLuongHienThiVPP.setFont(new Font("Segoe UI", Font.BOLD, 18));
 		javax.swing.GroupLayout pnlVPPLayout = new javax.swing.GroupLayout(pnlVPP);
-		pnlVPPLayout.setHorizontalGroup(
-			pnlVPPLayout.createParallelGroup(Alignment.TRAILING)
-				.addGroup(pnlVPPLayout.createSequentialGroup()
-					.addGroup(pnlVPPLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(pnlVPPLayout.createSequentialGroup()
-							.addGap(19)
-							.addGroup(pnlVPPLayout.createParallelGroup(Alignment.TRAILING)
-								.addGroup(pnlVPPLayout.createParallelGroup(Alignment.LEADING)
-									.addComponent(lblMaVPP, GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE)
-									.addGroup(pnlVPPLayout.createSequentialGroup()
-										.addGap(16)
-										.addComponent(lblTenVPP)))
-								.addComponent(lblGiaNhapVPP, GroupLayout.PREFERRED_SIZE, 81, GroupLayout.PREFERRED_SIZE))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(pnlVPPLayout.createParallelGroup(Alignment.LEADING, false)
+		pnlVPPLayout.setHorizontalGroup(pnlVPPLayout.createParallelGroup(Alignment.TRAILING).addGroup(pnlVPPLayout
+				.createSequentialGroup()
+				.addGroup(pnlVPPLayout.createParallelGroup(Alignment.LEADING).addGroup(pnlVPPLayout
+						.createSequentialGroup().addGap(25)
+						.addGroup(
+								pnlVPPLayout.createParallelGroup(Alignment.TRAILING).addComponent(lblTenVPP)
+										.addComponent(lblGiaNhapVPP, GroupLayout.PREFERRED_SIZE, 81,
+												GroupLayout.PREFERRED_SIZE)
+										.addComponent(lblMaVPP, GroupLayout.PREFERRED_SIZE, 75,
+												GroupLayout.PREFERRED_SIZE))
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addGroup(pnlVPPLayout.createParallelGroup(Alignment.LEADING, false)
 								.addComponent(txtMaVPP, GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
 								.addComponent(txtTenVPP)
 								.addGroup(pnlVPPLayout.createSequentialGroup()
-									.addComponent(txtGiaNhapVPP, GroupLayout.PREFERRED_SIZE, 135, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addComponent(lblVNDVPP, GroupLayout.PREFERRED_SIZE, 81, GroupLayout.PREFERRED_SIZE)))
-							.addGap(116)
-							.addGroup(pnlVPPLayout.createParallelGroup(Alignment.LEADING)
-								.addGroup(pnlVPPLayout.createSequentialGroup()
-									.addGroup(pnlVPPLayout.createParallelGroup(Alignment.TRAILING)
-										.addComponent(lblMauVPP, GroupLayout.PREFERRED_SIZE, 78, GroupLayout.PREFERRED_SIZE)
+										.addComponent(txtGiaNhapVPP, GroupLayout.PREFERRED_SIZE, 135,
+												GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(ComponentPlacement.UNRELATED).addComponent(lblVNDVPP,
+												GroupLayout.PREFERRED_SIZE, 81, GroupLayout.PREFERRED_SIZE)))
+						.addGap(116)
+						.addGroup(pnlVPPLayout.createParallelGroup(Alignment.LEADING).addGroup(pnlVPPLayout
+								.createSequentialGroup()
+								.addGroup(pnlVPPLayout.createParallelGroup(Alignment.TRAILING)
+										.addComponent(lblMauVPP, GroupLayout.PREFERRED_SIZE, 78,
+												GroupLayout.PREFERRED_SIZE)
 										.addComponent(lblSL))
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addGroup(pnlVPPLayout.createParallelGroup(Alignment.LEADING)
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addGroup(pnlVPPLayout.createParallelGroup(Alignment.LEADING)
 										.addGroup(pnlVPPLayout.createSequentialGroup()
-											.addComponent(txtSoLuongVPP, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
-											.addGap(18)
-											.addComponent(lblDonViVPP)
-											.addPreferredGap(ComponentPlacement.RELATED)
-											.addComponent(txtDonViVPP, GroupLayout.PREFERRED_SIZE, 105, GroupLayout.PREFERRED_SIZE))
-										.addComponent(cmbMauSac, GroupLayout.PREFERRED_SIZE, 243, GroupLayout.PREFERRED_SIZE)))
+												.addComponent(txtSoLuongVPP, GroupLayout.PREFERRED_SIZE, 60,
+														GroupLayout.PREFERRED_SIZE)
+												.addGap(18).addComponent(lblDonViVPP)
+												.addPreferredGap(ComponentPlacement.RELATED).addComponent(txtDonViVPP,
+														GroupLayout.PREFERRED_SIZE, 105, GroupLayout.PREFERRED_SIZE))
+										.addComponent(cmbMauSac, GroupLayout.PREFERRED_SIZE, 243,
+												GroupLayout.PREFERRED_SIZE)))
+								.addGroup(pnlVPPLayout.createSequentialGroup().addGap(1)
+										.addComponent(lblNCCVPP, GroupLayout.PREFERRED_SIZE, 78,
+												GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(ComponentPlacement.RELATED).addComponent(cmbNCCVPP,
+												GroupLayout.PREFERRED_SIZE, 243, GroupLayout.PREFERRED_SIZE)))
+						.addGap(70)
+						.addGroup(pnlVPPLayout.createParallelGroup(Alignment.LEADING)
 								.addGroup(pnlVPPLayout.createSequentialGroup()
-									.addGap(1)
-									.addComponent(lblNCCVPP, GroupLayout.PREFERRED_SIZE, 78, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(cmbNCCVPP, GroupLayout.PREFERRED_SIZE, 243, GroupLayout.PREFERRED_SIZE)))
-							.addGap(70)
-							.addGroup(pnlVPPLayout.createParallelGroup(Alignment.LEADING)
+										.addComponent(lblNSXVPP, GroupLayout.PREFERRED_SIZE, 78,
+												GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(ComponentPlacement.UNRELATED).addComponent(cmbNSX,
+												GroupLayout.PREFERRED_SIZE, 243, GroupLayout.PREFERRED_SIZE))
 								.addGroup(pnlVPPLayout.createSequentialGroup()
-									.addComponent(lblNSXVPP, GroupLayout.PREFERRED_SIZE, 78, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addComponent(cmbNSX, GroupLayout.PREFERRED_SIZE, 243, GroupLayout.PREFERRED_SIZE))
-								.addGroup(pnlVPPLayout.createSequentialGroup()
-									.addGroup(pnlVPPLayout.createParallelGroup(Alignment.TRAILING, false)
-										.addComponent(lblHetHang, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-										.addComponent(lblLoaiVPP, GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE))
-									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addGroup(pnlVPPLayout.createParallelGroup(Alignment.LEADING)
-										.addComponent(chckbxHetHangVPP)
-										.addComponent(cmbLoaiVPP, GroupLayout.PREFERRED_SIZE, 243, GroupLayout.PREFERRED_SIZE))))
-							.addPreferredGap(ComponentPlacement.RELATED, 322, Short.MAX_VALUE))
-						.addGroup(pnlVPPLayout.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(jPanel13, GroupLayout.DEFAULT_SIZE, 1509, Short.MAX_VALUE))
-						.addGroup(pnlVPPLayout.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(scrVPP, GroupLayout.PREFERRED_SIZE, 1509, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap())
-		);
-		pnlVPPLayout.setVerticalGroup(
-			pnlVPPLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(pnlVPPLayout.createSequentialGroup()
-					.addGap(18)
-					.addGroup(pnlVPPLayout.createParallelGroup(Alignment.LEADING)
+										.addComponent(lblLoaiVPP, GroupLayout.PREFERRED_SIZE, 78,
+												GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(ComponentPlacement.UNRELATED)
+										.addGroup(pnlVPPLayout.createParallelGroup(Alignment.LEADING)
+												.addGroup(pnlVPPLayout.createSequentialGroup()
+														.addComponent(lblHetHangVPP, GroupLayout.PREFERRED_SIZE, 132,
+																GroupLayout.PREFERRED_SIZE)
+														.addPreferredGap(ComponentPlacement.UNRELATED)
+														.addComponent(chckbxHetHangVPP))
+												.addComponent(cmbLoaiVPP, GroupLayout.PREFERRED_SIZE, 243,
+														GroupLayout.PREFERRED_SIZE))))
+						.addPreferredGap(ComponentPlacement.RELATED, 316, Short.MAX_VALUE))
+						.addGroup(pnlVPPLayout.createSequentialGroup().addContainerGap().addComponent(jPanel13,
+								GroupLayout.DEFAULT_SIZE, 1509, Short.MAX_VALUE))
+						.addGroup(pnlVPPLayout.createSequentialGroup().addContainerGap().addComponent(scrVPP,
+								GroupLayout.PREFERRED_SIZE, 1509, GroupLayout.PREFERRED_SIZE))
+						.addGroup(pnlVPPLayout.createSequentialGroup().addGap(688).addComponent(lblSoLuongHienThiVPP)))
+				.addContainerGap()));
+		pnlVPPLayout.setVerticalGroup(pnlVPPLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(pnlVPPLayout.createSequentialGroup().addGap(18).addGroup(pnlVPPLayout
+						.createParallelGroup(Alignment.LEADING)
 						.addGroup(pnlVPPLayout.createParallelGroup(Alignment.TRAILING, false)
-							.addComponent(lblMaVPP)
-							.addGroup(pnlVPPLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(txtMaVPP, GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
-								.addComponent(lblMauVPP))
-							.addComponent(lblNSXVPP))
+								.addGroup(pnlVPPLayout.createParallelGroup(Alignment.BASELINE)
+										.addComponent(txtMaVPP, GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+										.addComponent(lblMauVPP).addComponent(lblMaVPP))
+								.addComponent(lblNSXVPP))
 						.addComponent(cmbMauSac, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
-						.addComponent(cmbNSX, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE))
-					.addGap(20)
-					.addGroup(pnlVPPLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(pnlVPPLayout.createSequentialGroup()
-							.addGroup(pnlVPPLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblTenVPP)
-								.addComponent(txtTenVPP, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblNCCVPP)
-								.addComponent(cmbNCCVPP, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE))
-							.addGroup(pnlVPPLayout.createParallelGroup(Alignment.LEADING)
-								.addGroup(pnlVPPLayout.createSequentialGroup()
-									.addGap(20)
-									.addGroup(pnlVPPLayout.createParallelGroup(Alignment.BASELINE)
-										.addComponent(lblGiaNhapVPP)
-										.addComponent(lblSL)
-										.addComponent(txtGiaNhapVPP, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-										.addComponent(txtSoLuongVPP, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-										.addComponent(lblDonViVPP)
-										.addComponent(lblVNDVPP, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)))
-								.addGroup(pnlVPPLayout.createSequentialGroup()
-									.addGap(18)
-									.addGroup(pnlVPPLayout.createParallelGroup(Alignment.BASELINE)
-										.addComponent(txtDonViVPP, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-										.addComponent(lblHetHang, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-										.addComponent(chckbxHetHangVPP)))))
-						.addGroup(pnlVPPLayout.createParallelGroup(Alignment.TRAILING)
-							.addComponent(lblLoaiVPP, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-							.addComponent(cmbLoaiVPP, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)))
-					.addComponent(jPanel13, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(scrVPP, GroupLayout.PREFERRED_SIZE, 434, GroupLayout.PREFERRED_SIZE)
-					.addGap(349))
-		);
+						.addComponent(cmbNSX, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)).addGap(
+								20)
+						.addGroup(
+								pnlVPPLayout.createParallelGroup(Alignment.LEADING)
+										.addGroup(pnlVPPLayout
+												.createSequentialGroup().addGroup(pnlVPPLayout
+														.createParallelGroup(Alignment.BASELINE).addComponent(lblTenVPP)
+														.addComponent(txtTenVPP, GroupLayout.PREFERRED_SIZE, 30,
+																GroupLayout.PREFERRED_SIZE)
+														.addComponent(lblNCCVPP).addComponent(
+																cmbNCCVPP, GroupLayout.PREFERRED_SIZE, 27,
+																GroupLayout.PREFERRED_SIZE))
+												.addGroup(pnlVPPLayout.createParallelGroup(Alignment.LEADING)
+														.addGroup(pnlVPPLayout.createSequentialGroup().addGap(20)
+																.addGroup(pnlVPPLayout
+																		.createParallelGroup(Alignment.BASELINE)
+																		.addComponent(lblGiaNhapVPP).addComponent(lblSL)
+																		.addComponent(txtGiaNhapVPP,
+																				GroupLayout.PREFERRED_SIZE, 30,
+																				GroupLayout.PREFERRED_SIZE)
+																		.addComponent(txtSoLuongVPP,
+																				GroupLayout.PREFERRED_SIZE, 30,
+																				GroupLayout.PREFERRED_SIZE)
+																		.addComponent(
+																				lblDonViVPP)
+																		.addComponent(lblVNDVPP,
+																				GroupLayout.PREFERRED_SIZE, 25,
+																				GroupLayout.PREFERRED_SIZE)))
+														.addGroup(pnlVPPLayout.createSequentialGroup().addGap(18)
+																.addGroup(pnlVPPLayout
+																		.createParallelGroup(Alignment.LEADING)
+																		.addComponent(chckbxHetHangVPP)
+																		.addGroup(pnlVPPLayout
+																				.createParallelGroup(Alignment.BASELINE)
+																				.addComponent(txtDonViVPP,
+																						GroupLayout.PREFERRED_SIZE, 30,
+																						GroupLayout.PREFERRED_SIZE)
+																				.addComponent(lblHetHangVPP,
+																						GroupLayout.PREFERRED_SIZE, 25,
+																						GroupLayout.PREFERRED_SIZE))))))
+										.addGroup(pnlVPPLayout.createParallelGroup(Alignment.TRAILING)
+												.addComponent(lblLoaiVPP, GroupLayout.PREFERRED_SIZE, 25,
+														GroupLayout.PREFERRED_SIZE)
+												.addComponent(cmbLoaiVPP, GroupLayout.PREFERRED_SIZE, 27,
+														GroupLayout.PREFERRED_SIZE)))
+						.addComponent(jPanel13, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+								GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(scrVPP, GroupLayout.PREFERRED_SIZE, 372, GroupLayout.PREFERRED_SIZE).addGap(18)
+						.addComponent(lblSoLuongHienThiVPP).addGap(379)));
 		pnlVPP.setLayout(pnlVPPLayout);
 
 		tbp_sanpham.addTab("Văn Phòng Phẩm", null, pnlVPP, "");
 
 		javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-		jPanel1Layout.setHorizontalGroup(
-			jPanel1Layout.createParallelGroup(Alignment.LEADING)
+		jPanel1Layout.setHorizontalGroup(jPanel1Layout.createParallelGroup(Alignment.LEADING)
 				.addGroup(jPanel1Layout.createSequentialGroup()
-					.addComponent(tbp_sanpham, GroupLayout.PREFERRED_SIZE, 1523, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(102, Short.MAX_VALUE))
-		);
-		jPanel1Layout.setVerticalGroup(
-			jPanel1Layout.createParallelGroup(Alignment.LEADING)
-				.addGroup(jPanel1Layout.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(tbp_sanpham, GroupLayout.PREFERRED_SIZE, 696, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-		);
+						.addComponent(tbp_sanpham, GroupLayout.PREFERRED_SIZE, 1523, GroupLayout.PREFERRED_SIZE)
+						.addContainerGap(102, Short.MAX_VALUE)));
+		jPanel1Layout.setVerticalGroup(jPanel1Layout.createParallelGroup(Alignment.LEADING)
+				.addGroup(jPanel1Layout.createSequentialGroup().addContainerGap()
+						.addComponent(tbp_sanpham, GroupLayout.PREFERRED_SIZE, 696, GroupLayout.PREFERRED_SIZE)
+						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
 		jPanel1.setLayout(jPanel1Layout);
 
 		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -1128,8 +1147,7 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 	private javax.swing.JButton btnThemSach;
 	private javax.swing.JButton btnThemVPP;
 	private javax.swing.JButton btnThemVpp5;
-	private javax.swing.JButton btnXoaSach;
-	private javax.swing.JButton btnXoaVPP;
+	private javax.swing.JButton btnDanhMucSach;
 	private javax.swing.JButton btnXuatSP;
 	private javax.swing.JButton btnXuatSach;
 	private javax.swing.JButton btnXuatVPP;
@@ -1218,14 +1236,37 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 	NhaXuatBanServiceImpl nhaXuatBanServiceImpl = new NhaXuatBanServiceImpl();
 	private JComboBox<Object> cmbLoaiSach;
 	private JLabel lblVNDVPP;
-	private JLabel lblHetHang;
+	private JLabel lblHetHangVPP;
+	private JCheckBox chckbxHetHangSach;
+	private JLabel lblHetHangSach;
+	private JLabel lblSoLuongHienThiVPP;
+	private final static int tenSach = 0;
+	private final static int tenTacGia = 1;
+	private final static int tenNhaXuatBan = 2;
+	private final static int tenTheLoai = 3;
+	private final static int soLuongTon = 4;
+	private final static int tenNhaCungCap = 5;
+	private final static int giaNhap = 6;
+	private final static int giaBan = 7;
+	
+	private final static int tenVanPhongPham = 0;
+	private final static int tenLoaiVanPhongPham = 1;
+	private final static int tenMauSac = 2;
+	private final static int tenNhaSanXuat = 3;
+	private final static int soLuongTonvpp = 4;
+	private final static int tenNhaCungCapvpp = 5;
+	private final static int giaNhapvpp = 6;
+	private final static int giaBanvpp = 7;
+	private HSSFWorkbook hssfWorkbook;
+	private JFileChooser filechoose;
+	private File file;
 
 	// End of variables declaration//GEN-END:variables
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
 		Object o = e.getSource();
-		if(o.equals(tblSach)) {
+		if (o.equals(tblSach)) {
 			int i = tblSach.getSelectedRow();
 			setHienThiSach(i);
 		}
@@ -1233,7 +1274,7 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 			int j = tblVPP.getSelectedRow();
 			setHienThiVPP(j);
 		}
-		
+
 	}
 
 	@Override
@@ -1264,7 +1305,26 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		Object src = e.getSource();
-		if (src.equals(btnLamMoiSach)||src.equals(btnLamMoiVPP)) {
+		
+		if (src.equals(chckbxHetHangSach)) {
+			try {
+				this.loadDuLieuSach();
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		
+		if (src.equals(chckbxHetHangVPP)) {
+			try {
+				this.loadDuLieuVPP();
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		
+		if (src.equals(btnLamMoiSach) || src.equals(btnLamMoiVPP)) {
 			this.lamMoiSach();
 			this.lamMoiVPP();
 			try {
@@ -1277,10 +1337,12 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 		}
 		if (src.equals(btnThemSach)) {
 			lamMoiVPP();
-			this.themSP();		}
+			this.themSP();
+		}
 		if (src.equals(btnThemVPP)) {
 			lamMoiSach();
-			this.themSP();		}
+			this.themSP();
+		}
 		if (src.equals(btnCapNhatSach)) {
 			lamMoiVPP();
 			int row = tblSach.getSelectedRow();
@@ -1300,7 +1362,7 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-		
+
 		}
 		if (src.equals(btnCapNhatVPP)) {
 			lamMoiSach();
@@ -1321,14 +1383,175 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-		
 		}
+		if (src.equals(btnDanhMucSach)) {
+			new Frm_QuanLyDanhMuc("Sách").setVisible(true);
+		}
+		if (src.equals(btnDanhMucVPP)) {
+			new Frm_QuanLyDanhMuc("Văn phòng phẩm").setVisible(true);
+		}
+		if (src.equals(btnXuatSach)) {
+			filechoose = new JFileChooser();
+			FileNameExtensionFilter filter = new FileNameExtensionFilter("*.xlsx", "xlsx");
+			filechoose.setFileFilter(filter);
+			filechoose.setMultiSelectionEnabled(false);
+
+			String filePath = "";
+			int x = filechoose.showDialog(this, "Chọn File");
+			if (x == JFileChooser.APPROVE_OPTION) {
+				file = filechoose.getSelectedFile();
+				filePath = file.getAbsolutePath();
+				if (!filePath.endsWith(".xlsx")) {
+					filePath += ".xlsx";
+				}
+			}
+			if (filePath.equals("")) {
+				return;
+			}
+			listSach = new ArrayList<Sach>();
+			int row = tblSach.getRowCount();
+			System.out.println(row);
+			for (int i = 0; i < row; i++) {
+				try {
+					Sach s = sanPhamServiceImpl.timSanPhamTheoMaSach(tableModel_Sach.getValueAt(i, 1).toString());
+					listSach.add(s);
+					s.toString();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+
+			try {
+				exportSach(listSach, filePath);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			if (JOptionPane.showConfirmDialog(null, "Export thành công!!\nBạn có muốn mở file?", "Thông báo",
+					JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+				Desktop desktop = Desktop.getDesktop();
+				File file = new File(filePath);
+				if (file.exists())
+					try {
+						desktop.open(file);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+			}
+		}
+		if (src.equals(btnXuatVPP)) {
+			filechoose = new JFileChooser();
+			FileNameExtensionFilter filter = new FileNameExtensionFilter("*.xlsx", "xlsx");
+			filechoose.setFileFilter(filter);
+			filechoose.setMultiSelectionEnabled(false);
+
+			String filePath = "";
+			int x = filechoose.showDialog(this, "Chọn File");
+			if (x == JFileChooser.APPROVE_OPTION) {
+				file = filechoose.getSelectedFile();
+				filePath = file.getAbsolutePath();
+				if (!filePath.endsWith(".xlsx")) {
+					filePath += ".xlsx";
+				}
+			}
+			if (filePath.equals("")) {
+				return;
+			}
+			ArrayList<VanPhongPham> listVPP = new ArrayList<>();
+			int row = tblVPP.getRowCount();
+			for (int i = 0; i < row; i++) {
+				try {
+					VanPhongPham vpp = sanPhamServiceImpl
+							.timSanPhamTheoMaVPP(tableModel_VPP.getValueAt(i, 1).toString());
+					listVPP.add(vpp);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+
+			try {
+				exportVPP(listVPP, filePath);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			if (JOptionPane.showConfirmDialog(null, "Export thành công!!\nBạn có muốn mở file?", "Thông báo",
+					JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+				Desktop desktop = Desktop.getDesktop();
+				File file = new File(filePath);
+				if (file.exists())
+					try {
+						desktop.open(file);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+			}
+		}
+		
+		if (src.equals(btnNhapSach)) {
+			filechoose = new JFileChooser("../QLHS/sql");
+			filechoose.setMultiSelectionEnabled(false);
+			String filePath = "";
+			int x = filechoose.showDialog(this, "Chọn File");
+			if (x == JFileChooser.APPROVE_OPTION) {
+				file = filechoose.getSelectedFile();
+				filePath = file.getAbsolutePath();
+			}
+			if (!filePath.endsWith(".xlsx")) {
+				return;
+			}
+				int count = 0;
+				try {
+					count = importSach(filePath);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				String s = "Import thành công " + count + " cuốn sách!!";
+				JOptionPane.showMessageDialog(null, s, "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+				lamMoiSach();
+		}
+		
+		if (src.equals(btnNhapVPP)) {
+			filechoose = new JFileChooser("../QLHS/sql");
+			filechoose.setMultiSelectionEnabled(false);
+			String filePath = "";
+			int x = filechoose.showDialog(this, "Chọn File");
+			if (x == JFileChooser.APPROVE_OPTION) {
+				file = filechoose.getSelectedFile();
+				filePath = file.getAbsolutePath();
+			}
+			if (!filePath.endsWith(".xlsx")) {
+				return;
+			}
+			int count = 0;
+			try {
+				count = importVPP(filePath);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			String s = "Import thành công " + count + " văn phòng phẩm!!";
+			JOptionPane.showMessageDialog(null, s, "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+			lamMoiVPP();
+		}
+		
 	}
 
 	public void lamMoiSach() {
 		txtDonViSach.setText("");
 		try {
-			txtMaSach.setText(tangMa());
+			txtMaSach.setText(tangMaSP());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -1341,10 +1564,11 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 		txtTenSach.setText("");
 		txtSoLuongSach.setText("");
 	}
+
 	public void lamMoiVPP() {
 		txtDonViVPP.setText("");
 		try {
-			txtMaVPP.setText(tangMa());
+			txtMaVPP.setText(tangMaSP());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -1357,30 +1581,31 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 		txtTenVPP.setText("");
 		txtSoLuongVPP.setText("");
 	}
+
 	public void capNhatSP(String maSanPham, String loaiSanPham) {
-		Sach s= new Sach();
+		Sach s = new Sach();
 		VanPhongPham v = new VanPhongPham();
 		if (loaiSanPham.equals("Sách")) {
 			s = taoSach();
-			if(s == null) {
+			if (s == null) {
 				return;
 			}
 			try {
 				boolean kt = sanPhamServiceImpl.capNhatSanPham(s.getMaSanPham(), s);
-				if(kt == true) {
-					JOptionPane.showMessageDialog(null,  "Cập nhật thành công!");
-				}
-				else {
-					JOptionPane.showMessageDialog(null,  "Số trang phải lớn hơn 0!\nSố lượng phải lớn hơn 0!\nTrọng lượng phải lớn hơn 0!\n Giá nhập lớn hơn 1000!","Báo lỗi", JOptionPane.ERROR_MESSAGE);
+				if (kt == true) {
+					JOptionPane.showMessageDialog(null, "Cập nhật thành công!");
+				} else {
+					JOptionPane.showMessageDialog(null,
+							"Số trang phải lớn hơn 0!\nSố lượng phải lớn hơn 0!\nTrọng lượng phải lớn hơn 0!\n Giá nhập lớn hơn 1000!",
+							"Báo lỗi", JOptionPane.ERROR_MESSAGE);
 				}
 			} catch (Exception e) {
 				// TODO: handle exception
 				e.printStackTrace();
 			}
-		}
-		else {
+		} else {
 			v = taoVanPhongPham();
-			if(v == null)
+			if (v == null)
 				return;
 			try {
 				boolean kt = sanPhamServiceImpl.capNhatSanPham(v.getMaSanPham(), v);
@@ -1388,8 +1613,8 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 					JOptionPane.showMessageDialog(null, "Cập nhật thành công !!!");
 				} else {
 					JOptionPane.showMessageDialog(null,
-							"Số lượng phải lớn hơn 0!\nTrọng lượng phải lớn hơn 0!\n Giá nhập lớn hơn 1000!",
-							"Báo lỗi", JOptionPane.ERROR_MESSAGE);
+							"Số lượng phải lớn hơn 0!\nTrọng lượng phải lớn hơn 0!\n Giá nhập lớn hơn 1000!", "Báo lỗi",
+							JOptionPane.ERROR_MESSAGE);
 				}
 			} catch (Exception e) {
 				// TODO: handle exception
@@ -1397,8 +1622,9 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 			}
 		}
 	}
+
 	public void themSP() {
-		if (txtTenSach.getText().equals("")&& txtTenVPP.getText().equals("")) { 
+		if (txtTenSach.getText().equals("") && txtTenVPP.getText().equals("")) {
 			JOptionPane.showMessageDialog(null, "Tên sản phẩm không được để rỗng", "Báo lỗi",
 					JOptionPane.ERROR_MESSAGE);
 			txtTenSach.requestFocus();
@@ -1421,7 +1647,7 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 					tableModel_Sach.setRowCount(0);
 					lamMoiSach();
 					loadDuLieuSach();
-					txtMaSach.setText(tangMa());
+					txtMaSach.setText(tangMaSP());
 				} else {
 					JOptionPane.showMessageDialog(null, "Sản phẩm đã tồn tại", "Báo lỗi", JOptionPane.ERROR_MESSAGE);
 					txtTenSp.requestFocus();
@@ -1443,7 +1669,7 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 					tableModel_VPP.setRowCount(0);
 					lamMoiVPP();
 					loadDuLieuVPP();
-					txtMaVPP.setText(tangMa());
+					txtMaVPP.setText(tangMaSP());
 				} else {
 					JOptionPane.showMessageDialog(null, "Sản phẩm đã tồn tại", "Báo lỗi", JOptionPane.ERROR_MESSAGE);
 					txtTenSp.requestFocus();
@@ -1456,7 +1682,7 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 		}
 	}
 
-	public String tangMa() throws SQLException {
+	public String tangMaSP() throws SQLException {
 		String s = sanPhamServiceImpl.getMaSPMax();
 		String so = s.substring(2).replaceAll("\\s+", "");
 		int n = Integer.parseInt(so);
@@ -1466,7 +1692,7 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 			s = s.replaceAll(n + "", n + 1 + "");
 		return s;
 	}
-	
+
 	public VanPhongPham taoVanPhongPham() {
 		VanPhongPham v = null;
 		String maSanPham = txtMaVPP.getText().toString().trim();
@@ -1480,14 +1706,14 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 			txtSoLuongVPP.selectAll();
 			return null;
 		}
-		if (soLuongTon <= 0 || soLuongTon > 10000) {
+		if (soLuongTon < 0 || soLuongTon > 10000) {
 			JOptionPane.showMessageDialog(null, "Số lượng lớn hơn 0 và bé hơn 10000", "Báo lỗi",
 					JOptionPane.ERROR_MESSAGE);
 			txtSoLuongVPP.requestFocus();
 			txtSoLuongVPP.selectAll();
 			return null;
 		}
-		NhaCungCap nhaCungCap = nhaCungCapVPPs.get(cmbNCCVPP.getSelectedIndex()-1);
+		NhaCungCap nhaCungCap = nhaCungCaps.get(cmbNCCVPP.getSelectedIndex() - 1);
 		long giaNhap;
 		try {
 			giaNhap = Long.parseLong(txtGiaNhapVPP.getText().trim());
@@ -1500,9 +1726,9 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 		long giaBan = (giaNhap * 20 / 100) + giaNhap;
 		String donViSanPham = txtDonViVPP.getText();
 		String tenVPP = txtTenVPP.getText().trim();
-		MauSac mauSac = mauSacs.get(cmbMauSac.getSelectedIndex()-1);
-		NhaSanXuat nhaSanXuat = nhaSanXuats.get(cmbNSX.getSelectedIndex()-1);
-		TheLoaiVanPhongPham loaiVanPhongPham = theLoaiVanPhongPhams.get(cmbLoaiVPP.getSelectedIndex()-1);
+		MauSac mauSac = mauSacs.get(cmbMauSac.getSelectedIndex() - 1);
+		NhaSanXuat nhaSanXuat = nhaSanXuats.get(cmbNSX.getSelectedIndex() - 1);
+		TheLoaiVanPhongPham loaiVanPhongPham = theLoaiVanPhongPhams.get(cmbLoaiVPP.getSelectedIndex() - 1);
 		v = new VanPhongPham(maSanPham, nhaCungCap, loaiSanPham, soLuongTon, donViSanPham, giaNhap, giaBan, tenVPP,
 				mauSac, nhaSanXuat, loaiVanPhongPham);
 		return v;
@@ -1522,13 +1748,12 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 			return null;
 		}
 		if (soLuongTon < 0 || soLuongTon >= 10000) {
-			JOptionPane.showMessageDialog(null, "Số lượng >= 0 và < 10000!!", "Báo lỗi",
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Số lượng >= 0 và < 10000!!", "Báo lỗi", JOptionPane.ERROR_MESSAGE);
 			txtSoLuongSach.requestFocus();
 			txtSoLuongSach.selectAll();
 			return null;
 		}
-		
+
 		long giaNhap;
 		try {
 			giaNhap = Long.parseLong(txtGiaSach.getText().trim());
@@ -1547,12 +1772,12 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 		}
 		String donVi = txtDonViSach.getText();
 		String tenSach = txtTenSach.getText().trim();
-		TacGia tacGia = tacGias.get(cmbTacGia.getSelectedIndex()-1);
-		NhaXuatBan nhaXuatBan = nhaXuatBans.get(cmbNXB.getSelectedIndex()-1);
-		NhaCungCap nhaCungCap = nhaCungCapSachs.get(cmbNCCSach.getSelectedIndex()-1);
-		
+		TacGia tacGia = tacGias.get(cmbTacGia.getSelectedIndex() - 1);
+		NhaXuatBan nhaXuatBan = nhaXuatBans.get(cmbNXB.getSelectedIndex() - 1);
+		NhaCungCap nhaCungCap = nhaCungCaps.get(cmbNCCSach.getSelectedIndex() - 1);
+
 		long giaBan = (giaNhap * 20 / 100) + giaNhap;
-		TheLoaiSach theLoaiSach = theLoaiSachs.get(cmbLoaiSach.getSelectedIndex()-1);
+		TheLoaiSach theLoaiSach = theLoaiSachs.get(cmbLoaiSach.getSelectedIndex() - 1);
 		s = new Sach(maSanPham, nhaCungCap, loaiSanPham, soLuongTon, donVi, giaNhap, giaBan, tenSach, tacGia,
 				nhaXuatBan, theLoaiSach);
 		return s;
@@ -1580,18 +1805,19 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 			tableModel_SanPham.addRow(obj);
 		}
 	}
+
 	public void loadDuLieuSach() throws Exception {
 		listSach = new ArrayList<Sach>();
 		String maSach = "";
-		
+
 		String tenSP = txtTenSach.getText().trim();
 
 		String maTheLoai = "";
 		if (cmbLoaiSach.getSelectedIndex() != 0) {
-			maTheLoai = theLoaiSachs.get(cmbLoaiSach.getSelectedIndex()-1).getMaLoai();
-			System.out.println("Ma thể loại là: "+maTheLoai);
-			//maTheLoai = theLoaiSachs.get(cmbLoaiSach.getSelectedIndex()-1).getMaLoai();
-		}	
+			maTheLoai = theLoaiSachs.get(cmbLoaiSach.getSelectedIndex() - 1).getMaLoai();
+			System.out.println("Ma thể loại là: " + maTheLoai);
+			// maTheLoai = theLoaiSachs.get(cmbLoaiSach.getSelectedIndex()-1).getMaLoai();
+		}
 		Long giaTu = (long) 0;
 		Long giaDen = (long) 100000000;
 //		if (cbbGia.getSelectedIndex() != 0) {
@@ -1630,21 +1856,21 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 
 		String maTacGia = "";
 		if (cmbTacGia.getSelectedIndex() != 0)
-			maTacGia = tacGias.get(cmbTacGia.getSelectedIndex()-1).getMaTacGia();
+			maTacGia = tacGias.get(cmbTacGia.getSelectedIndex() - 1).getMaTacGia();
 		String maNXB = "";
 		if (cmbNSX.getSelectedIndex() != 0)
 			maNXB = nhaXuatBans.get(cmbNSX.getSelectedIndex() - 1).getMaNXB();
 		String maNCC = "";
 		if (cmbNCCSach.getSelectedIndex() != 0)
-			maNCC = nhaCungCapSachs.get(cmbNCCSach.getSelectedIndex() - 1).getMaNhaCungCap();
-		
+			maNCC = nhaCungCaps.get(cmbNCCSach.getSelectedIndex() - 1).getMaNhaCungCap();
+
 		try {
-			listSach = sanPhamServiceImpl.getListSach(maSach, tenSP, maTheLoai, giaTu, giaDen, maTacGia, maNXB, maNCC);
+			listSach = sanPhamServiceImpl.getListSach(maSach, tenSP, maTheLoai, giaTu, giaDen, maTacGia, maNXB, maNCC,chckbxHetHangSach.isSelected());
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
-		
+
 		tableModel_Sach.setRowCount(0);
 //		if (listSach == null) {
 //			JOptionPane.showMessageDialog(null, "Giá từ bao nhiêu phải bé hơn giá nhập!!", "Báo lỗi",
@@ -1655,7 +1881,7 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 //		}
 		int i = 0;
 		for (Sach sp : listSach) {
-			Object ob[] = { i+=1, sp.getMaSanPham(), sp.getTenSach(), sp.getSoLuongTon() + "", sp.getDonVi(),
+			Object ob[] = { i += 1, sp.getMaSanPham(), sp.getTenSach(), sp.getSoLuongTon() + "", sp.getDonVi(),
 					sp.getGiaNhap(), sp.getTheLoaiSach().getTenLoai() + "", sp.getNhaCungCap().getTenNhaCungCap(),
 					sp.getTacGia().getTenTacGia(), sp.getNhaXuatBan().getTenNXB() };
 			tableModel_Sach.addRow(ob);
@@ -1673,22 +1899,22 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 		listVPP = new ArrayList<VanPhongPham>();
 		String maVPP = "";
 		String tenVPP = txtTenVPP.getText().trim();
-		if(!tenVPP.equals(""))
+		if (!tenVPP.equals(""))
 			maVPP = txtMaVPP.getText().trim();
 		String maTheLoai = "";
-		if(cmbLoaiVPP.getSelectedIndex() != 0)
+		if (cmbLoaiVPP.getSelectedIndex() != 0)
 			maTheLoai = theLoaiVanPhongPhams.get(cmbLoaiVPP.getSelectedIndex() - 1).getMaLoai();
 		Long giaTu = (long) 0;
 		Long giaDen = (long) 100000000;
 		String maNSX = "";
-		if(cmbNSX.getSelectedIndex() != 0)
+		if (cmbNSX.getSelectedIndex() != 0)
 			maNSX = nhaSanXuats.get(cmbNSX.getSelectedIndex() - 1).getMaNhaSX();
 		String maNCC = "";
 		if (cmbNCCVPP.getSelectedIndex() != 0)
-			maNCC = nhaCungCapVPPs.get(cmbNCCVPP.getSelectedIndex() - 1).getMaNhaCungCap();
+			maNCC = nhaCungCaps.get(cmbNCCVPP.getSelectedIndex() - 1).getMaNhaCungCap();
 		try {
-			listVPP = sanPhamServiceImpl.getListVanPhongPham(maVPP, tenVPP, maTheLoai, giaTu, giaDen, 
-					maNSX, maNCC, chckbxHetHangVPP.isSelected());
+			listVPP = sanPhamServiceImpl.getListVanPhongPham(maVPP, tenVPP, maTheLoai, giaTu, giaDen, maNSX, maNCC,
+					chckbxHetHangVPP.isSelected());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -1696,11 +1922,12 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 		tableModel_VPP.setRowCount(0);
 		int i = 0;
 		for (VanPhongPham vpp : listVPP) {
-			Object obj[] = { i+=1 , vpp.getMaSanPham(), vpp.getTenVanPhongPham(), vpp.getMauSac().getTenMau(),
+			Object obj[] = { i += 1, vpp.getMaSanPham(), vpp.getTenVanPhongPham(), vpp.getMauSac().getTenMau(),
 					vpp.getSoLuongTon() + "", vpp.getDonVi(), vpp.getGiaNhap(), vpp.getLoaiVanPhongPham().getTenLoai(),
 					vpp.getNhaCungCap().getTenNhaCungCap(), vpp.getNhaSanXuat().getTenNhaSX(), vpp.getMauSac() };
 			tableModel_VPP.addRow(obj);
 		}
+		lblSoLuongHienThiVPP.setText("Hiển thị " + listVPP.size() + " sản phẩm");
 		TableColumnModel columnMode = tblVPP.getColumnModel();
 		columnMode.getColumn(0).setMaxWidth(40);
 		columnMode.getColumn(1).setMaxWidth(150);
@@ -1709,15 +1936,16 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 		columnMode.getColumn(5).setMaxWidth(80);
 		columnMode.getColumn(6).setMaxWidth(120);
 	}
-	
+
 	public void loadSach() throws Exception {
 		SanPhamServiceImpl sanPhamService = new SanPhamServiceImpl();
 		listSach = sanPhamService.getAllSach();
 		int i = 1;
 		for (Sach sp : listSach) {
 			Object ob[] = { i++ + "", sp.getMaSanPham(), sp.getTenSach(), sp.getSoLuongTon() + "", sp.getDonVi(),
-					sp.getGiaNhap() + " VNĐ", sp.getTheLoaiSach().getTenLoai() + "", sp.getNhaCungCap().getMaNhaCungCap(),
-					sp.getTacGia().getTenTacGia(), sp.getNhaXuatBan().getTenNXB() };
+					sp.getGiaNhap() + " VNĐ", sp.getTheLoaiSach().getTenLoai() + "",
+					sp.getNhaCungCap().getMaNhaCungCap(), sp.getTacGia().getTenTacGia(),
+					sp.getNhaXuatBan().getTenNXB() };
 			tableModel_Sach.addRow(ob);
 		}
 	}
@@ -1733,28 +1961,530 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 			tableModel_VPP.addRow(obj);
 		}
 	}
-	
+
 	public void setHienThiSach(int row) {
-		txtMaSach.setText(tblSach.getValueAt(row, 1)+ "");
-		txtTenSach.setText(tblSach.getValueAt(row, 2)+ "");
+		txtMaSach.setText(tblSach.getValueAt(row, 1) + "");
+		txtTenSach.setText(tblSach.getValueAt(row, 2) + "");
 		txtGiaSach.setText(tblSach.getValueAt(row, 5).toString());
-		txtSoLuongSach.setText(tblSach.getValueAt(row, 3)+ "");
-		txtDonViSach.setText(tblSach.getValueAt(row, 4)+ "");
-		cmbTacGia.setSelectedItem(tblSach.getValueAt(row,8)+ "");
-		cmbLoaiSach.setSelectedItem(tblSach.getValueAt(row,6)+ "");
-		cmbNCCSach.setSelectedItem(tblSach.getValueAt(row,7)+ "");
-		cmbNXB.setSelectedItem(tblSach.getValueAt(row,9)+ "");
+		txtSoLuongSach.setText(tblSach.getValueAt(row, 3) + "");
+		txtDonViSach.setText(tblSach.getValueAt(row, 4) + "");
+		cmbTacGia.setSelectedItem(tblSach.getValueAt(row, 8) + "");
+		cmbLoaiSach.setSelectedItem(tblSach.getValueAt(row, 6) + "");
+		cmbNCCSach.setSelectedItem(tblSach.getValueAt(row, 7) + "");
+		cmbNXB.setSelectedItem(tblSach.getValueAt(row, 9) + "");
+	}
+
+	public void setHienThiVPP(int row) {
+		txtMaVPP.setText(tblVPP.getValueAt(row, 1) + "");
+		txtTenVPP.setText(tblVPP.getValueAt(row, 2) + "");
+		cmbMauSac.setSelectedItem(tblVPP.getValueAt(row, 3) + "");
+		txtSoLuongVPP.setText(tblVPP.getValueAt(row, 4) + "");
+		txtDonViVPP.setText(tblVPP.getValueAt(row, 5) + "");
+		txtGiaNhapVPP.setText(tblVPP.getValueAt(row, 6).toString());
+		cmbLoaiVPP.setSelectedItem(tblVPP.getValueAt(row, 7) + "");
+		cmbNCCVPP.setSelectedItem(tblVPP.getValueAt(row, 8) + "");
+		cmbNSX.setSelectedItem(tblVPP.getValueAt(row, 9) + "");
+	}
+
+	public static void exportVPP(List<VanPhongPham> listVpp, String excelFilePath) throws IOException {
+		// Create Workbook
+		Workbook workbook = null;
+
+		if (excelFilePath.endsWith("xlsx")) {
+			workbook = new XSSFWorkbook();
+		} else if (excelFilePath.endsWith("xls")) {
+			workbook = new HSSFWorkbook();
+		} else {
+			throw new IllegalArgumentException("The specified file is not Excel file");
+		}
+
+		// Create sheet
+		Sheet sheet = workbook.createSheet("VanPhongPham"); // Create sheet with sheet name
+
+		int rowIndex = 0;
+
+		// Write header
+		Row row = sheet.createRow(rowIndex);
+		// Create cells
+		Cell cell = row.createCell(0);
+		cell.setCellValue("Mã văn phòng phẩm");
+
+		cell = row.createCell(tenVanPhongPham + 1);
+		cell.setCellValue("Tên văn phòng phẩm");
+
+		cell = row.createCell(tenLoaiVanPhongPham + 1);
+		cell.setCellValue("Tên loại văn phòng phẩm");
+
+		cell = row.createCell(tenMauSac + 1);
+		cell.setCellValue("Màu sắc");
+
+		cell = row.createCell(tenNhaSanXuat + 1);
+		cell.setCellValue("Nhà sản xuất");
+
+		cell = row.createCell(soLuongTonvpp + 1);
+		cell.setCellValue("Số lượng");
+
+		cell = row.createCell(tenNhaCungCapvpp + 1);
+		cell.setCellValue("Nhà cung cấp");
+
+		cell = row.createCell(giaNhapvpp + 1);
+		cell.setCellValue("Giá nhập");
+
+		cell = row.createCell(giaBanvpp + 1);
+		cell.setCellValue("Giá bán");
+		
+		// Write data
+		rowIndex++;
+		for (VanPhongPham vanPhongPham : listVpp) {
+			// Create row
+			row = sheet.createRow(rowIndex);
+			// Write data on row
+			cell = row.createCell(0);
+			cell.setCellValue(vanPhongPham.getMaSanPham());
+
+			cell = row.createCell(tenVanPhongPham + 1);
+			cell.setCellValue(vanPhongPham.getTenVanPhongPham());
+
+			cell = row.createCell(tenLoaiVanPhongPham + 1);
+			cell.setCellValue(vanPhongPham.getLoaiVanPhongPham().getTenLoai());
+
+			cell = row.createCell(tenMauSac + 1);
+			cell.setCellValue(vanPhongPham.getMauSac().getTenMau());
+
+			cell = row.createCell(soLuongTonvpp + 1);
+			cell.setCellValue(vanPhongPham.getSoLuongTon());
+
+			cell = row.createCell(tenNhaCungCapvpp + 1);
+			cell.setCellValue(vanPhongPham.getNhaCungCap().getTenNhaCungCap());
+
+			cell = row.createCell(giaNhapvpp + 1);
+			cell.setCellValue(vanPhongPham.getGiaNhap());
+
+			cell = row.createCell(giaBanvpp + 1);
+			cell.setCellValue(vanPhongPham.getGiaBan());
+
+			rowIndex++;
+		}
+
+		// Auto resize column witdth
+		int numberOfColumn = sheet.getRow(0).getPhysicalNumberOfCells();
+		autosizeColumn(sheet, numberOfColumn);
+
+		// Create file excel
+		try (OutputStream os = new FileOutputStream(excelFilePath)) {
+			workbook.write(os);
+		}
 	}
 	
-	public void setHienThiVPP(int row) {
-		txtMaVPP.setText(tblVPP.getValueAt(row, 1)+ "");
-		txtTenVPP.setText(tblVPP.getValueAt(row, 2)+ "");
-		cmbMauSac.setSelectedItem(tblVPP.getValueAt(row, 3)+ "");
-		txtSoLuongVPP.setText(tblVPP.getValueAt(row, 4)+ "");
-		txtDonViVPP.setText(tblVPP.getValueAt(row, 5)+ "");
-		txtGiaNhapVPP.setText(tblVPP.getValueAt(row, 6).toString());
-		cmbLoaiVPP.setSelectedItem(tblVPP.getValueAt(row,7)+ "");
-		cmbNCCVPP.setSelectedItem(tblVPP.getValueAt(row,8)+ "");
-		cmbNSX.setSelectedItem(tblVPP.getValueAt(row,9)+ "");
+	public static void exportSach(List<Sach> listSach, String excelFilePath) throws IOException {
+		// Create Workbook
+		Workbook workbook = null;
+
+		if (excelFilePath.endsWith("xlsx")) {
+			workbook = new XSSFWorkbook();
+		} else if (excelFilePath.endsWith("xls")) {
+			workbook = new HSSFWorkbook();
+		} else {
+			throw new IllegalArgumentException("The specified file is not Excel file");
+		}
+		// Create sheet
+		Sheet sheet = workbook.createSheet("Books"); // Create sheet with sheet name
+
+		int rowIndex = 0;
+		// Write header
+		Row row = sheet.createRow(rowIndex);
+		// Create cells
+		Cell cell = row.createCell(0);
+		cell.setCellValue("mã sách");
+
+		cell = row.createCell(tenSach + 1);
+		cell.setCellValue("tên sách");
+
+		cell = row.createCell(tenTacGia + 1);
+		cell.setCellValue("tên tác giả");
+
+		cell = row.createCell(tenNhaXuatBan + 1);
+		cell.setCellValue("tên nhà xuất bản");
+
+		cell = row.createCell(tenTheLoai + 1);
+		cell.setCellValue("tên thể loại");
+
+		cell = row.createCell(soLuongTon + 1);
+		cell.setCellValue("số lượng");
+
+		cell = row.createCell(tenNhaCungCap + 1);
+		cell.setCellValue("tên nhà cung cấp");
+
+		cell = row.createCell(giaNhap + 1);
+		cell.setCellValue("giá nhập");
+		
+		cell = row.createCell(giaBan + 1);
+		cell.setCellValue("giá bán");
+		// Write data
+		rowIndex++;
+		JSONArray jsonarray = new JSONArray();
+		for (Sach sach : listSach) {
+			JSONObject jsonObject = new JSONObject();
+			jsonObject.put("item_id", sach.getMaSanPham());
+			jsonObject.put("book_name", sach.getTenSach());
+			jsonObject.put("author", sach.getTacGia().getTenTacGia());
+			jsonObject.put("price", sach.getGiaNhap());
+			jsonObject.put("sell_price", sach.getGiaBan());
+			jsonObject.put("inventory", sach.getSoLuongTon());
+			jsonarray.add(jsonObject);
+			// Create row
+			row = sheet.createRow(rowIndex);
+			// Write data on row
+			cell = row.createCell(0);
+			cell.setCellValue(sach.getMaSanPham());
+
+			cell = row.createCell(tenSach + 1);
+			cell.setCellValue(sach.getTenSach());
+
+			cell = row.createCell(tenTacGia + 1);
+			cell.setCellValue(sach.getTacGia().getTenTacGia());
+
+			cell = row.createCell(tenNhaXuatBan + 1);
+			cell.setCellValue(sach.getNhaXuatBan().getTenNXB());
+
+			cell = row.createCell(tenTheLoai + 1);
+			cell.setCellValue(sach.getTheLoaiSach().getTenLoai());
+
+			cell = row.createCell(soLuongTon + 1);
+			cell.setCellValue(sach.getSoLuongTon());
+
+			cell = row.createCell(tenNhaCungCap + 1);
+			cell.setCellValue(sach.getNhaCungCap().getTenNhaCungCap());
+
+			cell = row.createCell(giaNhap + 1);
+			cell.setCellValue(sach.getGiaNhap());
+			
+			cell = row.createCell(giaBan + 1);
+			cell.setCellValue(sach.getGiaBan());
+			
+			rowIndex++;
+		}
+		// Auto resize column witdth
+		int numberOfColumn = sheet.getRow(0).getPhysicalNumberOfCells();
+		autosizeColumn(sheet, numberOfColumn);
+
+		// Create file excel
+		try (OutputStream os = new FileOutputStream(excelFilePath)) {
+			workbook.write(os);
+		}
 	}
+
+	private static void autosizeColumn(Sheet sheet, int lastColumn) {
+		for (int columnIndex = 0; columnIndex < lastColumn; columnIndex++) {
+			sheet.autoSizeColumn(columnIndex);
+		}
+	}
+
+	private static Object getCellValue(Cell cell) {
+		CellType cellType = cell.getCellType();
+		Object cellValue = null;
+		switch (cellType) {
+		case NUMERIC:
+			cellValue = cell.getNumericCellValue();
+			break;
+		case STRING:
+			cellValue = cell.getStringCellValue();
+			break;
+		default:
+			cellValue = null;
+			break;
+		}
+
+		return cellValue;
+	}
+
+	public int importSach(String excelFilePath) throws IOException, SQLException {
+		int i = 0;
+		FileInputStream fis = new FileInputStream(excelFilePath);
+		Workbook workbook = null;
+		if (excelFilePath.endsWith("xlsx")) {
+			workbook = new XSSFWorkbook(fis);
+		} else if (excelFilePath.endsWith("xls")) {
+			workbook = new HSSFWorkbook(fis);
+		} else {
+			throw new IllegalArgumentException("The specified file is not Excel file");
+		}
+		Sheet sheet = workbook.getSheetAt(0);
+		Iterator<Row> iterator = sheet.iterator();
+		while (iterator.hasNext()) {
+			Row row = iterator.next();
+			if (row.getRowNum() == 0)
+				continue;
+
+			Iterator<Cell> cellIterator = row.iterator();
+			Sach sach = new Sach();
+			
+			while (cellIterator.hasNext()) {
+				Cell cell = cellIterator.next();
+				Object cellValue = getCellValue(cell);
+				String ma = null;
+				String ten = null;
+				if (cellValue == null || cellValue.toString().isEmpty())
+					continue;
+				
+				int columnIndex = cell.getColumnIndex();
+				switch (columnIndex) {
+				case soLuongTon:
+					sach.setSoLuongTon(Integer.parseInt(getCellValue(cell).toString().split("\\.")[0]));
+					break;
+				case tenNhaCungCap:
+					ten = getCellValue(cell).toString().trim();
+					NhaCungCap n = nhaCungCapServiceImpl.timNhaCungCap(ten);
+					if (n == null) {
+						try {
+							ArrayList<NhaCungCap> nhaCungCaps = new ArrayList<>();
+							nhaCungCaps = nhaCungCapServiceImpl.getAllListNhaCungCap();
+							ma = tangMa(nhaCungCaps.get(nhaCungCaps.size() - 1).getMaNhaCungCap(), 3);
+						} catch (Exception e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						try {
+							nhaCungCapServiceImpl.themNhaCungCap(new NhaCungCap(ma, ten));
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					} else {
+						ma = n.getMaNhaCungCap();
+					}
+					sach.setNhaCungCap(new NhaCungCap(ma, ten));
+					break;
+				case giaNhap:
+					sach.setGiaNhap(Long.parseLong(getCellValue(cell).toString().split("\\.")[0]));
+					break;
+				case giaBan:
+					sach.setGiaBan(Long.parseLong(getCellValue(cell).toString().split("\\.")[0]));
+					break;
+				case tenSach:
+					sach.setTenSach(getCellValue(cell).toString());
+					break;
+				case tenTacGia:
+					ten = getCellValue(cell).toString().trim();
+					TacGia t = tacGiaServiceImpl.timTacGia(ten);
+					if (t == null) {
+						ma = tangMa(tacGias.get(tacGias.size() - 1).getMaTacGia(), 2);
+						try {
+							tacGiaServiceImpl.themTacGia(new TacGia(ma, ten));
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					} else {
+						ma = t.getMaTacGia();
+					}
+					sach.setTacGia(new TacGia(ma, ten));
+					break;
+				case tenNhaXuatBan:
+					ten = getCellValue(cell).toString().trim();
+					NhaXuatBan nxb = nhaXuatBanServiceImpl.timNhaXuatBan(ten);
+					if (nxb == null) {
+						ma = tangMa(nhaXuatBans.get(nhaXuatBans.size() - 1).getMaNXB(), 3);
+						try {
+							nhaXuatBanServiceImpl.themNhaXuatBan(new NhaXuatBan(ma, ten));
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					} else {
+						ma = nxb.getMaNXB();
+					}
+					sach.setNhaXuatBan(new NhaXuatBan(ma, ten));
+					break;
+				case tenTheLoai:
+					ten = getCellValue(cell).toString().trim();
+					TheLoaiSach tsach = theLoaiServiceImpl.timTheLoaiSach(ten);
+					if (tsach == null) {
+						ma = tangMa(theLoaiSachs.get(theLoaiSachs.size() - 1).getMaLoai(), 1);
+
+						try {
+							theLoaiServiceImpl.themTheLoaiSach(new TheLoaiSach(ma, ten));
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					} else {
+						ma = tsach.getMaLoai();
+					}
+					sach.setTheLoaiSach(new TheLoaiSach(ma, ten));
+					break;
+				default:
+					break;
+				}
+				sach.setMaSanPham(tangMaSP());
+				sach.setLoaiSanPham("Sách");
+				sach.setDonVi("cuốn");
+			}
+			try {
+				if (sanPhamServiceImpl.themSanPham(sach)==true) {
+					i++;
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		fis.close();
+
+		return i;
+	}
+
+	public int importVPP(String excelFilePath) throws IOException, SQLException {
+		int i = 0;
+		FileInputStream fis = new FileInputStream(excelFilePath);
+		Workbook workbook = null;
+		if (excelFilePath.endsWith("xlsx")) {
+			workbook = new XSSFWorkbook(fis);
+		} else if (excelFilePath.endsWith("xls")) {
+			workbook = new HSSFWorkbook(fis);
+		} else {
+			throw new IllegalArgumentException("The specified file is not Excel file");
+		}
+		Sheet sheet = workbook.getSheetAt(0);
+		Iterator<Row> iterator = sheet.iterator();
+		while (iterator.hasNext()) {
+			Row row = iterator.next();
+			if (row.getRowNum() == 0)
+				continue;
+
+			Iterator<Cell> cellIterator = row.iterator();
+			VanPhongPham vpp = new VanPhongPham();
+			while (cellIterator.hasNext()) {
+				Cell cell = cellIterator.next();
+				Object cellValue = getCellValue(cell);
+				String ma = null;
+				String ten = null;
+				if (cellValue == null || cellValue.toString().isEmpty())
+					continue;
+
+				int columnIndex = cell.getColumnIndex();
+				switch (columnIndex) {
+				case soLuongTonvpp:
+					vpp.setSoLuongTon(Integer.parseInt(getCellValue(cell).toString().split("\\.")[0]));
+					break;
+				case tenNhaCungCapvpp:
+					ten = getCellValue(cell).toString().trim();
+					NhaCungCap n = nhaCungCapServiceImpl.timNhaCungCap(ten);
+					if (n == null) {
+						try {
+							ArrayList<NhaCungCap> nhaCungCaps = new ArrayList<>();
+							nhaCungCaps = nhaCungCapServiceImpl.getAllListNhaCungCap();
+							ma = tangMa(nhaCungCaps.get(nhaCungCaps.size() - 1).getMaNhaCungCap(), 3);
+						} catch (Exception e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						try {
+							nhaCungCapServiceImpl.themNhaCungCap(new NhaCungCap(ma, ten));
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					} else {
+						ma = n.getMaNhaCungCap();
+					}
+					vpp.setNhaCungCap(new NhaCungCap(ma, ten));
+					break;
+				case giaNhapvpp:
+					vpp.setGiaNhap(Long.parseLong(getCellValue(cell).toString().split("\\.")[0]));
+					break;
+				case giaBanvpp:
+					vpp.setGiaBan(Long.parseLong(getCellValue(cell).toString().split("\\.")[0]));
+					break;
+				case tenVanPhongPham:
+					vpp.setTenVanPhongPham(getCellValue(cell).toString());
+					break;
+				case tenMauSac:
+					ten = getCellValue(cell).toString().trim();
+					MauSac mauSac = mauSacServiceImpl.timMauSac(ten);
+					if (mauSac == null) {
+						ArrayList<MauSac> mauSacs = null;
+						try {
+							mauSacs = mauSacServiceImpl.getListMauSac();
+						} catch (Exception e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						ma = tangMa(mauSacs.get(mauSacs.size() - 1).getMaMau(), 2);
+						try {
+							mauSacServiceImpl.themMauSac(new MauSac(ma, ten));
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					} else {
+						ma = mauSac.getMaMau();
+					}
+					vpp.setMauSac(new MauSac(ma, ten));
+					break;
+				case tenLoaiVanPhongPham:
+					ten = getCellValue(cell).toString().trim();
+					TheLoaiVanPhongPham tvpp = theLoaiServiceImpl.timTheLoaiVanPhongPham(ten);
+					if (tvpp == null) {
+						ma = tangMa(theLoaiVanPhongPhams.get(theLoaiVanPhongPhams.size() - 1).getMaLoai(), 2);
+
+						try {
+							theLoaiServiceImpl.themTheLoaiVanPhongPham(new TheLoaiVanPhongPham(ma, ten));
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					} else {
+						ma = tvpp.getMaLoai();
+					}
+					vpp.setLoaiVanPhongPham(new TheLoaiVanPhongPham(ma, ten));
+					break;
+				case tenNhaSanXuat:
+					ten = getCellValue(cell).toString().trim();
+					NhaSanXuat nhaSanXuat = nhaSanXuatServiceImpl.timNhaSanXuat(ten);
+					if (nhaSanXuat == null) {
+						ma = tangMa(nhaSanXuats.get(nhaSanXuats.size() - 1).getMaNhaSX(), 3);
+
+						try {
+							nhaSanXuatServiceImpl.themNhaSanXuat(new NhaSanXuat(ma, ten));
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					} else {
+						ma = nhaSanXuat.getMaNhaSX();
+					}
+					vpp.setNhaSanXuat(new NhaSanXuat(ma, ten));
+					break;
+				default:
+					break;
+				}
+				vpp.setMaSanPham(tangMaSP());
+				vpp.setLoaiSanPham("VPP");
+				vpp.setDonVi("cái");
+			}
+			try {
+				if (sanPhamServiceImpl.themSanPham(vpp)==true) {
+					i++;
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		fis.close();
+
+		return i;
+	}
+	
+	public String tangMa(String maHT, int indexLastAlphabet) {
+		String s = maHT;
+		int n = Integer.parseInt(s.substring(indexLastAlphabet).trim());
+		if ((n + 1) % 10 == 0) {
+			s = s.replaceAll("0" + n + "", n + 1 + "");
+		} else
+			s = s.replaceAll(n + "", n + 1 + "");
+		return s;
+	}
+	
 }

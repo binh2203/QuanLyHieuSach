@@ -79,7 +79,7 @@ public class NhaSanXuatDao {
 		return null;
 	}
 	public boolean kiemTraTonTaiNhaSanXuat(String tenNSX) throws SQLException {
-		query = "select * from XuatXu where tenNSX = N'"+tenNSX+"'";
+		query = "select * from NhaSanXuat where tenNSX = N'"+tenNSX+"'";
 		ps = con.prepareStatement(query);
 		rs = ps.executeQuery();
 		while (rs.next()) {

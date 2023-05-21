@@ -1,4 +1,5 @@
 /gui/
 /dao/
-/service/
 /service_impl/
+/entity/
+/service/

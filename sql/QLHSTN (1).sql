@@ -36,8 +36,8 @@ CREATE TABLE MauSac(
 CREATE TABLE NhaCungCap(
 	maNCC char(10) PRIMARY KEY NOT NULL,
 	tenNCC  nvarchar(50) NOT NULL,
-	email varchar(40) NOT NULL,
-	phone varchar(10) NOT NULL
+	email varchar(40),
+	phone varchar(10)
 )
 GO
 CREATE TABLE LoaiVanPhongPham(

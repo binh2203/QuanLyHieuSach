@@ -58,7 +58,7 @@ public class TacGiaDao {
 	public boolean themTacGia(TacGia t) throws Exception {
 		query = "INSERT [dbo].[TacGia] ([maTG], [tenTG]) VALUES ( ? , N'" + t.getTenTacGia() + "')";
 		ps = con.prepareStatement(query);
-		ps.setString(1, t.getMaTacGia());
+		ps.setString(1, t.getMaTacGia().trim());
 		rsCheck = ps.executeUpdate();
 		if (rsCheck != 0)
 			return true;

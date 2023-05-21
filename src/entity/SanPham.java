@@ -92,7 +92,9 @@ public class SanPham {
 	public void setGiaBan() {
 		this.giaBan = getGiaNhap() + (getGiaNhap()*20/100);
 	}
-
+	public void setGiaBan(long giaBan) {
+		this.giaBan = giaBan;
+	}
 	@Override
 	public String toString() {
 		return "SanPham [maSanPham=" + maSanPham + ", nhaCungCap=" + nhaCungCap + ", loaiSanPham=" + loaiSanPham

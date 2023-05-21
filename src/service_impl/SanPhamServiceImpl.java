@@ -15,9 +15,9 @@ public class SanPhamServiceImpl implements SanPhamService {
 	SanPhamDao sanPhamDao = new SanPhamDao();
 	
 	public ArrayList<Sach> getListSach(String maSach, String tenSP, String maTheLoai, Long giaTu, Long giaDen,
-			String maTacGia, String maNXB, String maNCC) throws Exception {
+			String maTacGia, String maNXB, String maNCC, boolean hetHang) throws Exception {
 		// TODO Auto-generated method stub
-		return sanPhamDao.getListSach(maSach, tenSP, maTheLoai, giaTu, giaDen, maTacGia, maNXB, maNCC);
+		return sanPhamDao.getListSach(maSach, tenSP, maTheLoai, giaTu, giaDen, maTacGia, maNXB, maNCC, hetHang);
 	}
 	public List<Sach> getAllSach() throws Exception {
 		// TODO Auto-generated method stub
@@ -42,7 +42,7 @@ public class SanPhamServiceImpl implements SanPhamService {
 	@Override
 	public Sach timSanPhamTheoMaSach(String maSach) throws Exception {
 		// TODO Auto-generated method stub
-		return null;
+		return sanPhamDao.timSanPhamTheoMaSach(maSach);
 	}
 	@Override
 	public Sach getSachTheoMaSP(String maSP) throws SQLException {
@@ -52,7 +52,7 @@ public class SanPhamServiceImpl implements SanPhamService {
 	@Override
 	public VanPhongPham timSanPhamTheoMaVPP(String maVPP) throws Exception {
 		// TODO Auto-generated method stub
-		return null;
+		return sanPhamDao.timSanPhamTheoMaVPP(maVPP);
 	}
 	@Override
 	public VanPhongPham getVPPTheoMaSP(String maSP) throws SQLException {
