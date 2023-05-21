@@ -103,7 +103,7 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 	// Code">//GEN-BEGIN:initComponents
 	private void initComponents() {
 
-		lblLapPhieuDatHang = new javax.swing.JLabel();
+		lblTieuDe = new javax.swing.JLabel();
 		jPanel1 = new javax.swing.JPanel();
 		tbp_sanpham = new javax.swing.JTabbedPane();
 		pnlTatCa = new javax.swing.JPanel();
@@ -202,9 +202,9 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 		setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
 		setPreferredSize(new java.awt.Dimension(1550, 1230));
 
-		lblLapPhieuDatHang.setFont(new java.awt.Font("Segoe UI", 0, 30)); // NOI18N
-		lblLapPhieuDatHang.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-		lblLapPhieuDatHang.setText("QUẢN LÝ SẢN PHẨM");
+		lblTieuDe.setFont(new java.awt.Font("Segoe UI", 0, 30)); // NOI18N
+		lblTieuDe.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+		lblTieuDe.setText("QUẢN LÝ SẢN PHẨM");
 
 		tbp_sanpham.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 		tbp_sanpham.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -1103,7 +1103,7 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 		layout.setHorizontalGroup(
 				layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
 						.addGroup(layout.createSequentialGroup()
-								.addComponent(lblLapPhieuDatHang, javax.swing.GroupLayout.DEFAULT_SIZE, 1540,
+								.addComponent(lblTieuDe, javax.swing.GroupLayout.DEFAULT_SIZE, 1540,
 										Short.MAX_VALUE)
 								.addContainerGap())
 						.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1113,7 +1113,7 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 										.addContainerGap())));
 		layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
 				.addGroup(layout.createSequentialGroup().addGap(50, 50, 50)
-						.addComponent(lblLapPhieuDatHang, javax.swing.GroupLayout.PREFERRED_SIZE, 77,
+						.addComponent(lblTieuDe, javax.swing.GroupLayout.PREFERRED_SIZE, 77,
 								javax.swing.GroupLayout.PREFERRED_SIZE)
 						.addContainerGap(1103, Short.MAX_VALUE))
 				.addGroup(
@@ -1167,7 +1167,7 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 	private javax.swing.JLabel lblGiaNhapSP;
 	private javax.swing.JLabel lblGiaNhapSach;
 	private javax.swing.JLabel lblGiaNhapVPP;
-	private javax.swing.JLabel lblLapPhieuDatHang;
+	private javax.swing.JLabel lblTieuDe;
 	private javax.swing.JLabel lblMaSP;
 	private javax.swing.JLabel lblMaSach;
 	private javax.swing.JLabel lblMaVPP;
