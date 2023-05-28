@@ -170,6 +170,66 @@ public class NhanVienDao {
 		return 0;
 	}
 
+// Lĩnh: 
+	private ArrayList<NhanVien> dsNV1;
+	public List<NhanVien> thongKeDoanhThu10NVBanNhieuNhat(LocalDate ngayBatDau, LocalDate ngayKetThuc){
+		dsNV1 = new ArrayList<NhanVien>();
+		try {
+		String query= "SELECT  top(10)      NhanVien.maNV, sum(SanPham.giaBan*CT_HoaDon.soLuong)\r\n"
+				+ "FROM            NhanVien INNER JOIN\r\n"
+				+ "                         HoaDon ON NhanVien.maNV = HoaDon.maNV INNER JOIN\r\n"
+				+ "                         CT_HoaDon ON HoaDon.maHD = CT_HoaDon.maHD INNER JOIN \r\n"
+				+ "							SanPham ON [CT_HoaDon].maSP = SanPham.maSP \r\n"
+				+ "WHERE  HoaDon.ngayLapHoaDon BETWEEN ? AND ?\r\n"
+				+ "group by NhanVien.maNV\r\n"
+				+ "order by sum (SanPham.giaBan*CT_HoaDon.soLuong) desc";
+		
+		ps = con.prepareStatement(query);
+		int dayBD = ngayBatDau.getDayOfMonth();
+		int monthBD = ngayBatDau.getMonthValue();
+		int yearBD = ngayBatDau.getYear();
 
+		ps.setString(1, yearBD + "-" + monthBD + "-" + dayBD);
 
+		int dayKT = ngayKetThuc.getDayOfMonth();
+		int monthKT = ngayKetThuc.getMonthValue();
+		int yearKT = ngayKetThuc.getYear();
+
+		ps.setString(2, yearKT + "-" + monthKT + "-" + dayKT);
+		rs = ps.executeQuery();
+		
+		while (rs.next()) {
+			String maNV = rs.getString(1);
+			NhanVien nhanVien = new NhanVien(maNV);
+			dsNV1.add(nhanVien);
+		}
+		return dsNV1;
+
+	} catch (SQLException e) {
+		e.printStackTrace();
+	}
+	return null;
+	}
+
+	public NhanVien getNhanVienByEmail(String email) {
+
+		try {
+			String query = "select *from NhanVien where email =?";
+
+			ps = con.prepareStatement(query);
+			ps.setString(1, email);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				NhanVien nv = new NhanVien(rs.getString("maNV"), rs.getString("tenNV"), rs.getBoolean("gioiTinh"),
+						rs.getDate("ngaySinh").toLocalDate(), rs.getString("phone"),   rs.getString("diaChi"),
+						rs.getString("email"));
+				return nv;
+			}
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		return null;
+
+	}
+	
 }

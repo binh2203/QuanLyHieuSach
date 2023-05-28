@@ -8,9 +8,10 @@ import dao.NhanVienDao;
 import entity.NhanVien;
 import service.NhanVienService;
 
+import dao.ThongKeDao;
 public class NhanVienServiceImpl implements NhanVienService {
 	NhanVienDao nhanVienDao = new NhanVienDao();
-
+	
 	@Override
 	public int themNhanVien(NhanVien nv) throws SQLException {
 			nhanVienDao.themNhanvien(nv);
@@ -53,7 +54,7 @@ public class NhanVienServiceImpl implements NhanVienService {
 	@Override
 	public List<NhanVien> getNhanVienBanNhieuNhatTheoNgayTuChon(LocalDate ngayBatDau, LocalDate ngayKetThuc) {
 		// TODO Auto-generated method stub
-		return null;
+		return thongKeDao.getNhanVienBanNhieuNhatTheoNgayTuChon(ngayBatDau, ngayKetThuc);
 	}
 
 	@Override
@@ -65,7 +66,16 @@ public class NhanVienServiceImpl implements NhanVienService {
 	@Override
 	public List<NhanVien> thongKeDoanhThu10NVBanNhieuNhat(LocalDate ngayBatDau, LocalDate ngayKetThuc) {
 		// TODO Auto-generated method stub
-		return null;
+		return nhanVienDao.thongKeDoanhThu10NVBanNhieuNhat(ngayBatDau, ngayKetThuc);
 	}
 
+	
+	//lĩnh
+	private ThongKeDao thongKeDao = new ThongKeDao();
+
+	@Override
+	public NhanVien getNhanVienByEmail(String email) {
+		// TODO Auto-generated method stub
+		return nhanVienDao.getNhanVienByEmail(email);
+	}
 }

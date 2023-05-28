@@ -30,5 +30,11 @@ public interface HoaDonService {
     
     public List<HoaDon> timHoaDonTheoSDT (String SDT) throws SQLException;
     
-    
+    //Lĩnh
+	public double getDoanhThuTheoMaNhanVien(LocalDate ngayBatDau, LocalDate ngayKetThuc, String maNV)
+			throws SQLException;
+	public int getSoLuongHoaDonTheoMaNV(LocalDate ngayBatDau, LocalDate ngayKetThuc, String maNV) throws SQLException;
+	
+	public double getDoanhThu(LocalDate ngayBatDau, LocalDate ngayKetThuc) throws SQLException;
+	public int getSoLuongHoaDon(LocalDate ngayBatDau, LocalDate ngayKetThuc) throws SQLException;
 }

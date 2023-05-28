@@ -64,6 +64,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.Desktop;
+import java.awt.Dimension;
 
 /**
  *
@@ -189,7 +190,7 @@ public class Pnl_TimKiemSach extends javax.swing.JPanel implements ActionListene
 		lblNSXVPP = new javax.swing.JLabel();
 
 		setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
-		setPreferredSize(new java.awt.Dimension(1550, 1230));
+		setPreferredSize(new Dimension(1550, 1067));
 
 		lblTieuDe.setFont(new java.awt.Font("Segoe UI", 0, 30)); // NOI18N
 		lblTieuDe.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);

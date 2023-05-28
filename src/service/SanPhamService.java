@@ -19,7 +19,7 @@ public interface SanPhamService {
 
 	//Văn phòng phẩm:
 	public List<VanPhongPham> getAllVPP();
-	
+	public int getSoLuongVPPTon() throws SQLException;
 	public ArrayList<VanPhongPham> getListVanPhongPham(String maVPP, String tenVPP, String theLoaiVPP, Long giaTu,
 			Long giaDen, String maNSX, String maNCC, boolean hetHang) throws Exception;
 	public VanPhongPham timSanPhamTheoMaVPP(String maVPP) throws Exception;
@@ -34,5 +34,6 @@ public interface SanPhamService {
 	public SanPham timSanPhamTheoMa1(String maSP);
 	public String getMaSPMax() throws SQLException;
 	public int capNhatSoLuongSanPham(SanPham sanPham);
-
+	public List<SanPham> getSanPhamBanNhieuNhatTheoNgayTuChon(LocalDate ngayBatDau, LocalDate ngayKetThuc) throws SQLException;
+	public int getSoLuongBanCuaSanPhamChayNhat(LocalDate ngayBatDau, LocalDate ngayKetThuc) throws SQLException;
 }

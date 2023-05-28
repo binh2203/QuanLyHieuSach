@@ -65,12 +65,13 @@ public class KhachHangDao {
     
     public KhachHang timKhachHangTheoMa(String maKH) throws SQLException {
 	KhachHang kh = new KhachHang();
-	String query = "Select * from KhachHang where maKH=?";
+	String query = "Select * from KhachHang where maKH = ?";
 	ps = con.prepareStatement(query);
 	ps.setString(1, maKH);
 	rs = ps.executeQuery();
 	while (rs.next()) {
-            kh = new KhachHang(rs.getString("maKH"));
+            kh = new KhachHang(rs.getString("maKH"), rs.getString("tenKH"), rs.getBoolean("gioiTinh"), 
+					rs.getDate("ngaySinh").toLocalDate(),rs.getString("phone"), rs.getString("diaChi"), rs.getString("email"));
             return kh;
 	}
 	return null;

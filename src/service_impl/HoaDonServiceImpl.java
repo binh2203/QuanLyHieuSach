@@ -13,7 +13,7 @@ import dao.HoaDonDao;
 import dao.SanPhamDao;
 import entity.HoaDon;
 import service.HoaDonService;
-
+import dao.ThongKeDao;
 
 
 /**
@@ -47,6 +47,32 @@ public class HoaDonServiceImpl implements HoaDonService{
     public List<HoaDon> timHoaDonTheoSDT(String SDT) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+//	Lĩnh
+    ThongKeDao thongKeDao = new ThongKeDao();
+	@Override
+	public double getDoanhThuTheoMaNhanVien(LocalDate ngayBatDau, LocalDate ngayKetThuc, String maNV)
+			throws SQLException {
+		// TODO Auto-generated method stub
+		return thongKeDao.getDoanhThuTheoMaNhanVien(ngayBatDau, ngayKetThuc, maNV);
+	}
+
+	@Override
+	public int getSoLuongHoaDonTheoMaNV(LocalDate ngayBatDau, LocalDate ngayKetThuc, String maNV) throws SQLException {
+		// TODO Auto-generated method stub
+		return thongKeDao.getSoLuongHoaDonTheoMaNV(ngayBatDau, ngayKetThuc, maNV);
+	}
+
+	@Override
+	public double getDoanhThu(LocalDate ngayBatDau, LocalDate ngayKetThuc) throws SQLException {
+		// TODO Auto-generated method stub
+		return thongKeDao.getDoanhThu(ngayBatDau, ngayKetThuc);
+	}
+
+	@Override
+	public int getSoLuongHoaDon(LocalDate ngayBatDau, LocalDate ngayKetThuc) throws SQLException {
+		// TODO Auto-generated method stub
+		return thongKeDao.getSoLuongHoaDon(ngayBatDau, ngayKetThuc);
+	}
 
     
 }
