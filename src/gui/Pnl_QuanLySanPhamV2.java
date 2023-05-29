@@ -85,12 +85,27 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 	private ArrayList<NhaCungCap> nhaCungCapVPPs;
 	private JCheckBox chckbxHetHangVPP;
 	private JButton btnDanhMucVPP;
-
+	private javaswingdev.FontAwesomeIcon icoCapNhat;
+    private javaswingdev.FontAwesomeIcon icoLamMoi;
+    private javaswingdev.FontAwesomeIcon icoThem;
+    private javaswingdev.FontAwesomeIcon icoDanhMuc;
+    private javaswingdev.FontAwesomeIcon icoXuatFile;
+    private javaswingdev.FontAwesomeIcon iconNhapFile;
 	/**
 	 * Creates new form Pnl_TimKiem
 	 */
 	public Pnl_QuanLySanPhamV2() {
+		setBackground(new Color(249, 249, 249));
 		initComponents();
+        btnThemSach.setIcon(icoThem.toIcon());
+        btnCapNhatSach.setIcon(icoCapNhat.toIcon());
+        btnCapNhatVPP.setIcon(icoCapNhat.toIcon());
+        btnNhapSach.setIcon(iconNhapFile.toIcon());
+        btnXuatSach.setIcon(icoXuatFile.toIcon());
+        btnNhapVPP.setIcon(iconNhapFile.toIcon());
+        btnXuatVPP.setIcon(icoXuatFile.toIcon());
+        btnDanhMucSach.setIcon(icoDanhMuc.toIcon());
+        btnDanhMucVPP.setIcon(icoDanhMuc.toIcon());
 	}
 
 	/**
@@ -102,9 +117,36 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 	// <editor-fold defaultstate="collapsed" desc="Generated
 	// Code">//GEN-BEGIN:initComponents
 	private void initComponents() {
+		icoLamMoi = new javaswingdev.FontAwesomeIcon();
+        icoThem = new javaswingdev.FontAwesomeIcon();
+        icoDanhMuc = new javaswingdev.FontAwesomeIcon();
+        icoCapNhat = new javaswingdev.FontAwesomeIcon();
+        iconNhapFile = new javaswingdev.FontAwesomeIcon();
+        icoXuatFile = new javaswingdev.FontAwesomeIcon();
+		icoLamMoi.setIcon(javaswingdev.FontAwesome.REFRESH);
+        icoLamMoi.setSize(18);
 
+        icoThem.setColor1(new java.awt.Color(102, 204, 0));
+        icoThem.setColor2(new java.awt.Color(102, 204, 0));
+        icoThem.setIcon(javaswingdev.FontAwesome.PLUS);
+        icoThem.setSize(18);
+
+        icoDanhMuc.setColor1(new java.awt.Color(102, 204, 0));
+        icoDanhMuc.setColor2(new java.awt.Color(102, 204, 0));
+        icoDanhMuc.setIcon(javaswingdev.FontAwesome.TIMES);
+        icoDanhMuc.setSize(18);
+
+        icoCapNhat.setIcon(javaswingdev.FontAwesome.WRENCH);
+        icoCapNhat.setSize(18);
+
+        iconNhapFile.setIcon(javaswingdev.FontAwesome.DOWNLOAD);
+        iconNhapFile.setSize(18);
+
+        icoXuatFile.setIcon(javaswingdev.FontAwesome.UPLOAD);
+        icoXuatFile.setSize(18);
 		lblTieuDe = new javax.swing.JLabel();
 		jPanel1 = new javax.swing.JPanel();
+		jPanel1.setBackground(new Color(249, 249, 249));
 		tbp_sanpham = new javax.swing.JTabbedPane();
 		pnlTatCa = new javax.swing.JPanel();
 		lblMaSP = new javax.swing.JLabel();
@@ -137,12 +179,14 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 		txtNCCSP = new javax.swing.JTextField();
 		lblNCCSP = new javax.swing.JLabel();
 		pnlSach = new javax.swing.JPanel();
+		pnlSach.setBackground(new Color(240, 255, 240));
 		lblMaSach = new javax.swing.JLabel();
 		lblTenSach = new javax.swing.JLabel();
 		lblTacGiaSach = new javax.swing.JLabel();
 		lblGiaNhapSach = new javax.swing.JLabel();
 		lblSLSach = new javax.swing.JLabel();
 		txtMaSach = new javax.swing.JTextField();
+		txtMaSach.setBackground(new Color(249, 249, 249));
 		txtMaSach.setEditable(false);
 		try {
 			txtMaSach.setText(tangMaSP());
@@ -159,6 +203,7 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 		scrSach = new javax.swing.JScrollPane();
 		tblSach = new javax.swing.JTable();
 		jPanel14 = new javax.swing.JPanel();
+		jPanel14.setBackground(new Color(249, 249, 249));
 		btnThemSach = new javax.swing.JButton();
 		btnLamMoiSach = new javax.swing.JButton();
 		btnDanhMucSach = new javax.swing.JButton();
@@ -169,12 +214,14 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 		lblNSXSach = new javax.swing.JLabel();
 		lblTheLoaiSach = new javax.swing.JLabel();
 		pnlVPP = new javax.swing.JPanel();
+		pnlVPP.setBackground(new Color(240, 255, 240));
 		lblMaVPP = new javax.swing.JLabel();
 		lblTenVPP = new javax.swing.JLabel();
 		lblMauVPP = new javax.swing.JLabel();
 		lblGiaNhapVPP = new javax.swing.JLabel();
 		lblSL = new javax.swing.JLabel();
 		txtMaVPP = new javax.swing.JTextField();
+		txtMaVPP.setBackground(new Color(249, 249, 249));
 		txtMaVPP.setEditable(false);
 		try {
 			txtMaVPP.setText(tangMaSP());
@@ -519,6 +566,7 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 
 		btnLamMoiSach.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 		btnLamMoiSach.setText("Làm mới");
+		btnLamMoiSach.setIcon(icoLamMoi.toIcon());
 		btnLamMoiSach.setPreferredSize(new java.awt.Dimension(60, 30));
 		btnLamMoiSach.addActionListener(this);
 
@@ -585,6 +633,7 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 			e1.printStackTrace();
 		}
 		cmbTacGia = new JComboBox<Object>();
+		cmbTacGia.setBackground(new Color(249, 249, 249));
 		cmbTacGia.addItem("");
 		for (TacGia tacGia : tacGias) {
 			cmbTacGia.addItem(tacGia.getTenTacGia());
@@ -598,6 +647,7 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 			e1.printStackTrace();
 		}
 		cmbNXB = new JComboBox<Object>();
+		cmbNXB.setBackground(new Color(249, 249, 249));
 		cmbNXB.addItem("");
 		for (NhaXuatBan nhaXuatBan : nhaXuatBans) {
 			cmbNXB.addItem(nhaXuatBan.getTenNXB());
@@ -613,6 +663,7 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 			e1.printStackTrace();
 		}
 		cmbNCCSach = new JComboBox<Object>();
+		cmbNCCSach.setBackground(new Color(249, 249, 249));
 		cmbNCCSach.addItem("");
 		for (NhaCungCap nhaCungCap : nhaCungCaps) {
 			cmbNCCSach.addItem(nhaCungCap.getTenNhaCungCap());
@@ -634,6 +685,7 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 			e1.printStackTrace();
 		}
 		cmbLoaiSach = new JComboBox<Object>();
+		cmbLoaiSach.setBackground(new Color(249, 249, 249));
 		cmbLoaiSach.addItem("");
 		for (TheLoaiSach theLoaiSach : theLoaiSachs) {
 			cmbLoaiSach.addItem(theLoaiSach.getTenLoai());
@@ -812,22 +864,25 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 		String header_VPP[] = { "STT", "Mã Sản Phẩm", "Tên Sản Phẩm", "Màu Sắc", "Số lượng", "Đơn vị", "Giá Nhập",
 				"Loại sản phẩm", "Nhà cung cấp", "Nhà sản xuất" };
 		tableModel_VPP = new DefaultTableModel(header_VPP, 0);
-		tblVPP = new JTable(tableModel_VPP);
-		tblVPP.addMouseListener(this);
-		TableColumnModel columnMode = tblVPP.getColumnModel();
+		tblVPP_1 = new JTable(tableModel_VPP);
+		tblVPP_1.setFont(new Font("Segoe UI", Font.PLAIN, 10));
+		tblVPP_1.addMouseListener(this);
+		TableColumnModel columnMode = tblVPP_1.getColumnModel();
 		columnMode.getColumn(0).setMaxWidth(40);
-		scrVPP.setViewportView(tblVPP);
+		scrVPP.setViewportView(tblVPP_1);
 
 		jPanel13.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
 		btnThemVPP.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 		btnThemVPP.setText("Thêm");
+		btnThemVPP.setIcon(icoThem.toIcon());
 		btnThemVPP.setToolTipText("");
 		btnThemVPP.setPreferredSize(new java.awt.Dimension(60, 30));
 		btnThemVPP.addActionListener(this);
 
 		btnLamMoiVPP.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 		btnLamMoiVPP.setText("Làm mới");
+		btnLamMoiVPP.setIcon(icoLamMoi.toIcon());
 		btnLamMoiVPP.setPreferredSize(new java.awt.Dimension(60, 30));
 		btnLamMoiVPP.addActionListener(this);
 
@@ -891,6 +946,7 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 			e1.printStackTrace();
 		}
 		cmbNCCVPP = new JComboBox<Object>();
+		cmbNCCVPP.setBackground(new Color(249, 249, 249));
 		cmbNCCVPP.addItem("");
 		for (NhaCungCap nhaCungCap : nhaCungCaps) {
 			cmbNCCVPP.addItem(nhaCungCap.getTenNhaCungCap());
@@ -904,6 +960,7 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 			e1.printStackTrace();
 		}
 		cmbNSX = new JComboBox<Object>();
+		cmbNSX.setBackground(new Color(249, 249, 249));
 		cmbNSX.addItem("");
 		for (NhaSanXuat nhaSanXuat : nhaSanXuats) {
 			cmbNSX.addItem(nhaSanXuat.getTenNhaSX());
@@ -917,6 +974,7 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 			e1.printStackTrace();
 		}
 		cmbMauSac = new JComboBox<Object>();
+		cmbMauSac.setBackground(new Color(249, 249, 249));
 		cmbMauSac.addItem("");
 		for (MauSac mauSac : mauSacs) {
 			cmbMauSac.addItem(mauSac.getTenMau());
@@ -935,6 +993,7 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 			e1.printStackTrace();
 		}
 		cmbLoaiVPP = new JComboBox<Object>();
+		cmbLoaiVPP.setBackground(new Color(249, 249, 249));
 		cmbLoaiVPP.addItem("");
 		for (TheLoaiVanPhongPham theLoaiVanPhongPham : theLoaiVanPhongPhams) {
 			cmbLoaiVPP.addItem(theLoaiVanPhongPham.getTenLoai());
@@ -1194,6 +1253,7 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 	public javax.swing.JPanel pnlVPP;
 	private javax.swing.JTable tblSach;
 	private javax.swing.JTable tblVPP;
+	private JTable tblVPP_1;
 	private javax.swing.JTabbedPane tbp_sanpham;
 	private javax.swing.JTextField txtDonViSach;
 	private javax.swing.JTextField txtDonViVPP;
@@ -1270,8 +1330,8 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 			int i = tblSach.getSelectedRow();
 			setHienThiSach(i);
 		}
-		if (o.equals(tblVPP)) {
-			int j = tblVPP.getSelectedRow();
+		if (o.equals(tblVPP_1)) {
+			int j = tblVPP_1.getSelectedRow();
 			setHienThiVPP(j);
 		}
 
@@ -1366,7 +1426,7 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 		}
 		if (src.equals(btnCapNhatVPP)) {
 			lamMoiSach();
-			int row = tblVPP.getSelectedRow();
+			int row = tblVPP_1.getSelectedRow();
 			if (row == -1) {
 				JOptionPane.showMessageDialog(null, "Chưa chọn dòng nào!!", "Thông báo",
 						JOptionPane.INFORMATION_MESSAGE);
@@ -1460,7 +1520,7 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 				return;
 			}
 			ArrayList<VanPhongPham> listVPP = new ArrayList<>();
-			int row = tblVPP.getRowCount();
+			int row = tblVPP_1.getRowCount();
 			for (int i = 0; i < row; i++) {
 				try {
 					VanPhongPham vpp = sanPhamServiceImpl
@@ -1928,7 +1988,7 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 			tableModel_VPP.addRow(obj);
 		}
 		lblSoLuongHienThiVPP.setText("Hiển thị " + listVPP.size() + " sản phẩm");
-		TableColumnModel columnMode = tblVPP.getColumnModel();
+		TableColumnModel columnMode = tblVPP_1.getColumnModel();
 		columnMode.getColumn(0).setMaxWidth(40);
 		columnMode.getColumn(1).setMaxWidth(150);
 		columnMode.getColumn(3).setMaxWidth(100);
@@ -1975,15 +2035,15 @@ public class Pnl_QuanLySanPhamV2 extends javax.swing.JPanel implements ActionLis
 	}
 
 	public void setHienThiVPP(int row) {
-		txtMaVPP.setText(tblVPP.getValueAt(row, 1) + "");
-		txtTenVPP.setText(tblVPP.getValueAt(row, 2) + "");
-		cmbMauSac.setSelectedItem(tblVPP.getValueAt(row, 3) + "");
-		txtSoLuongVPP.setText(tblVPP.getValueAt(row, 4) + "");
-		txtDonViVPP.setText(tblVPP.getValueAt(row, 5) + "");
-		txtGiaNhapVPP.setText(tblVPP.getValueAt(row, 6).toString());
-		cmbLoaiVPP.setSelectedItem(tblVPP.getValueAt(row, 7) + "");
-		cmbNCCVPP.setSelectedItem(tblVPP.getValueAt(row, 8) + "");
-		cmbNSX.setSelectedItem(tblVPP.getValueAt(row, 9) + "");
+		txtMaVPP.setText(tblVPP_1.getValueAt(row, 1) + "");
+		txtTenVPP.setText(tblVPP_1.getValueAt(row, 2) + "");
+		cmbMauSac.setSelectedItem(tblVPP_1.getValueAt(row, 3) + "");
+		txtSoLuongVPP.setText(tblVPP_1.getValueAt(row, 4) + "");
+		txtDonViVPP.setText(tblVPP_1.getValueAt(row, 5) + "");
+		txtGiaNhapVPP.setText(tblVPP_1.getValueAt(row, 6).toString());
+		cmbLoaiVPP.setSelectedItem(tblVPP_1.getValueAt(row, 7) + "");
+		cmbNCCVPP.setSelectedItem(tblVPP_1.getValueAt(row, 8) + "");
+		cmbNSX.setSelectedItem(tblVPP_1.getValueAt(row, 9) + "");
 	}
 
 	public static void exportVPP(List<VanPhongPham> listVpp, String excelFilePath) throws IOException {

@@ -38,12 +38,14 @@ import service_impl.NhaSanXuatServiceImpl;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
 
 public class Frm_QuanLyDanhMuc extends JFrame implements ActionListener, MouseListener{
 
@@ -94,6 +96,7 @@ public class Frm_QuanLyDanhMuc extends JFrame implements ActionListener, MouseLi
 	 * Create the frame.
 	 */
 	public Frm_QuanLyDanhMuc(String loai) {
+		getContentPane().setBackground(new Color(240, 255, 240));
 		loaiSanPham = loai;
 		setResizable(false);
 		setSize(1000, 600);
@@ -108,6 +111,7 @@ public class Frm_QuanLyDanhMuc extends JFrame implements ActionListener, MouseLi
 		txtMa.setColumns(10);
 
 		lblTitle = new JLabel("QUẢN LÝ DANH MỤC");
+		lblTitle.setForeground(new Color(255, 140, 0));
 		lblTitle.setVerticalAlignment(SwingConstants.TOP);
 		lblTitle.setFont(new Font("Tahoma", Font.BOLD, 24));
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
@@ -148,31 +152,37 @@ public class Frm_QuanLyDanhMuc extends JFrame implements ActionListener, MouseLi
 		getContentPane().add(scrollThuocTinh);
 
 		radTheLoai = new JRadioButton("Thể loại sách");
+		radTheLoai.setBackground(new Color(240, 255, 240));
 		radTheLoai.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		radTheLoai.setBounds(510, 57, 211, 21);
 		getContentPane().add(radTheLoai);
 
 		radNXBorNSX = new JRadioButton("Nhà xuất bản");
+		radNXBorNSX.setBackground(new Color(240, 255, 240));
 		radNXBorNSX.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		radNXBorNSX.setBounds(510, 98, 157, 21);
 		getContentPane().add(radNXBorNSX);
 
 		radTacGiaorChatLieu = new JRadioButton("Tác giả");
+		radTacGiaorChatLieu.setBackground(new Color(240, 255, 240));
 		radTacGiaorChatLieu.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		radTacGiaorChatLieu.setBounds(718, 98, 91, 21);
 		getContentPane().add(radTacGiaorChatLieu);
 
 		radNhaCungCap = new JRadioButton("Nhà cung cấp");
+		radNhaCungCap.setBackground(new Color(240, 255, 240));
 		radNhaCungCap.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		radNhaCungCap.setBounds(718, 57, 141, 21);
 		getContentPane().add(radNhaCungCap);
 
 		radMauSac = new JRadioButton("Màu sắc");
+		radMauSac.setBackground(new Color(240, 255, 240));
 		radMauSac.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		radMauSac.setBounds(871, 57, 91, 21);
 		getContentPane().add(radMauSac);
 
 		btnThem = new JButton("Thêm");
+		btnThem.setIcon(new ImageIcon(Frm_QuanLyDanhMuc.class.getResource("/gui/icon/icons-add.png")));
 		btnThem.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnThem.setBounds(525, 133, 122, 28);
 		getContentPane().add(btnThem);
@@ -186,8 +196,19 @@ public class Frm_QuanLyDanhMuc extends JFrame implements ActionListener, MouseLi
 		group.add(radMauSac);
 		group.add(radNhaCungCap);
 		group.add(radTacGiaorChatLieu);
-
+		ImageIcon icon = new ImageIcon(Frm_QuanLyDanhMuc.class.getResource("/gui/icon/delete-button.png"));
+        
+        // Set the desired dimensions
+        int width = 18;
+        int height = 18;
+        
+        // Resize the icon
+        Image resizedImage = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        
+        // Create a new ImageIcon with the resized image
+        ImageIcon resizedIcon = new ImageIcon(resizedImage);
 		btnHuy = new JButton("Thoát");
+		btnHuy.setIcon(resizedIcon);
 		btnHuy.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnHuy.setBounds(668, 133, 122, 28);
 		getContentPane().add(btnHuy);

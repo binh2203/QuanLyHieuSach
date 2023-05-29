@@ -409,7 +409,7 @@ public class ThongKeDao {
 
 	public int getSoLuongHoaDonTheoMaNV(LocalDate ngayBatDau, LocalDate ngayKetThuc, String maNV) throws SQLException {
 		int soLuongHoaDon = 0;
-		String query = "SELECT count(*)\r\n" + "	from [CT_HoaDon]   INNER JOIN\r\n"
+		String query = "SELECT count(DISTINCT HoaDon.maHD)\r\n" + "	from [CT_HoaDon]   INNER JOIN\r\n"
 				+ "	HoaDon ON [CT_HoaDon].maHD = HoaDon.maHD\r\n"
 				+ "WHERE  HoaDon.ngayLapHoaDon between  ? and ? and HoaDon.maNV=?";
 		ps = con.prepareStatement(query);

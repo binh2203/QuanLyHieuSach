@@ -86,12 +86,18 @@ public class Pnl_TimKiemSach extends javax.swing.JPanel implements ActionListene
 	private ArrayList<NhaCungCap> nhaCungCapVPPs;
 	private JCheckBox chckbxHetHangVPP;
 	private JComboBox<Object> cmbGiaTuSach;
-
+	private javaswingdev.FontAwesomeIcon icoLamMoi;
+    private javaswingdev.FontAwesomeIcon icoTimKiem;
 	/**
 	 * Creates new form Pnl_TimKiem
 	 */
 	public Pnl_TimKiemSach() {
+		setBackground(new Color(249, 249, 249));
 		initComponents();
+		btnLamMoiVPP.setIcon(icoLamMoi.toIcon());
+		btnLamMoiSach.setIcon(icoLamMoi.toIcon());
+		btnTimKiemSach.setIcon(icoTimKiem.toIcon());
+		btnTimKiemVPP.setIcon(icoTimKiem.toIcon());
 	}
 
 	/**
@@ -103,10 +109,21 @@ public class Pnl_TimKiemSach extends javax.swing.JPanel implements ActionListene
 	// <editor-fold defaultstate="collapsed" desc="Generated
 	// Code">//GEN-BEGIN:initComponents
 	private void initComponents() {
-
+		icoLamMoi = new javaswingdev.FontAwesomeIcon();
+        icoTimKiem = new javaswingdev.FontAwesomeIcon();
+		icoTimKiem.setColor1(new java.awt.Color(102, 204, 0));
+        icoTimKiem.setColor2(new java.awt.Color(102, 204, 0));
+        icoTimKiem.setIcon(javaswingdev.FontAwesome.PLUS);
+        icoTimKiem.setSize(18);
+        icoLamMoi.setIcon(javaswingdev.FontAwesome.REFRESH);
+        icoLamMoi.setSize(18);
+        
 		lblTieuDe = new javax.swing.JLabel();
+		lblTieuDe.setForeground(new Color(255, 165, 0));
 		jPanel1 = new javax.swing.JPanel();
+		jPanel1.setBackground(new Color(249, 249, 249));
 		tbp_sanpham = new javax.swing.JTabbedPane();
+		tbp_sanpham.setBackground(new Color(249, 249, 249));
 		pnlTatCa = new javax.swing.JPanel();
 		lblMaSP = new javax.swing.JLabel();
 		lblTenSP = new javax.swing.JLabel();
@@ -138,12 +155,14 @@ public class Pnl_TimKiemSach extends javax.swing.JPanel implements ActionListene
 		txtNCCSP = new javax.swing.JTextField();
 		lblNCCSP = new javax.swing.JLabel();
 		pnlSach = new javax.swing.JPanel();
+		pnlSach.setBackground(new Color(240, 255, 240));
 		lblMaSach = new javax.swing.JLabel();
 		lblTenSach = new javax.swing.JLabel();
 		lblTacGiaSach = new javax.swing.JLabel();
 		lblGiaNhapSach = new javax.swing.JLabel();
 		lblSLSach = new javax.swing.JLabel();
 		txtMaSach = new javax.swing.JTextField();
+		txtMaSach.setBackground(new Color(249, 249, 249));
 		try {
 			txtMaSach.setText(tangMaSP());
 		} catch (SQLException e2) {
@@ -159,11 +178,13 @@ public class Pnl_TimKiemSach extends javax.swing.JPanel implements ActionListene
 		scrSach = new javax.swing.JScrollPane();
 		tblSach = new javax.swing.JTable();
 		jPanel14 = new javax.swing.JPanel();
+		jPanel14.setBackground(new Color(249, 249, 249));
 		btnLamMoiSach = new javax.swing.JButton();
 		btnTimKiemSach = new javax.swing.JButton();
 		lblNSXSach = new javax.swing.JLabel();
 		lblTheLoaiSach = new javax.swing.JLabel();
 		pnlVPP = new javax.swing.JPanel();
+		pnlVPP.setBackground(new Color(240, 255, 240));
 		lblMaVPP = new javax.swing.JLabel();
 		lblTenVPP = new javax.swing.JLabel();
 		lblMauVPP = new javax.swing.JLabel();
@@ -185,6 +206,7 @@ public class Pnl_TimKiemSach extends javax.swing.JPanel implements ActionListene
 		scrVPP = new javax.swing.JScrollPane();
 		tblVPP = new javax.swing.JTable();
 		jPanel13 = new javax.swing.JPanel();
+		jPanel13.setBackground(new Color(249, 249, 249));
 		btnLamMoiVPP = new javax.swing.JButton();
 		btnTimKiemVPP = new javax.swing.JButton();
 		lblNSXVPP = new javax.swing.JLabel();
@@ -192,7 +214,7 @@ public class Pnl_TimKiemSach extends javax.swing.JPanel implements ActionListene
 		setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
 		setPreferredSize(new Dimension(1550, 1067));
 
-		lblTieuDe.setFont(new java.awt.Font("Segoe UI", 0, 30)); // NOI18N
+		lblTieuDe.setFont(new Font("Segoe UI", Font.BOLD, 30)); // NOI18N
 		lblTieuDe.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 		lblTieuDe.setText("TÌM KIẾM SẢN PHẨM");
 
@@ -559,6 +581,7 @@ public class Pnl_TimKiemSach extends javax.swing.JPanel implements ActionListene
 			e1.printStackTrace();
 		}
 		cmbTacGia = new JComboBox<Object>();
+		cmbTacGia.setBackground(new Color(249, 249, 249));
 		cmbTacGia.addItem("");
 		for (TacGia tacGia : tacGias) {
 			cmbTacGia.addItem(tacGia.getTenTacGia());
@@ -572,6 +595,7 @@ public class Pnl_TimKiemSach extends javax.swing.JPanel implements ActionListene
 			e1.printStackTrace();
 		}
 		cmbNXB = new JComboBox<Object>();
+		cmbNXB.setBackground(new Color(249, 249, 249));
 		cmbNXB.addItem("");
 		for (NhaXuatBan nhaXuatBan : nhaXuatBans) {
 			cmbNXB.addItem(nhaXuatBan.getTenNXB());
@@ -587,6 +611,7 @@ public class Pnl_TimKiemSach extends javax.swing.JPanel implements ActionListene
 			e1.printStackTrace();
 		}
 		cmbNCCSach = new JComboBox<Object>();
+		cmbNCCSach.setBackground(new Color(249, 249, 249));
 		cmbNCCSach.addItem("");
 		for (NhaCungCap nhaCungCap : nhaCungCaps) {
 			cmbNCCSach.addItem(nhaCungCap.getTenNhaCungCap());
@@ -608,6 +633,7 @@ public class Pnl_TimKiemSach extends javax.swing.JPanel implements ActionListene
 			e1.printStackTrace();
 		}
 		cmbLoaiSach = new JComboBox<Object>();
+		cmbLoaiSach.setBackground(new Color(249, 249, 249));
 		cmbLoaiSach.addItem("");
 		for (TheLoaiSach theLoaiSach : theLoaiSachs) {
 			cmbLoaiSach.addItem(theLoaiSach.getTenLoai());
@@ -627,6 +653,7 @@ public class Pnl_TimKiemSach extends javax.swing.JPanel implements ActionListene
 		
 		String[] boxOptions = {"Tất cả giá","0đ-100.000đ","100.000đ-500.000đ","500.000đ-2.000.000đ","2.000.000đ trở lên"};
 		cmbGiaTuSach = new JComboBox<Object>(boxOptions);
+		cmbGiaTuSach.setBackground(new Color(249, 249, 249));
 		
 		JLabel lblGiaTuSach = new JLabel();
 		lblGiaTuSach.setText("Giá từ:");
@@ -870,6 +897,7 @@ public class Pnl_TimKiemSach extends javax.swing.JPanel implements ActionListene
 			e1.printStackTrace();
 		}
 		cmbNCCVPP = new JComboBox<Object>();
+		cmbNCCVPP.setBackground(new Color(249, 249, 249));
 		cmbNCCVPP.addItem("");
 		for (NhaCungCap nhaCungCap : nhaCungCaps) {
 			cmbNCCVPP.addItem(nhaCungCap.getTenNhaCungCap());
@@ -883,6 +911,7 @@ public class Pnl_TimKiemSach extends javax.swing.JPanel implements ActionListene
 			e1.printStackTrace();
 		}
 		cmbNSX = new JComboBox<Object>();
+		cmbNSX.setBackground(new Color(249, 249, 249));
 		cmbNSX.addItem("");
 		for (NhaSanXuat nhaSanXuat : nhaSanXuats) {
 			cmbNSX.addItem(nhaSanXuat.getTenNhaSX());
@@ -896,6 +925,7 @@ public class Pnl_TimKiemSach extends javax.swing.JPanel implements ActionListene
 			e1.printStackTrace();
 		}
 		cmbMauSac = new JComboBox<Object>();
+		cmbMauSac.setBackground(new Color(249, 249, 249));
 		cmbMauSac.addItem("");
 		for (MauSac mauSac : mauSacs) {
 			cmbMauSac.addItem(mauSac.getTenMau());
@@ -914,6 +944,7 @@ public class Pnl_TimKiemSach extends javax.swing.JPanel implements ActionListene
 			e1.printStackTrace();
 		}
 		cmbLoaiVPP = new JComboBox<Object>();
+		cmbLoaiVPP.setBackground(new Color(249, 249, 249));
 		cmbLoaiVPP.addItem("");
 		for (TheLoaiVanPhongPham theLoaiVanPhongPham : theLoaiVanPhongPhams) {
 			cmbLoaiVPP.addItem(theLoaiVanPhongPham.getTenLoai());
@@ -934,6 +965,7 @@ public class Pnl_TimKiemSach extends javax.swing.JPanel implements ActionListene
 		lblGiaTuVPP.setFont(new Font("Segoe UI", Font.PLAIN, 18));
 		
 		cmbGiaTuVPP = new JComboBox<Object>(boxOptions);
+		cmbGiaTuVPP.setBackground(new Color(249, 249, 249));
 		javax.swing.GroupLayout pnlVPPLayout = new javax.swing.GroupLayout(pnlVPP);
 		pnlVPPLayout.setHorizontalGroup(
 			pnlVPPLayout.createParallelGroup(Alignment.TRAILING)

@@ -23,7 +23,7 @@ public interface SanPhamService {
 	public ArrayList<VanPhongPham> getListVanPhongPham(String maVPP, String tenVPP, String theLoaiVPP, Long giaTu,
 			Long giaDen, String maNSX, String maNCC, boolean hetHang) throws Exception;
 	public VanPhongPham timSanPhamTheoMaVPP(String maVPP) throws Exception;
-	public VanPhongPham getVPPTheoMaSP(String maSP) throws SQLException;
+	public VanPhongPham getVPPTheoMaSP(String maSP) throws Exception;
 
 	public SanPham getSanPhamTheoMa(String masp) throws SQLException;
 	public SanPham timSanPhamTheoMa(String maSP) throws SQLException;

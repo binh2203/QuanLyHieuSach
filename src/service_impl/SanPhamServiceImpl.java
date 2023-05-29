@@ -47,7 +47,7 @@ public class SanPhamServiceImpl implements SanPhamService {
 	@Override
 	public Sach getSachTheoMaSP(String maSP) throws SQLException {
 		// TODO Auto-generated method stub
-		return null;
+		return sanPhamDao.getSachTheoMaSP(maSP);
 	}
 	@Override
 	public VanPhongPham timSanPhamTheoMaVPP(String maVPP) throws Exception {
@@ -55,9 +55,9 @@ public class SanPhamServiceImpl implements SanPhamService {
 		return sanPhamDao.timSanPhamTheoMaVPP(maVPP);
 	}
 	@Override
-	public VanPhongPham getVPPTheoMaSP(String maSP) throws SQLException {
+	public VanPhongPham getVPPTheoMaSP(String maSP) throws Exception {
 		// TODO Auto-generated method stub
-		return null;
+		return sanPhamDao.timSanPhamTheoMaVPP(maSP);
 	}
 	@Override
 	public SanPham getSanPhamTheoMa(String masp) throws SQLException {

@@ -162,7 +162,10 @@ public class Pnl_ThongKeQuanLy extends JPanel implements MouseListener, ActionLi
 	}
 	
 	private static final long serialVersionUID = 1L;
+	private JLabel lblSoLanMuaValue;
+	private JLabel lblSoTienKhachDaMua_1;
 	public Pnl_ThongKeQuanLy() {
+		setBackground(new Color(255, 255, 255));
 		setLayout(null);
 		setPreferredSize(new Dimension(1550, 1067));
 		tabbedPaneThongKe = new JTabbedPane(JTabbedPane.TOP);
@@ -179,83 +182,84 @@ public class Pnl_ThongKeQuanLy extends JPanel implements MouseListener, ActionLi
 
 		lblFrom = new JLabel("Từ ngày: ");
 		lblFrom.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblFrom.setBounds(10, 52, 77, 32);
+		lblFrom.setBounds(22, 34, 77, 32);
 		panelThongKeDoanhThu.add(lblFrom);
 
 		lblTo = new JLabel("Đến ngày: ");
 		lblTo.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblTo.setBounds(10, 133, 92, 32);
+		lblTo.setBounds(22, 115, 92, 32);
 		panelThongKeDoanhThu.add(lblTo);
 
 		lblLocTheo = new JLabel("Lọc theo: ");
 		lblLocTheo.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblLocTheo.setBounds(10, 207, 77, 32);
+		lblLocTheo.setBounds(360, 34, 77, 32);
 		panelThongKeDoanhThu.add(lblLocTheo);
 
 		dateChooserFromDoanhThu = new JDateChooser();
-		dateChooserFromDoanhThu.setBounds(97, 58, 154, 26);
+		dateChooserFromDoanhThu.setBounds(109, 40, 154, 26);
 		panelThongKeDoanhThu.add(dateChooserFromDoanhThu);
 
 		dateChooserToDoanhThu = new JDateChooser();
-		dateChooserToDoanhThu.setBounds(97, 133, 154, 26);
+		dateChooserToDoanhThu.setBounds(109, 115, 154, 26);
 		panelThongKeDoanhThu.add(dateChooserToDoanhThu);
 
 		comboBoxTieuChiDoanhThu = new JComboBox<Object>();
-		comboBoxTieuChiDoanhThu.setBounds(97, 208, 154, 32);
+		comboBoxTieuChiDoanhThu.setBounds(447, 35, 154, 32);
 		comboBoxTieuChiDoanhThu.addItem("3 tháng gần nhất");
 		comboBoxTieuChiDoanhThu.addItem("6 tháng gần nhất");
 		comboBoxTieuChiDoanhThu.addItem("9 tháng gần nhất");
 		panelThongKeDoanhThu.add(comboBoxTieuChiDoanhThu);
 
 		btnLocDT = new JButton("Lọc");
-		//btnLocDT.setIcon(new ImageIcon(Pn_ThongKeQuanLy.class.getResource("/gui/icon/filter.png")));
+		btnLocDT.setIcon(new ImageIcon(Pnl_ThongKeQuanLy.class.getResource("/gui/icon/filter.png")));
 		// btnLocDT.setBackground(new Color(192, 192, 192));
-		btnLocDT.setBounds(261, 134, 88, 32);
+		btnLocDT.setBounds(109, 178, 88, 32);
 		panelThongKeDoanhThu.add(btnLocDT);
 
 		lblTongSoHoaDon = new JLabel("Tổng số hóa đơn: ");
 		lblTongSoHoaDon.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblTongSoHoaDon.setBounds(10, 389, 115, 14);
+		lblTongSoHoaDon.setBounds(22, 336, 115, 14);
 		panelThongKeDoanhThu.add(lblTongSoHoaDon);
 
 		lblDoanhThu = new JLabel("Doanh thu: ");
 		lblDoanhThu.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblDoanhThu.setBounds(10, 470, 77, 14);
+		lblDoanhThu.setBounds(163, 336, 77, 14);
 		panelThongKeDoanhThu.add(lblDoanhThu);
 
 		chartPanel = new ChartPanel(createChart());
-		chartPanel.setBackground(new Color(0, 206, 209));
-		chartPanel.setBounds(359, 33, 1065, 490);
+		chartPanel.setForeground(new Color(0, 128, 128));
+		chartPanel.setBackground(new Color(249, 249, 249));
+		chartPanel.setBounds(359, 78, 1065, 490);
 		panelThongKeDoanhThu.add(chartPanel);
 
 		lblconCount = new JLabel("");
-		//lblconCount.setIcon(new ImageIcon(Pn_ThongKeQuanLy.class.getResource("/gui/icon/count.png")));
-		lblconCount.setBounds(10, 414, 48, 45);
+		lblconCount.setIcon(new ImageIcon(Pnl_ThongKeQuanLy.class.getResource("/gui/icon/count.png")));
+		lblconCount.setBounds(22, 361, 48, 45);
 		panelThongKeDoanhThu.add(lblconCount);
 
 		lblIconMoney = new JLabel("");
-		//lblIconMoney.setIcon(new ImageIcon(Pn_ThongKeQuanLy.class.getResource("/gui/icon/money.png")));
-		lblIconMoney.setBounds(10, 495, 36, 34);
+		lblIconMoney.setIcon(new ImageIcon(Pnl_ThongKeQuanLy.class.getResource("/gui/icon/money.png")));
+		lblIconMoney.setBounds(161, 372, 36, 34);
 		panelThongKeDoanhThu.add(lblIconMoney);
 
 		lblGiaTriTongHoaDon = new JLabel("0");
 		lblGiaTriTongHoaDon.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblGiaTriTongHoaDon.setBounds(56, 427, 46, 14);
+		lblGiaTriTongHoaDon.setBounds(68, 374, 46, 14);
 		panelThongKeDoanhThu.add(lblGiaTriTongHoaDon);
 
 		lblGiaTriDoanhThu = new JLabel("0");
 		lblGiaTriDoanhThu.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblGiaTriDoanhThu.setBounds(56, 497, 257, 14);
+		lblGiaTriDoanhThu.setBounds(198, 381, 140, 14);
 		panelThongKeDoanhThu.add(lblGiaTriDoanhThu);
 
 		lblTop1NV = new JLabel("Nhân viên bán được nhiều nhất: ");
 		lblTop1NV.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblTop1NV.setBounds(10, 282, 218, 14);
+		lblTop1NV.setBounds(22, 264, 218, 14);
 		panelThongKeDoanhThu.add(lblTop1NV);
 
 		valueTop1NV = new JLabel("");
 		valueTop1NV.setFont(new Font("Tahoma", Font.BOLD, 13));
-		valueTop1NV.setBounds(10, 319, 218, 14);
+		valueTop1NV.setBounds(22, 301, 218, 14);
 		panelThongKeDoanhThu.add(valueTop1NV);
 
 		// ----------------------------------------------------
@@ -265,15 +269,17 @@ public class Pnl_ThongKeQuanLy extends JPanel implements MouseListener, ActionLi
 		panelThongKeKhachHang.setLayout(null);
 
 		panel_top10 = new JPanel();
+		panel_top10.setBackground(new Color(249, 249, 249));
 		panel_top10.setBounds(798, 57, 547, 477);
 		panelThongKeKhachHang.add(panel_top10);
 		panel_top10.setLayout(null);
 
-		lblTitleDSKHThanThiet = new JLabel("Danh sách top 10 khách hàng thân thiết:");
+		lblTitleDSKHThanThiet = new JLabel("Danh sách Top 10 khách hàng mua nhiều:");
+		lblTitleDSKHThanThiet.setForeground(new Color(0, 128, 128));
 		lblTitleDSKHThanThiet.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTitleDSKHThanThiet.setBounds(0, 0, 547, 34);
 		panel_top10.add(lblTitleDSKHThanThiet);
-		lblTitleDSKHThanThiet.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblTitleDSKHThanThiet.setFont(new Font("Segoe UI", Font.BOLD, 18));
 
 		String header_top10KH[] = { "STT", "Mã khách hàng", "Tên khách hàng", "Số tiền đã mua", "Số hóa đơn đã mua" };
 		tableModel_top10KH = new DefaultTableModel(header_top10KH, 0);
@@ -287,12 +293,14 @@ public class Pnl_ThongKeQuanLy extends JPanel implements MouseListener, ActionLi
 
 		table_top10KH.getColumnModel().getColumn(0).setPreferredWidth(20);
 		panel_loc = new JPanel();
+		panel_loc.setBackground(new Color(249, 249, 249));
 		panel_loc.setBounds(54, 57, 673, 477);
 		panelThongKeKhachHang.add(panel_loc);
 		panel_loc.setLayout(null);
 
-		titleLocKH = new JLabel("Lọc khách hàng mua nhiều nhất theo thời gian");
-		titleLocKH.setFont(new Font("Tahoma", Font.BOLD, 13));
+		titleLocKH = new JLabel("Lọc khách hàng thân thiết theo thời gian");
+		titleLocKH.setForeground(new Color(0, 128, 128));
+		titleLocKH.setFont(new Font("Segoe UI", Font.BOLD, 18));
 		titleLocKH.setHorizontalAlignment(SwingConstants.CENTER);
 		titleLocKH.setBounds(0, 25, 673, 32);
 		panel_loc.add(titleLocKH);
@@ -316,19 +324,21 @@ public class Pnl_ThongKeQuanLy extends JPanel implements MouseListener, ActionLi
 		panel_loc.add(dateChooserToKH);
 
 		lblTenKHMuaNhieuNhat = new JLabel("Tên Khách Hàng: ");
+		lblTenKHMuaNhieuNhat.setIcon(new ImageIcon(Pnl_ThongKeQuanLy.class.getResource("/gui/icon/woman.png")));
 		lblTenKHMuaNhieuNhat.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblTenKHMuaNhieuNhat.setBounds(41, 270, 125, 32);
+		lblTenKHMuaNhieuNhat.setBounds(41, 270, 156, 32);
 		panel_loc.add(lblTenKHMuaNhieuNhat);
 
 		btnLocKH = new JButton("Lọc");
 		btnLocKH.setFont(new Font("Tahoma", Font.BOLD, 13));
-		//btnLocKH.setIcon(new ImageIcon(Pn_ThongKeQuanLy.class.getResource("/gui/icon/filter.png")));
+		btnLocKH.setIcon(new ImageIcon(Pnl_ThongKeQuanLy.class.getResource("/gui/icon/filter.png")));
 		btnLocKH.setBounds(389, 146, 89, 32);
 		panel_loc.add(btnLocKH);
 
 		lblSoTienKhachDaMua = new JLabel("Số tiền đã mua: ");
+		lblSoTienKhachDaMua.setIcon(new ImageIcon(Pnl_ThongKeQuanLy.class.getResource("/gui/icon/money.png")));
 		lblSoTienKhachDaMua.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblSoTienKhachDaMua.setBounds(41, 348, 125, 14);
+		lblSoTienKhachDaMua.setBounds(41, 348, 156, 14);
 		panel_loc.add(lblSoTienKhachDaMua);
 
 		lblTenKHValue = new JLabel("...");
@@ -340,6 +350,18 @@ public class Pnl_ThongKeQuanLy extends JPanel implements MouseListener, ActionLi
 		lblSoTienDaMuaValue.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblSoTienDaMuaValue.setBounds(196, 348, 243, 14);
 		panel_loc.add(lblSoTienDaMuaValue);
+		
+		lblSoLanMuaValue = new JLabel("0");
+		lblSoLanMuaValue.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblSoLanMuaValue.setBounds(196, 313, 243, 14);
+		
+		panel_loc.add(lblSoLanMuaValue);
+		
+		lblSoTienKhachDaMua_1 = new JLabel("Số lần mua hàng:");
+		lblSoTienKhachDaMua_1.setIcon(new ImageIcon(Pnl_ThongKeQuanLy.class.getResource("/gui/icon/product.png")));
+		lblSoTienKhachDaMua_1.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblSoTienKhachDaMua_1.setBounds(41, 313, 156, 14);
+		panel_loc.add(lblSoTienKhachDaMua_1);
 
 		// -----------------------------------------------
 
@@ -349,12 +371,13 @@ public class Pnl_ThongKeQuanLy extends JPanel implements MouseListener, ActionLi
 		panelThongKeSanPham.setLayout(null);
 
 		panelTongSoLuongSach = new JPanel();
+		panelTongSoLuongSach.setBackground(new Color(249, 249, 249));
 		panelTongSoLuongSach.setBounds(925, 23, 253, 152);
 		panelThongKeSanPham.add(panelTongSoLuongSach);
 		panelTongSoLuongSach.setLayout(null);
 
 		lblTongSoLuongSach = new JLabel("    Số lượng sách tồn kho: \r\n");
-		//lblTongSoLuongSach.setIcon(new ImageIcon(Pn_ThongKeQuanLy.class.getResource("/gui/icon/books.png")));
+		lblTongSoLuongSach.setIcon(new ImageIcon(Pnl_ThongKeQuanLy.class.getResource("/gui/icon/books.png")));
 		lblTongSoLuongSach.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTongSoLuongSach.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblTongSoLuongSach.setBounds(0, 0, 253, 36);
@@ -367,12 +390,13 @@ public class Pnl_ThongKeQuanLy extends JPanel implements MouseListener, ActionLi
 		panelTongSoLuongSach.add(lblValueSoLuongSach);
 
 		panelTongSoLuongVanPhongPham = new JPanel();
+		panelTongSoLuongVanPhongPham.setBackground(new Color(249, 249, 249));
 		panelTongSoLuongVanPhongPham.setBounds(925, 199, 253, 152);
 		panelThongKeSanPham.add(panelTongSoLuongVanPhongPham);
 		panelTongSoLuongVanPhongPham.setLayout(null);
 
 		lblTongSoVanPhongPham = new JLabel(" Số văn phòng phẩm tồn kho: ");
-		//lblTongSoVanPhongPham.setIcon(new ImageIcon(Pn_ThongKeQuanLy.class.getResource("/gui/icon/stationery.png")));
+		lblTongSoVanPhongPham.setIcon(new ImageIcon(Pnl_ThongKeQuanLy.class.getResource("/gui/icon/stationery.png")));
 		lblTongSoVanPhongPham.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTongSoVanPhongPham.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblTongSoVanPhongPham.setBounds(0, 0, 263, 37);
@@ -396,7 +420,7 @@ public class Pnl_ThongKeQuanLy extends JPanel implements MouseListener, ActionLi
 		panelSachBanChayNhat.setLayout(null);
 
 		lblSanPhamBanChayNhat = new JLabel("    Sản phẩm bán chạy nhất: ");
-		//lblSanPhamBanChayNhat.setIcon(new ImageIcon(Pn_ThongKeQuanLy.class.getResource("/gui/icon/sachchay.png")));
+		lblSanPhamBanChayNhat.setIcon(new ImageIcon(Pnl_ThongKeQuanLy.class.getResource("/gui/icon/supplies.png")));
 		lblSanPhamBanChayNhat.setHorizontalAlignment(SwingConstants.CENTER);
 		lblSanPhamBanChayNhat.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblSanPhamBanChayNhat.setBounds(0, 0, 472, 42);
@@ -466,10 +490,11 @@ public class Pnl_ThongKeQuanLy extends JPanel implements MouseListener, ActionLi
 		btnLocSP.setBounds(364, 138, 92, 35);
 		panelLocSPBanChay.add(btnLocSP);
 		btnLocSP.setHorizontalAlignment(SwingConstants.LEFT);
-		//btnLocSP.setIcon(new ImageIcon(Pn_ThongKeQuanLy.class.getResource("/gui/icon/filter.png")));
+		btnLocSP.setIcon(new ImageIcon(Pnl_ThongKeQuanLy.class.getResource("/gui/icon/filter.png")));
 		btnLocSP.setFont(new Font("Tahoma", Font.BOLD, 13));
 
 		lblFromThongKeSP = new JLabel("Từ: ");
+		lblFromThongKeSP.setForeground(new Color(255, 255, 255));
 		lblFromThongKeSP.setBounds(36, 89, 35, 14);
 		panelLocSPBanChay.add(lblFromThongKeSP);
 		lblFromThongKeSP.setFont(new Font("Tahoma", Font.BOLD, 13));
@@ -483,6 +508,7 @@ public class Pnl_ThongKeQuanLy extends JPanel implements MouseListener, ActionLi
 		panelLocSPBanChay.add(dateChooserToThongKeSP);
 
 		lblToThongKeSP = new JLabel("Đến: ");
+		lblToThongKeSP.setForeground(new Color(255, 255, 255));
 		lblToThongKeSP.setBounds(37, 152, 46, 14);
 		panelLocSPBanChay.add(lblToThongKeSP);
 		lblToThongKeSP.setFont(new Font("Tahoma", Font.BOLD, 13));
@@ -515,6 +541,7 @@ public class Pnl_ThongKeQuanLy extends JPanel implements MouseListener, ActionLi
 
 		btnLocNV = new JButton("Lọc");
 		btnLocNV.setBounds(52, 294, 92, 35);
+		btnLocNV.setIcon(new ImageIcon(Pnl_ThongKeQuanLy.class.getResource("/gui/icon/filter.png")));
 		panelThongKeNhanVien.add(btnLocNV);
 		btnLocNV.setFont(new Font("Tahoma", Font.BOLD, 13));
 
@@ -722,6 +749,9 @@ public class Pnl_ThongKeQuanLy extends JPanel implements MouseListener, ActionLi
 							e1.printStackTrace();
 						}
 						try {
+							lblSoLanMuaValue.setText(String.valueOf(
+							iKhachHang.getSoLuongHoaDonCuaKhachHangTheoMa(getNgayFromJDateChooser(dateChooserFromKH),
+									getNgayFromJDateChooser(dateChooserToKH), kh.getMaKH())));
 							lblSoTienDaMuaValue.setText(String.valueOf(
 									iKhachHang.getTongTienCuaKhachHangTheoMa(getNgayFromJDateChooser(dateChooserFromKH),
 											getNgayFromJDateChooser(dateChooserToKH),iKhachHang.timKhachHangTheoMaLinh(kh.getMaKH()).getMaKH()))

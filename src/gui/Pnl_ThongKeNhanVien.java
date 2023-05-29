@@ -108,6 +108,7 @@ public class Pnl_ThongKeNhanVien extends JPanel implements ActionListener, Mouse
 	private String maNV;
 	
 	public Pnl_ThongKeNhanVien() {
+		setBackground(new Color(249, 249, 249));
 		setLayout(null);
 		setPreferredSize(new Dimension(1550, 1067));
 		tabbedPaneThongKe = new JTabbedPane(JTabbedPane.TOP);
@@ -122,6 +123,7 @@ public class Pnl_ThongKeNhanVien extends JPanel implements ActionListener, Mouse
 		panelThongKeSanPham.setLayout(null);
 
 		panelTongSoLuongSach = new JPanel();
+		panelTongSoLuongSach.setBackground(new Color(249, 249, 249));
 		panelTongSoLuongSach.setBounds(808, 23, 263, 133);
 		panelThongKeSanPham.add(panelTongSoLuongSach);
 		panelTongSoLuongSach.setLayout(null);
@@ -140,6 +142,7 @@ public class Pnl_ThongKeNhanVien extends JPanel implements ActionListener, Mouse
 		panelTongSoLuongSach.add(lblValueSoLuongSach);
 
 		panelTongSoLuongVanPhongPham = new JPanel();
+		panelTongSoLuongVanPhongPham.setBackground(new Color(249, 249, 249));
 		panelTongSoLuongVanPhongPham.setBounds(808, 167, 263, 133);
 		panelThongKeSanPham.add(panelTongSoLuongVanPhongPham);
 		panelTongSoLuongVanPhongPham.setLayout(null);
@@ -152,6 +155,7 @@ public class Pnl_ThongKeNhanVien extends JPanel implements ActionListener, Mouse
 		panelTongSoLuongVanPhongPham.add(lblTongSoVanPhongPham);
 
 		lblValueSoLuongVPP = new JLabel("New label");
+		lblValueSoLuongVPP.setBackground(new Color(249, 249, 249));
 		lblValueSoLuongVPP.setHorizontalAlignment(SwingConstants.CENTER);
 		lblValueSoLuongVPP.setFont(new Font("Tahoma", Font.BOLD, 21));
 		lblValueSoLuongVPP.setBounds(0, 48, 263, 86);
@@ -164,11 +168,13 @@ public class Pnl_ThongKeNhanVien extends JPanel implements ActionListener, Mouse
 		panelLocSPBanChay.setLayout(null);
 
 		panelSachBanChayNhat = new JPanel();
+		panelSachBanChayNhat.setBackground(new Color(249, 249, 249));
 		panelSachBanChayNhat.setBounds(28, 297, 489, 201);
 		panelLocSPBanChay.add(panelSachBanChayNhat);
 		panelSachBanChayNhat.setLayout(null);
 
 		lblSanPhamBanChayNhat = new JLabel("    Sản phẩm bán chạy nhất: ");
+		lblSanPhamBanChayNhat.setIcon(new ImageIcon(Pnl_ThongKeNhanVien.class.getResource("/gui/icon/supplies.png")));
 //		lblSanPhamBanChayNhat.setIcon(new ImageIcon(Pnl_ThongKeQuanLy.class.getResource("/gui/icon/sachchay.png")));
 		lblSanPhamBanChayNhat.setHorizontalAlignment(SwingConstants.CENTER);
 		lblSanPhamBanChayNhat.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -229,7 +235,7 @@ public class Pnl_ThongKeNhanVien extends JPanel implements ActionListener, Mouse
 		btnLocSanPham.setBounds(157, 237, 92, 35);
 		panelLocSPBanChay.add(btnLocSanPham);
 		btnLocSanPham.setHorizontalAlignment(SwingConstants.LEFT);
-//		btnLocSanPham.setIcon(new ImageIcon(Pnl_ThongKeQuanLy.class.getResource("/gui/icon/filter.png")));
+		btnLocSanPham.setIcon(new ImageIcon(Pnl_ThongKeQuanLy.class.getResource("/gui/icon/filter.png")));
 		btnLocSanPham.setFont(new Font("Tahoma", Font.BOLD, 13));
 
 		lblFromThongKeSP = new JLabel("Từ: ");
@@ -254,8 +260,8 @@ public class Pnl_ThongKeNhanVien extends JPanel implements ActionListener, Mouse
 
 		lblBoLocSPBanChay = new JLabel("Sản phẩm bán chạy nhất");
 		lblBoLocSPBanChay.setHorizontalAlignment(SwingConstants.CENTER);
-		lblBoLocSPBanChay.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblBoLocSPBanChay.setForeground(new Color(255, 140, 0));
+		lblBoLocSPBanChay.setFont(new Font("Segoe UI", Font.BOLD, 18));
+		lblBoLocSPBanChay.setForeground(new Color(240, 255, 240));
 		lblBoLocSPBanChay.setBackground(new Color(255, 0, 0));
 		lblBoLocSPBanChay.setBounds(0, 11, 551, 35);
 		panelLocSPBanChay.add(lblBoLocSPBanChay);
@@ -267,19 +273,19 @@ public class Pnl_ThongKeNhanVien extends JPanel implements ActionListener, Mouse
 
 		chartPanel = new ChartPanel(createChart());
 		chartPanel.setBackground(new Color(0, 206, 209));
-		chartPanel.setBounds(359, 33, 1065, 490);
+		chartPanel.setBounds(357, 66, 1065, 490);
 		panel_ThongKeDoanhThuBanThan.add(chartPanel);
-		lblTongDoanhThu = new JLabel("Tổng doanh thu: ");
+		lblTongDoanhThu = new JLabel("Tổng doanh thu:");
 //		lblTongDoanhThu.setIcon(new ImageIcon(Pnl_ThongKeNhanVien.class.getResource("/gui/icon/count.png")));
 		lblTongDoanhThu.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblTongDoanhThu.setBounds(44, 316, 209, 28);
+		lblTongDoanhThu.setBounds(32, 307, 141, 28);
 		panel_ThongKeDoanhThuBanThan.add(lblTongDoanhThu);
 
 		lblTongHoaDonBanDuoc = new JLabel("Tổng hóa đơn bán được: ");
 		lblTongHoaDonBanDuoc.setHorizontalAlignment(SwingConstants.LEFT);
 //		lblTongHoaDonBanDuoc.setIcon(new ImageIcon(Pnl_ThongKeNhanVien.class.getResource("/gui/icon/money.png")));
 		lblTongHoaDonBanDuoc.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblTongHoaDonBanDuoc.setBounds(44, 423, 254, 28);
+		lblTongHoaDonBanDuoc.setBounds(32, 355, 204, 28);
 		panel_ThongKeDoanhThuBanThan.add(lblTongHoaDonBanDuoc);
 
 		lblTo = new JLabel("Đến:  ");
@@ -301,7 +307,7 @@ public class Pnl_ThongKeNhanVien extends JPanel implements ActionListener, Mouse
 		panel_ThongKeDoanhThuBanThan.add(dateChooserToDoanhThu);
 
 		comboBoxTieuChiDoanhThu = new JComboBox<Object>();
-		comboBoxTieuChiDoanhThu.setBounds(44, 248, 154, 35);
+		comboBoxTieuChiDoanhThu.setBounds(357, 21, 154, 35);
 		comboBoxTieuChiDoanhThu.addItem("3 tháng gần nhất");
 		comboBoxTieuChiDoanhThu.addItem("6 tháng gần nhất");
 		comboBoxTieuChiDoanhThu.addItem("9 tháng gần nhất");
@@ -309,22 +315,32 @@ public class Pnl_ThongKeNhanVien extends JPanel implements ActionListener, Mouse
 
 		btnLocDoanhThuNV = new JButton("Lọc");
 //		btnLocDoanhThuNV.setIcon(new ImageIcon(Pnl_ThongKeNhanVien.class.getResource("/gui/icon/filter.png")));
-		btnLocDoanhThuNV.setBounds(44, 178, 89, 35);
+		btnLocDoanhThuNV.setBounds(32, 176, 89, 35);
 		panel_ThongKeDoanhThuBanThan.add(btnLocDoanhThuNV);
 
 		lblGiaTriDoanhThu = new JLabel("0");
 		lblGiaTriDoanhThu.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblGiaTriDoanhThu.setBounds(44, 344, 231, 28);
+		lblGiaTriDoanhThu.setBounds(179, 307, 175, 28);
 		panel_ThongKeDoanhThuBanThan.add(lblGiaTriDoanhThu);
 
 		lblGiaTriTongHoaDon = new JLabel("0");
 		lblGiaTriTongHoaDon.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblGiaTriTongHoaDon.setBounds(249, 424, 64, 28);
+		lblGiaTriTongHoaDon.setBounds(246, 355, 64, 28);
 		panel_ThongKeDoanhThuBanThan.add(lblGiaTriTongHoaDon);
+		
+		JLabel lblTenNhanVienTitle = new JLabel("Tên nhân viên:");
+		lblTenNhanVienTitle.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblTenNhanVienTitle.setBounds(32, 222, 149, 28);
+		panel_ThongKeDoanhThuBanThan.add(lblTenNhanVienTitle);
+		
+		JLabel lblTenNhanVien = new JLabel("tên NV");
+		lblTenNhanVien.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblTenNhanVien.setBounds(42, 255, 169, 28);
+		panel_ThongKeDoanhThuBanThan.add(lblTenNhanVien);
 
 		txtTieuDe = new JLabel("THỐNG KÊ");
 		txtTieuDe.setHorizontalAlignment(SwingConstants.CENTER);
-		txtTieuDe.setForeground(new Color(0, 191, 255));
+		txtTieuDe.setForeground(new Color(255, 140, 0));
 		txtTieuDe.setFont(new Font("Tahoma", Font.BOLD, 26));
 		txtTieuDe.setBounds(10, 57, 1500, 46);
 		add(txtTieuDe);
@@ -344,7 +360,7 @@ public class Pnl_ThongKeNhanVien extends JPanel implements ActionListener, Mouse
 			e2.printStackTrace();
 		}
 		tenNV = nv.getHoTenNV();
-
+		lblTenNhanVien.setText(tenNV);
 		try {
 			maNV = (iNhanVien.timNhanVienTheoTen(tenNV)).getMaNV();
 		} catch (SQLException e2) {
@@ -461,13 +477,17 @@ public class Pnl_ThongKeNhanVien extends JPanel implements ActionListener, Mouse
 							}
 
 							try {
-								if (iSanPham.timSanPhamTheoMa(sp.getMaSanPham()).getLoaiSanPham().equals("Sách")) {
-									// System.out.println("dc");
+								if (iSanPham.timSanPhamTheoMa(sp.getMaSanPham()).getLoaiSanPham()
+										.equals("Sách")) {
 									lblTenSPTop1.setText(iSanPham.getSachTheoMaSP(sp.getMaSanPham()).getTenSach());
-								} else if (iSanPham.timSanPhamTheoMa(sp.getMaSanPham()).getLoaiSanPham()
+								}else if (iSanPham.timSanPhamTheoMa(sp.getMaSanPham()).getLoaiSanPham()
 										.equals("Văn phòng phẩm")) {
-									// System.out.println("dc");
-									lblTenSPTop1.setText(iSanPham.getVPPTheoMaSP(sp.getMaSanPham()).getTenVanPhongPham());
+									try {
+										lblTenSPTop1.setText(iSanPham.timSanPhamTheoMaVPP(sp.getMaSanPham()).getTenVanPhongPham());
+									} catch (Exception e1) {
+										// TODO Auto-generated catch block
+										e1.printStackTrace();
+									}
 								}
 							} catch (SQLException e1) {
 								// TODO Auto-generated catch block
@@ -489,6 +509,7 @@ public class Pnl_ThongKeNhanVien extends JPanel implements ActionListener, Mouse
 					&& getNgayFromJDateChooser(dateChooserToDoanhThu) != null) {
 
 				try {
+					
 					if (iHoaDon.getDoanhThuTheoMaNhanVien(getNgayFromJDateChooser(dateChooserFromDoanhThu),
 							getNgayFromJDateChooser(dateChooserToDoanhThu),
 							((NhanVien) iNhanVien.timNhanVienTheoTen(tenNV)).getMaNV()) > 0) {

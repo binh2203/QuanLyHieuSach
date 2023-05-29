@@ -86,7 +86,7 @@ public class Frm_QuenMatKhau extends JFrame implements ActionListener, MouseList
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 602, 466);
 		contentPane = new JPanel();
-		contentPane.setBackground(new Color(0, 206, 209));
+		contentPane.setBackground(new Color(240, 255, 240));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
@@ -98,7 +98,7 @@ public class Frm_QuenMatKhau extends JFrame implements ActionListener, MouseList
 		contentPane.add(lblEmail);
 		setLocationRelativeTo(null);
 		txtEmail = new JTextField();
-		txtEmail.setBounds(256, 108, 138, 20);
+		txtEmail.setBounds(106, 108, 288, 20);
 		contentPane.add(txtEmail);
 		txtEmail.setColumns(10);
 
@@ -108,7 +108,7 @@ public class Frm_QuenMatKhau extends JFrame implements ActionListener, MouseList
 		contentPane.add(lblOTP);
 
 		txtOTP = new JTextField();
-		txtOTP.setBounds(256, 168, 138, 20);
+		txtOTP.setBounds(157, 168, 237, 20);
 		contentPane.add(txtOTP);
 		txtOTP.setColumns(10);
 
@@ -117,9 +117,9 @@ public class Frm_QuenMatKhau extends JFrame implements ActionListener, MouseList
 		lblNewPass.setBounds(52, 219, 164, 43);
 		contentPane.add(lblNewPass);
 
-		lblConfirm = new JLabel("Xác nhận: ");
+		lblConfirm = new JLabel("Nhập lại mật khẩu: ");
 		lblConfirm.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblConfirm.setBounds(51, 287, 80, 23);
+		lblConfirm.setBounds(51, 287, 142, 23);
 		contentPane.add(lblConfirm);
 
 		btnKiemTra = new JButton("Kiểm tra");
@@ -133,7 +133,7 @@ public class Frm_QuenMatKhau extends JFrame implements ActionListener, MouseList
 		contentPane.add(btnXong);
 
 		lblTitile = new JLabel("QUÊN MẬT KHẨU");
-		lblTitile.setForeground(new Color(255, 69, 0));
+		lblTitile.setForeground(new Color(255, 140, 0));
 		lblTitile.setFont(new Font("Tahoma", Font.BOLD, 30));
 		lblTitile.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTitile.setBounds(0, 11, 586, 65);
@@ -145,11 +145,11 @@ public class Frm_QuenMatKhau extends JFrame implements ActionListener, MouseList
 		contentPane.add(btnNhanOTP);
 
 		passwordFieldPassMoi = new JPasswordField();
-		passwordFieldPassMoi.setBounds(256, 232, 267, 20);
+		passwordFieldPassMoi.setBounds(203, 232, 191, 20);
 		contentPane.add(passwordFieldPassMoi);
 
 		passwordFieldConfirm = new JPasswordField();
-		passwordFieldConfirm.setBounds(256, 286, 267, 20);
+		passwordFieldConfirm.setBounds(203, 286, 191, 20);
 		contentPane.add(passwordFieldConfirm);
 
 		btnNhanOTP.addActionListener(this);

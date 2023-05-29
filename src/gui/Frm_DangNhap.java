@@ -23,8 +23,9 @@ public class Frm_DangNhap extends JFrame implements ActionListener, MouseListene
 	private Frm_QuenMatKhau frm_QuenMatKhau = new Frm_QuenMatKhau();
 	public static TaiKhoan taiKhoan;
 	public Frm_DangNhap() {
+		getContentPane().setBackground(new Color(240, 255, 240));
 		setTitle("Đăng nhập");
-		setSize(700, 350);
+		setSize(769, 418);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		buildGUI();
@@ -44,7 +45,7 @@ public class Frm_DangNhap extends JFrame implements ActionListener, MouseListene
 	ImageIcon imgThisImg = new ImageIcon("D:\\32_HuynhVoCongLinh_20060611\\images\\pic1.png");
 	JPanel pnlSouth=new JPanel();
 	pnlSouth.setBackground(new Color(240, 255, 240));
-	pnlSouth.setBounds(0, 270, 684, 41);
+	pnlSouth.setBounds(10, 270, 733, 98);
 	pnlSouth.setBorder(new LineBorder(new Color(192, 192, 192), 0));
 	
 	pnlSouth.add(bttExit=new JButton("Thoát"));

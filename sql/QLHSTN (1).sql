@@ -5,6 +5,21 @@ GO
 CREATE DATABASE QuanLyHieuSach
 GO
 USE QuanLyHieuSach
+SELECT count(DISTINCT HoaDon.maHD)
+FROM [CT_HoaDon]
+INNER JOIN HoaDon ON [CT_HoaDon].maHD = HoaDon.maHD
+WHERE HoaDon.ngayLapHoaDon BETWEEN '2023-01-01' AND '2023-05-27'
+AND HoaDon.maNV = 'NV003' group by HoaDon.maHD
+
+SELECT SUM(TotalCount) AS TotalSum
+FROM (
+    SELECT COUNT(*) AS TotalCount
+    FROM [CT_HoaDon]
+    INNER JOIN HoaDon ON [CT_HoaDon].maHD = HoaDon.maHD
+    WHERE HoaDon.ngayLapHoaDon BETWEEN '2023-01-01' AND '2023-05-27'
+    AND HoaDon.maNV = 'NV003'
+    GROUP BY HoaDon.maHD
+) AS Subquery
 UPDATE NhanVien
 SET email = '01633007559mc@gmail.com'
 WHERE maNV = 'NV003'
