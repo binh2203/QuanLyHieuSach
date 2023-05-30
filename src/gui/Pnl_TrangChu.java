@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -24,7 +25,7 @@ public class Pnl_TrangChu extends javax.swing.JPanel {
     }
     
     private void initComponents() {
-
+    	setPreferredSize(new Dimension(1550, 1067));
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
