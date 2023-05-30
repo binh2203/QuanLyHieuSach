@@ -34,5 +34,6 @@ public interface SanPhamService {
 	public SanPham timSanPhamTheoMa1(String maSP);
 	public String getMaSPMax() throws SQLException;
 	public int capNhatSoLuongSanPham(SanPham sanPham);
+	public int CapNhatSLTon(String maSP, int sLTon);
 
 }

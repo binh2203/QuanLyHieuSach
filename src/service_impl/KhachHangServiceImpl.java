@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package service_impl;
 
 import entity.KhachHang;
@@ -18,53 +13,45 @@ import service.KhachHangService;
  * @author Student
  */
 public class KhachHangServiceImpl implements KhachHangService{
-	private KhachHangDao KhachHang = new KhachHangDao();
+	private final KhachHangDao KhachHang = new KhachHangDao();
     @Override
     public int themKhachHang(KhachHang kh) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            KhachHang.themKhachHang(kh);
+            return 1;
     }
 
     @Override
     public List<KhachHang> getDSKhachHang() throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public KhachHang timKhachHangTheoMa(String maKH) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public ArrayList<KhachHang> timKhachHangTheoTen(String tenKH) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public ArrayList<KhachHang> timKhachHangTheoSDT(String sDT) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public ArrayList<KhachHang> getListKhachHangByNameAndSDT(String tenKH, String sdt) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public KhachHang getKhachHangEmail(String email) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return KhachHang.getDSKhachHang();
     }
 
     @Override
     public int capNhatKhachHang(KhachHang kh) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        return KhachHang.capNhatKhachHang(kh);
     }
 
     @Override
     public int xoaKhachHang(String maKH) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return KhachHang.xoaKhachHang(maKH);
     }
-    
-    public KhachHang getKhachHangTheoSDT(String sDT) throws SQLException{
-    	return KhachHang.getKhachHangTheoSDT(sDT);
-    }
+
+	@Override
+	public List<entity.KhachHang> timDSKH(entity.KhachHang kh) throws SQLException {
+		// TODO Auto-generated method stub
+		return KhachHang.timDSKH(kh);
+	}
+
+	@Override
+	public entity.KhachHang getKhachHangTheoMa(String maKH) throws SQLException {
+		// TODO Auto-generated method stub
+		return KhachHang.getKhachHangTheoMa(maKH);
+	}
+
+	@Override
+	public entity.KhachHang getKhachHangTheoSDT(String sDT) throws SQLException {
+		// TODO Auto-generated method stub
+		return KhachHang.getKhachHangTheoSDT(sDT);
+	}
+
 }

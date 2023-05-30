@@ -38,12 +38,12 @@ public class Pnl_PhieuDatHang extends javax.swing.JPanel implements ActionListen
     private javax.swing.JButton btnTru1;
     private javax.swing.JComboBox<String> cbb_loaiSP;
     private com.toedter.calendar.JDateChooser dcNgayLayHang;
-    private javaswingdev.FontAwesomeIcon icoCong;
-    private javaswingdev.FontAwesomeIcon icoLamMoi;
-    private javaswingdev.FontAwesomeIcon icoLoc;
-    private javaswingdev.FontAwesomeIcon icoThem;
-    private javaswingdev.FontAwesomeIcon icoTru;
-    private javaswingdev.FontAwesomeIcon iconIn;
+//    private javaswingdev.FontAwesomeIcon icoCong;
+//    private javaswingdev.FontAwesomeIcon icoLamMoi;
+//    private javaswingdev.FontAwesomeIcon icoLoc;
+//    private javaswingdev.FontAwesomeIcon icoThem;
+//    private javaswingdev.FontAwesomeIcon icoTru;
+//    private javaswingdev.FontAwesomeIcon iconIn;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
@@ -116,12 +116,12 @@ public class Pnl_PhieuDatHang extends javax.swing.JPanel implements ActionListen
    
     private void initComponents() {
 
-        icoLamMoi = new javaswingdev.FontAwesomeIcon();
-        icoThem = new javaswingdev.FontAwesomeIcon();
-        iconIn = new javaswingdev.FontAwesomeIcon();
-        icoLoc = new javaswingdev.FontAwesomeIcon();
-        icoTru = new javaswingdev.FontAwesomeIcon();
-        icoCong = new javaswingdev.FontAwesomeIcon();
+//        icoLamMoi = new javaswingdev.FontAwesomeIcon();
+//        icoThem = new javaswingdev.FontAwesomeIcon();
+//        iconIn = new javaswingdev.FontAwesomeIcon();
+//        icoLoc = new javaswingdev.FontAwesomeIcon();
+//        icoTru = new javaswingdev.FontAwesomeIcon();
+//        icoCong = new javaswingdev.FontAwesomeIcon();
         pnlHeader1 = new javax.swing.JPanel();
         lblLapPhieuDatHang = new javax.swing.JLabel();
         pnl_left = new javax.swing.JPanel();
@@ -174,32 +174,32 @@ public class Pnl_PhieuDatHang extends javax.swing.JPanel implements ActionListen
         btnInPD = new javax.swing.JButton();
         btnXoa = new javax.swing.JButton();
 
-        icoLamMoi.setIcon(javaswingdev.FontAwesome.REFRESH);
-        icoLamMoi.setSize(18);
-
-        icoThem.setColor1(new java.awt.Color(102, 204, 0));
-        icoThem.setColor2(new java.awt.Color(102, 204, 0));
-        icoThem.setIcon(javaswingdev.FontAwesome.PLUS);
-        icoThem.setSize(18);
-
-        iconIn.setColor1(java.awt.Color.blue);
-        iconIn.setColor2(java.awt.Color.blue);
-        iconIn.setIcon(javaswingdev.FontAwesome.PRINT);
-        iconIn.setSize(18);
-
-        icoLoc.setColor1(java.awt.Color.black);
-        icoLoc.setColor2(java.awt.Color.black);
-        icoLoc.setIcon(javaswingdev.FontAwesome.FILTER);
-        icoLoc.setSize(18);
-
-        icoTru.setColor1(java.awt.Color.red);
-        icoTru.setColor2(java.awt.Color.red);
-        icoTru.setIcon(javaswingdev.FontAwesome.MINUS);
-
-        icoCong.setColor1(new java.awt.Color(153, 204, 0));
-        icoCong.setColor2(new java.awt.Color(153, 153, 0));
-        icoCong.setIcon(javaswingdev.FontAwesome.PLUS_SQUARE);
-        icoCong.setSize(30);
+//        icoLamMoi.setIcon(javaswingdev.FontAwesome.REFRESH);
+//        icoLamMoi.setSize(18);
+//
+//        icoThem.setColor1(new java.awt.Color(102, 204, 0));
+//        icoThem.setColor2(new java.awt.Color(102, 204, 0));
+//        icoThem.setIcon(javaswingdev.FontAwesome.PLUS);
+//        icoThem.setSize(18);
+//
+//        iconIn.setColor1(java.awt.Color.blue);
+//        iconIn.setColor2(java.awt.Color.blue);
+//        iconIn.setIcon(javaswingdev.FontAwesome.PRINT);
+//        iconIn.setSize(18);
+//
+//        icoLoc.setColor1(java.awt.Color.black);
+//        icoLoc.setColor2(java.awt.Color.black);
+//        icoLoc.setIcon(javaswingdev.FontAwesome.FILTER);
+//        icoLoc.setSize(18);
+//
+//        icoTru.setColor1(java.awt.Color.red);
+//        icoTru.setColor2(java.awt.Color.red);
+//        icoTru.setIcon(javaswingdev.FontAwesome.MINUS);
+//
+//        icoCong.setColor1(new java.awt.Color(153, 204, 0));
+//        icoCong.setColor2(new java.awt.Color(153, 153, 0));
+//        icoCong.setIcon(javaswingdev.FontAwesome.PLUS_SQUARE);
+//        icoCong.setSize(30);
 
         setLayout(new java.awt.BorderLayout());
 
@@ -812,14 +812,14 @@ public class Pnl_PhieuDatHang extends javax.swing.JPanel implements ActionListen
 		return Integer.parseInt(txtSoLuong.getText());
 	}
     public void Khoatxt() {
-    	btnCong.setIcon(icoCong.toIcon());
-    	btnThem.setIcon(icoThem.toIcon());
-    	
-    	btnTru1.setIcon(icoTru.toIcon());
-    	btnTru.setIcon(icoTru.toIcon());
-    	btnLamMoi.setIcon(icoLamMoi.toIcon());
-    	btnLoc.setIcon(icoLoc.toIcon());
-    	btnInPD.setIcon(iconIn.toIcon());
+//    	btnCong.setIcon(icoCong.toIcon());
+//    	btnThem.setIcon(icoThem.toIcon());
+//    	
+//    	btnTru1.setIcon(icoTru.toIcon());
+//    	btnTru.setIcon(icoTru.toIcon());
+//    	btnLamMoi.setIcon(icoLamMoi.toIcon());
+//    	btnLoc.setIcon(icoLoc.toIcon());
+//    	btnInPD.setIcon(iconIn.toIcon());
     	
     	txtSoLuong1.setEditable(false);
     	txtGiaBan.setEditable(false);

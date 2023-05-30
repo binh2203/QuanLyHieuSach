@@ -245,6 +245,18 @@ public class SanPhamDao {
 		return dsVPP;
 	}
 	
+	public int CapNhatSLTon(String maSP, int sLTon) {
+		String query = "update SanPham set soLuongTon = " + sLTon + " where maSP = '" + maSP + "'";
+		try {
+			ps = con.prepareStatement(query);
+			return  ps.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e.getMessage());
+		}
+		return 0;
+	}
+	
 	public boolean kiemTraTonTaiSanPham(String tenSP) {
 		String query = "select * from SanPham where tenSach = N'"+tenSP+"'";// or tenVanPhongPham = N'"+tenSP+"'";
 		try {

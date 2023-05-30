@@ -39,12 +39,12 @@ public class Pnl_TimKiemSach extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        icoTimSach = new javaswingdev.FontAwesomeIcon();
-        icoLamMoiSach = new javaswingdev.FontAwesomeIcon();
-        icoThemSach = new javaswingdev.FontAwesomeIcon();
-        icoTimVpp = new javaswingdev.FontAwesomeIcon();
-        icoLamMoiVpp = new javaswingdev.FontAwesomeIcon();
-        icoThemVpp = new javaswingdev.FontAwesomeIcon();
+//        icoTimSach = new javaswingdev.FontAwesomeIcon();
+//        icoLamMoiSach = new javaswingdev.FontAwesomeIcon();
+//        icoThemSach = new javaswingdev.FontAwesomeIcon();
+//        icoTimVpp = new javaswingdev.FontAwesomeIcon();
+//        icoLamMoiVpp = new javaswingdev.FontAwesomeIcon();
+//        icoThemVpp = new javaswingdev.FontAwesomeIcon();
         lblLapPhieuDatHang = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         tbp_sanpham = new javax.swing.JTabbedPane();
@@ -94,17 +94,17 @@ public class Pnl_TimKiemSach extends javax.swing.JPanel {
         jLabel22 = new javax.swing.JLabel();
         jTextField22 = new javax.swing.JTextField();
 
-        icoTimSach.setIcon(javaswingdev.FontAwesome.SEARCH);
-
-        icoLamMoiSach.setIcon(javaswingdev.FontAwesome.REFRESH);
-
-        icoThemSach.setIcon(javaswingdev.FontAwesome.PLUS_CIRCLE);
-
-        icoTimVpp.setIcon(javaswingdev.FontAwesome.SEARCH);
-
-        icoLamMoiVpp.setIcon(javaswingdev.FontAwesome.REFRESH);
-
-        icoThemVpp.setIcon(javaswingdev.FontAwesome.PLUS_CIRCLE);
+//        icoTimSach.setIcon(javaswingdev.FontAwesome.SEARCH);
+//
+//        icoLamMoiSach.setIcon(javaswingdev.FontAwesome.REFRESH);
+//
+//        icoThemSach.setIcon(javaswingdev.FontAwesome.PLUS_CIRCLE);
+//
+//        icoTimVpp.setIcon(javaswingdev.FontAwesome.SEARCH);
+//
+//        icoLamMoiVpp.setIcon(javaswingdev.FontAwesome.REFRESH);
+//
+//        icoThemVpp.setIcon(javaswingdev.FontAwesome.PLUS_CIRCLE);
 
         setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
         setPreferredSize(new java.awt.Dimension(1550, 1230));
@@ -634,12 +634,12 @@ public class Pnl_TimKiemSach extends javax.swing.JPanel {
     private javax.swing.JButton btnThemVpp;
     private javax.swing.JButton btnTimSach;
     private javax.swing.JButton btnTimVpp;
-    private javaswingdev.FontAwesomeIcon icoLamMoiSach;
-    private javaswingdev.FontAwesomeIcon icoLamMoiVpp;
-    private javaswingdev.FontAwesomeIcon icoThemSach;
-    private javaswingdev.FontAwesomeIcon icoThemVpp;
-    private javaswingdev.FontAwesomeIcon icoTimSach;
-    private javaswingdev.FontAwesomeIcon icoTimVpp;
+//    private javaswingdev.FontAwesomeIcon icoLamMoiSach;
+//    private javaswingdev.FontAwesomeIcon icoLamMoiVpp;
+//    private javaswingdev.FontAwesomeIcon icoThemSach;
+//    private javaswingdev.FontAwesomeIcon icoThemVpp;
+//    private javaswingdev.FontAwesomeIcon icoTimSach;
+//    private javaswingdev.FontAwesomeIcon icoTimVpp;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;

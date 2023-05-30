@@ -116,6 +116,11 @@ public class SanPhamServiceImpl implements SanPhamService {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	@Override
+	public int CapNhatSLTon(String maSP, int sLTon) {
+		// TODO Auto-generated method stub
+		return sanPhamDao.CapNhatSLTon(maSP, sLTon);
+	}
 	
 	
 }

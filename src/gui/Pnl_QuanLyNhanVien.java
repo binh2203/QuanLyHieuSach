@@ -31,12 +31,12 @@ public class Pnl_QuanLyNhanVien extends javax.swing.JPanel implements ActionList
     private javax.swing.JButton btnXoa;
     private javax.swing.JButton btnXuatFile;
     private com.toedter.calendar.JDateChooser dcNgaySinh;
-    private javaswingdev.FontAwesomeIcon icoCapNhat;
-    private javaswingdev.FontAwesomeIcon icoLamMoi;
-    private javaswingdev.FontAwesomeIcon icoThem;
-    private javaswingdev.FontAwesomeIcon icoXoa;
-    private javaswingdev.FontAwesomeIcon icoXuatFile;
-    private javaswingdev.FontAwesomeIcon iconNhapFile;
+//    private javaswingdev.FontAwesomeIcon icoCapNhat;
+//    private javaswingdev.FontAwesomeIcon icoLamMoi;
+//    private javaswingdev.FontAwesomeIcon icoThem;
+//    private javaswingdev.FontAwesomeIcon icoXoa;
+//    private javaswingdev.FontAwesomeIcon icoXuatFile;
+//    private javaswingdev.FontAwesomeIcon iconNhapFile;
     private javax.swing.JLabel lblDiaChi;
     private javax.swing.JLabel lblEmail;
     private javax.swing.JLabel lblGioiTinh;
@@ -65,12 +65,12 @@ public class Pnl_QuanLyNhanVien extends javax.swing.JPanel implements ActionList
 
     public Pnl_QuanLyNhanVien() {
         initComponents();
-        btnLamMoi.setIcon(icoLamMoi.toIcon());
-        btnThem.setIcon(icoThem.toIcon());
-        btnXoa.setIcon(icoXoa.toIcon());
-        btnCapNhat.setIcon(icoCapNhat.toIcon());
-        btnNhapFile.setIcon(iconNhapFile.toIcon());
-        btnXuatFile.setIcon(icoXuatFile.toIcon());
+//        btnLamMoi.setIcon(icoLamMoi.toIcon());
+//        btnThem.setIcon(icoThem.toIcon());
+//        btnXoa.setIcon(icoXoa.toIcon());
+//        btnCapNhat.setIcon(icoCapNhat.toIcon());
+//        btnNhapFile.setIcon(iconNhapFile.toIcon());
+//        btnXuatFile.setIcon(icoXuatFile.toIcon());
 
 
 		btnThem.addActionListener(this);
@@ -83,12 +83,12 @@ public class Pnl_QuanLyNhanVien extends javax.swing.JPanel implements ActionList
         
     private void initComponents() {
 
-        icoLamMoi = new javaswingdev.FontAwesomeIcon();
-        icoThem = new javaswingdev.FontAwesomeIcon();
-        icoXoa = new javaswingdev.FontAwesomeIcon();
-        icoCapNhat = new javaswingdev.FontAwesomeIcon();
-        iconNhapFile = new javaswingdev.FontAwesomeIcon();
-        icoXuatFile = new javaswingdev.FontAwesomeIcon();
+//        icoLamMoi = new javaswingdev.FontAwesomeIcon();
+//        icoThem = new javaswingdev.FontAwesomeIcon();
+//        icoXoa = new javaswingdev.FontAwesomeIcon();
+//        icoCapNhat = new javaswingdev.FontAwesomeIcon();
+//        iconNhapFile = new javaswingdev.FontAwesomeIcon();
+//        icoXuatFile = new javaswingdev.FontAwesomeIcon();
         btnGroupGioiTinh = new javax.swing.ButtonGroup();
         pnlHeader = new javax.swing.JPanel();
         lblTenManHinh = new javax.swing.JLabel();
@@ -121,27 +121,27 @@ public class Pnl_QuanLyNhanVien extends javax.swing.JPanel implements ActionList
         
         txtMaNhanVien.setEditable(false);
 
-        icoLamMoi.setIcon(javaswingdev.FontAwesome.REFRESH);
-        icoLamMoi.setSize(18);
-
-        icoThem.setColor1(new java.awt.Color(102, 204, 0));
-        icoThem.setColor2(new java.awt.Color(102, 204, 0));
-        icoThem.setIcon(javaswingdev.FontAwesome.PLUS);
-        icoThem.setSize(18);
-
-        icoXoa.setColor1(java.awt.Color.red);
-        icoXoa.setColor2(java.awt.Color.red);
-        icoXoa.setIcon(javaswingdev.FontAwesome.TIMES);
-        icoXoa.setSize(18);
-
-        icoCapNhat.setIcon(javaswingdev.FontAwesome.WRENCH);
-        icoCapNhat.setSize(18);
-
-        iconNhapFile.setIcon(javaswingdev.FontAwesome.DOWNLOAD);
-        iconNhapFile.setSize(18);
-
-        icoXuatFile.setIcon(javaswingdev.FontAwesome.UPLOAD);
-        icoXuatFile.setSize(18);
+//        icoLamMoi.setIcon(javaswingdev.FontAwesome.REFRESH);
+//        icoLamMoi.setSize(18);
+//
+//        icoThem.setColor1(new java.awt.Color(102, 204, 0));
+//        icoThem.setColor2(new java.awt.Color(102, 204, 0));
+//        icoThem.setIcon(javaswingdev.FontAwesome.PLUS);
+//        icoThem.setSize(18);
+//
+//        icoXoa.setColor1(java.awt.Color.red);
+//        icoXoa.setColor2(java.awt.Color.red);
+//        icoXoa.setIcon(javaswingdev.FontAwesome.TIMES);
+//        icoXoa.setSize(18);
+//
+//        icoCapNhat.setIcon(javaswingdev.FontAwesome.WRENCH);
+//        icoCapNhat.setSize(18);
+//
+//        iconNhapFile.setIcon(javaswingdev.FontAwesome.DOWNLOAD);
+//        iconNhapFile.setSize(18);
+//
+//        icoXuatFile.setIcon(javaswingdev.FontAwesome.UPLOAD);
+//        icoXuatFile.setSize(18);
 
         setLayout(new java.awt.BorderLayout());
 
@@ -468,7 +468,7 @@ public class Pnl_QuanLyNhanVien extends javax.swing.JPanel implements ActionList
 		}
 		
 	}
-    // End of variables declaration//GEN-END:variables
+
     public void DocDuLieuTuArrayListVaoModel() throws Exception {
 		iNhanvien = new NhanVienServiceImpl();
 		dsNhanVien = iNhanvien.getDSNhanVien();

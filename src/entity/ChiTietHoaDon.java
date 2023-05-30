@@ -38,6 +38,7 @@ public class ChiTietHoaDon {
     }
 
     public ChiTietHoaDon() {
+    	super();
     }
 
     public ChiTietHoaDon(HoaDon hoaDon, SanPham sanPham, int soLuong) {

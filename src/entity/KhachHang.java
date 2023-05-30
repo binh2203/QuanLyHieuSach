@@ -18,8 +18,17 @@ public class KhachHang {
     private String SDT;
     private String diaChi;
     private String email;
+    private boolean trangThai;
 
-    public String getMaKH() {
+    public boolean isTrangThai() {
+		return trangThai;
+	}
+
+	public void setTrangThai(boolean trangThai) {
+		this.trangThai = trangThai;
+	}
+
+	public String getMaKH() {
         return maKH;
     }
 
@@ -85,7 +94,22 @@ public class KhachHang {
         this.email = email;
     }
 
-    public KhachHang(String maKH, String hoTenKH, boolean gioiTinh, LocalDate ngaySinh, String sDT, String diaChi,
+    
+
+	public KhachHang(String maKH, String hoTenKH, boolean gioiTinh, LocalDate ngaySinh, String sDT, String diaChi,
+			String email, boolean trangThai) {
+		super();
+		this.maKH = maKH;
+		this.hoTenKH = hoTenKH;
+		this.gioiTinh = gioiTinh;
+		this.ngaySinh = ngaySinh;
+		SDT = sDT;
+		this.diaChi = diaChi;
+		this.email = email;
+		this.trangThai = trangThai;
+	}
+	
+	public KhachHang(String maKH, String hoTenKH, boolean gioiTinh, LocalDate ngaySinh, String sDT, String diaChi,
 			String email) {
 		super();
 		this.maKH = maKH;
@@ -96,7 +120,6 @@ public class KhachHang {
 		this.diaChi = diaChi;
 		this.email = email;
 	}
-    
 
 	public KhachHang(String maKH, String hoTenKH, String sDT) {
 		super();

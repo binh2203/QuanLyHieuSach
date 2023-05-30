@@ -19,6 +19,8 @@ import connectDB.DBConnection;
 import entity.HoaDon;
 import entity.KhachHang;
 import entity.NhanVien;
+import entity.PhieuDatHang;
+
 import java.time.LocalDate;
 
 public class HoaDonDao {
@@ -35,65 +37,43 @@ public class HoaDonDao {
     }
     
     public List<HoaDon> getDSHoaDon() throws SQLException {
-	List<HoaDon> dshd = new ArrayList<>();
-        HoaDon hd = new HoaDon();
-	String query = "Select * from HoaDon";
-	ps = con.prepareStatement(query);
-	rs = ps.executeQuery();
-	while (rs.next()) {
-            hd = new HoaDon(rs.getString("maHD"));
-            dshd.add(hd);
-        }
-	return dshd;
-    }
+		List<HoaDon> dsHD = new ArrayList<>();
+		String query = "Select * from HoaDon";
+		ps = con.prepareStatement(query);
+		rs = ps.executeQuery();
+		while (rs.next()) {
+			KhachHangDao kh = new KhachHangDao();
+			NhanVienDao nv = new NhanVienDao();
+			HoaDon hd = new HoaDon();
+			hd.setMaHD(rs.getString("maHD"));
+			hd.setNhanVien(nv.timNhanVienTheoMa(rs.getString("maNV")));
+			hd.setKhachHang(kh.getKhachHangTheoMa(rs.getString("maKH")));
+			hd.setNgayLapHD(rs.getDate("ngayLapHoaDon").toLocalDate());
+			hd.setTienKhachDua(rs.getFloat("tienKhachDua"));
+			hd.setTrangThai(rs.getBoolean("trangThai"));		
+			dsHD.add(hd);
+		}
+		return dsHD;
+	}
     
     public int themHoaDon(HoaDon hd) throws SQLException {
-	String insert = "Insert into HoaDon values (?,?,?,?,?)";
-	PreparedStatement stmt = con.prepareStatement(insert);
-        
-	stmt.setString(1, hd.getMaHD());
-	stmt.setString(2, hd.getNhanVien().getMaNV());
-	stmt.setString(3, hd.getKhachHang().getMaKH());
-        
-	int day = hd.getNgayLapHD().getDayOfMonth();
-	int month = hd.getNgayLapHD().getMonthValue();
-	int year = hd.getNgayLapHD().getYear();
-        
-	stmt.setString(4, year + "-" + month + "-" + day);
-	stmt.setDouble(5, hd.getTienKhachDua());
-	stmt.executeUpdate();
-	return 1;
-    }
-    
-    public HoaDon timHoaDonTheoMa(String maHD) throws SQLException {
-        HoaDon hd = null;
-	String query = "Select * from HoaDon where maHD=?";
-	ps = con.prepareStatement(query);
-	ps.setString(1, maHD);
-	rs = ps.executeQuery();
-	while (rs.next()) {
-           hd = new HoaDon(rs.getString("maHD"));
+		String sql = "Insert into HoaDon values (?,?,?,?,?,?)";
+		PreparedStatement stmt = con.prepareStatement(sql);
+		stmt.setString(1, hd.getMaHD());
+		stmt.setString(2, hd.getNhanVien().getMaNV());
+		stmt.setString(3, hd.getKhachHang().getMaKH());
+		int day = hd.getNgayLapHD().getDayOfMonth();
+		int month = hd.getNgayLapHD().getMonthValue();
+		int year = hd.getNgayLapHD().getYear();
+		stmt.setString(4, year + "-" + month + "-" + day);
+		stmt.setFloat(5, hd.getTienKhachDua());
+		stmt.setBoolean(6,hd.isTrangThai());
+		stmt.executeUpdate();
+		return 1;
 	}
-	return hd;
-    }
+  
+   
     
-    public List<HoaDon> timHoaDonTheoTenKH(String tenKH) throws SQLException {
-	List<HoaDon> dshd = new ArrayList<HoaDon>();
-	String query = "select * from HoaDon \r\n"
-                        +"inner join NhanVien \r\n"
-			+"on HoaDon.maNV = NhanVien.maNV \r\n"
-			+"inner join KhachHang \r\n"
-			+"on HoaDon.maKH = KhachHang.maKH \r\n"
-			+ "where KhachHang.tenKH like N'%"+ tenKH +"%'";
-	ps = con.prepareStatement(query);
-	rs = ps.executeQuery();
-	while (rs.next()) {
-            HoaDon hd = new HoaDon(rs.getString("maHD"));;
-            dshd.add(hd);
-			
-	}
-	return dshd;
-    }
     
     public int xoaHoaDon(String maHD) {
 	String query = "delete from HoaDon where maHD = ?";
@@ -108,5 +88,75 @@ public class HoaDonDao {
 	return 1;		
     }
     
+    public List<HoaDon> timDsHoaDon(HoaDon hd) throws SQLException {
+		List<HoaDon> dsPDH = new ArrayList<>();
+		int tt = 0;
+		if(hd.isTrangThai())
+			tt = 1;
+		String query = "select maHD, NhanVien.tenNV, KhachHang.tenKH, KhachHang.phone, ngayLapHoaDon, tienKhachDua, trangThai\r\n"
+				+ "from HoaDon  \r\n"
+				+ "	join NhanVien on NhanVien.maNV = HoaDon.maNV\r\n"
+				+ "	join KhachHang on KhachHang.maKH = HoaDon.maKH\r\n"
+				+ "where  maHD  like concat('%', ? ,'%') \r\n"
+				+ "	and NhanVien.tenNV like concat('%', ? ,'%')\r\n"
+				+ "	and KhachHang.tenKH like concat('%', ? ,'%') \r\n"
+				+ "	and KhachHang.phone like concat('%', ?,'%')\r\n"
+				+ "	and ngayLapHoaDon like concat('%', ? ,'%') \r\n"
+				+ " and tienKhachDua like concat('%', ? , '%')"
+				+ "	and trangThai = ?\r\n"
+				+ "group by HoaDon.maHD, NhanVien.tenNV, KhachHang.tenKH, KhachHang.phone, ngayLapHoaDon, tienKhachDua,trangThai\r\n";
+		ps = con.prepareStatement(query);
+		ps.setString(1, hd.getMaHD());
+		ps.setString(2, hd.getNhanVien().getHoTenNV());
+		ps.setString(3, hd.getKhachHang().getHoTenKH());
+		ps.setString(4, hd.getKhachHang().getSDT());
+		if(hd.getNgayLapHD() == null)
+			ps.setString(5, null);
+		else {
+			int day = hd.getNgayLapHD().getDayOfMonth();
+			String dayString;
+			String monthString;
+			if(day < 10) 
+				dayString = "0" + day;
+			else
+				dayString = day + "";
+			int month = hd.getNgayLapHD().getMonthValue();
+			if(month < 10) 
+				monthString = "0" + month;
+			else
+				monthString = month + "";
+			int year = hd.getNgayLapHD().getYear();
+			ps.setString(5, year + "-" + monthString + "-" + dayString);
+		}
+		ps.setFloat(6, hd.getTienKhachDua());
+		ps.setString(7, tt + "");
+		rs = ps.executeQuery();
+		while (rs.next()) {
+			HoaDon hd1 = new HoaDon();
+			hd1.setMaHD(rs.getString("maHD"));
+			hd1.setNhanVien(new NhanVien(null, rs.getString("tenNV")));
+			hd1.setKhachHang(new KhachHang(null, rs.getString("tenKH"), rs.getString("phone")));
+			hd1.setNgayLapHD(rs.getDate("ngayLapHoaDon").toLocalDate());
+			hd1.setTienKhachDua(rs.getFloat("tienKhachDua"));
+			hd.setTrangThai(rs.getBoolean("trangThai"));
+			dsPDH.add(hd1);
+		}
+		return dsPDH;
+	}
+    
+    public int TaoHD(HoaDon hd) throws SQLException {
+		int trangThai = 0;
+		if(hd.isTrangThai()) {
+			trangThai = 1;
+		}
+		String query = "INSERT INTO HoaDon\r\n"
+				+ "VALUES ('"+hd.getMaHD()+"','"
+				+hd.getNhanVien().getMaNV()+"','"
+				+hd.getKhachHang().getMaKH()+"','"
+				+hd.getNgayLapHD()+"','"
+				+hd.getTienKhachDua()+"',"+ trangThai +  ")";
+		ps = con.prepareStatement(query);
+		return ps.executeUpdate();
+	}
     
 }

@@ -28,8 +28,8 @@ public class Pnl_TimKiemPhieuDat extends javax.swing.JPanel implements ActionLis
     private javax.swing.JComboBox<String> cbbTrangThai;
     private com.toedter.calendar.JDateChooser dcNgayLapPhieu;
     private com.toedter.calendar.JDateChooser dcNgayLayHang;
-    private javaswingdev.FontAwesomeIcon icoLamMoi;
-    private javaswingdev.FontAwesomeIcon icoTimKiem;
+//    private javaswingdev.FontAwesomeIcon icoLamMoi;
+//    private javaswingdev.FontAwesomeIcon icoTimKiem;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblMaPDH;
@@ -55,8 +55,8 @@ public class Pnl_TimKiemPhieuDat extends javax.swing.JPanel implements ActionLis
 	
     public Pnl_TimKiemPhieuDat() {
         initComponents();
-        btnLamMoi.setIcon(icoLamMoi.toIcon());
-        btnTimKiem.setIcon(icoTimKiem.toIcon());
+//        btnLamMoi.setIcon(icoLamMoi.toIcon());
+//        btnTimKiem.setIcon(icoTimKiem.toIcon());
   
         btnLamMoi.addActionListener(this);
         btnTimKiem.addActionListener(this);
@@ -66,8 +66,8 @@ public class Pnl_TimKiemPhieuDat extends javax.swing.JPanel implements ActionLis
 
     private void initComponents() {
 
-        icoLamMoi = new javaswingdev.FontAwesomeIcon();
-        icoTimKiem = new javaswingdev.FontAwesomeIcon();
+//        icoLamMoi = new javaswingdev.FontAwesomeIcon();
+//        icoTimKiem = new javaswingdev.FontAwesomeIcon();
         pnlHeader = new javax.swing.JPanel();
         lblTimKiemPDH = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
@@ -92,13 +92,13 @@ public class Pnl_TimKiemPhieuDat extends javax.swing.JPanel implements ActionLis
         jScrollPane1 = new javax.swing.JScrollPane();
         tblTimKiemPDH = new javax.swing.JTable();
 
-        icoLamMoi.setIcon(javaswingdev.FontAwesome.REFRESH);
-        icoLamMoi.setSize(18);
-
-        icoTimKiem.setColor1(java.awt.Color.darkGray);
-        icoTimKiem.setColor2(java.awt.Color.black);
-        icoTimKiem.setIcon(javaswingdev.FontAwesome.SEARCH);
-        icoTimKiem.setSize(18);
+//        icoLamMoi.setIcon(javaswingdev.FontAwesome.REFRESH);
+//        icoLamMoi.setSize(18);
+//
+//        icoTimKiem.setColor1(java.awt.Color.darkGray);
+//        icoTimKiem.setColor2(java.awt.Color.black);
+//        icoTimKiem.setIcon(javaswingdev.FontAwesome.SEARCH);
+//        icoTimKiem.setSize(18);
 
         setLayout(new java.awt.BorderLayout());
 

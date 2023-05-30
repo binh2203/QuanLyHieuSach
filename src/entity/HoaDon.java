@@ -16,8 +16,18 @@ public class HoaDon {
     private KhachHang khachHang;
     private LocalDate ngayLapHD;
     private float tienKhachDua;
+    private boolean trangThai;
+  
 
-    public String getMaHD() {
+    public boolean isTrangThai() {
+		return trangThai;
+	}
+
+	public void setTrangThai(boolean trangThai) {
+		this.trangThai = trangThai;
+	}
+
+	public String getMaHD() {
         return maHD;
     }
 
@@ -53,30 +63,36 @@ public class HoaDon {
         this.tienKhachDua = tienKhachDua;
     }
 
-    public HoaDon() {
-        super();
-    }
-
-    public HoaDon(String maHD) {
-        this.maHD = maHD;
-        this.nhanVien = nhanVien;
-        this.khachHang = khachHang;
-        this.ngayLapHD = ngayLapHD;
-        this.tienKhachDua = tienKhachDua;
-    }
-    
-    public static String auto_Date() {
-		LocalDate myObj = LocalDate.now();
-		String ngay = String.valueOf(myObj.getDayOfMonth());
-		String thang = String.valueOf(myObj.getMonthValue());
-		String nam = String.valueOf(myObj.getYear());
-		String finalDate = ngay + "-" + thang + "-" + nam;
-		return finalDate;
+    public void setMaHD(String maHD) {
+		this.maHD = maHD;
 	}
 
-    @Override
+	public HoaDon(String maHD) {
+		this.maHD = maHD;
+    }
+   
+
+
+	public HoaDon() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public HoaDon(String maHD, NhanVien nhanVien, KhachHang khachHang, LocalDate ngayLapHD, float tienKhachDua,
+			boolean trangThai) {
+		super();
+		this.maHD = maHD;
+		this.nhanVien = nhanVien;
+		this.khachHang = khachHang;
+		this.ngayLapHD = ngayLapHD;
+		this.tienKhachDua = tienKhachDua;
+		this.trangThai = trangThai;
+	}
+
+	@Override
     public String toString() {
-        return "HoaDon [maHD=" + maHD + ", nhanVien=" + nhanVien + "khachHang=" + khachHang + "ngayLapHD=" + ngayLapHD + "tienKhachDua=" + tienKhachDua  + "]";
+        return "HoaDon [maHD=" + maHD + ", nhanVien=" + nhanVien + "khachHang=" + khachHang + 
+        		"ngayLapHD=" + ngayLapHD + "tienKhachDua=" + tienKhachDua  + "trangThai=" + trangThai +"]";
     }
     
     

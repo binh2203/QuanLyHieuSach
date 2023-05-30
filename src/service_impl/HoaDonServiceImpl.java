@@ -25,28 +25,22 @@ public class HoaDonServiceImpl implements HoaDonService{
 
     @Override
     public List<HoaDon> getDSHoaDon() throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    	return hoaDonDao.getDSHoaDon();
     }
 
-    @Override
-    public int themHoaDon(HoaDon hd) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 
-    @Override
-    public HoaDon timHoaDonTheoMa(String maHD) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+	@Override
+	public List<HoaDon> timDsHoaDon(HoaDon hd) throws SQLException {
+		// TODO Auto-generated method stub
+		return hoaDonDao.timDsHoaDon(hd);
+	}
 
-    @Override
-    public List<HoaDon> timHoaDonTheoTenKH(String tenKH) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 
-    @Override
-    public List<HoaDon> timHoaDonTheoSDT(String SDT) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+	@Override
+	public int TaoHD(HoaDon hd) throws SQLException {
+		// TODO Auto-generated method stub
+		return hoaDonDao.TaoHD(hd);
+	}
 
     
 }

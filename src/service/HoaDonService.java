@@ -22,13 +22,7 @@ public interface HoaDonService {
     
     public List<HoaDon> getDSHoaDon() throws SQLException;
     
-    public int themHoaDon(HoaDon hd) throws SQLException;
+    public List<HoaDon> timDsHoaDon(HoaDon hd) throws SQLException;
     
-    public HoaDon timHoaDonTheoMa(String maHD) throws SQLException;
-    
-    public List<HoaDon> timHoaDonTheoTenKH(String tenKH) throws SQLException;
-    
-    public List<HoaDon> timHoaDonTheoSDT (String SDT) throws SQLException;
-    
-    
+    public int TaoHD(HoaDon hd) throws SQLException;
 }
